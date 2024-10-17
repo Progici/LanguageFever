@@ -1,5 +1,8 @@
 # Programsko inženjerstvo
 
+Web aplikacija za 
+Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Fakultetu elektrotehnike i računarstva, grupa TG17.3, akademska godina 2024/2025.
+
 > Ime projekta u naslovu ima cilj opisati namjenu projekta te pomoći u podizanju početnog interesa za projekt prezentirajući osnovnu svrhu projekta.
 > Isključivo ovisi o Vama!
 > 
