@@ -27,7 +27,7 @@ Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije 
 > |     Član      |     Zadatak   |
 > | ------------- | ------------- |
 > | Lucija Bajza  | / |
-> | Tomislav Kragujevic | / |
+> | Tomislav Kragujević | / |
 > | Mislav Kukina   | / |
 > | Matej Marić   | / |
 > | Josip Pavić  | / |
