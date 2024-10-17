@@ -24,7 +24,16 @@ Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije 
 #Instalcija
 # Članovi tima 
 > Popis članova tima/linkovi/ glavni doprinos
->
+> |     Član      |     Zadatak   |
+> | ------------- | ------------- |
+> | Lucija Bajza  | / |
+> | Tomislav Kragujevic | / |
+> | Mislav Kukina   | / |
+> | Matej Marić   | / |
+> | Josip Pavić  | / |
+> | Dario Sučevac   | / |
+> | Patrik Vranješ | / |
+> 
 
 # Kontribucije
 >Pravila ovise o organizaciji tima i su često izdvojena u CONTRIBUTING.md
