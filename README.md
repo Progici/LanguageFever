@@ -1,4 +1,4 @@
-# Programsko inženjerstvo
+# LanguageFever
 
 Web aplikacija za za spajanje učitelja stranih jezika s pojedincima koji žele naučiti novi jezik.
 
