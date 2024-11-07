@@ -1,8 +1,14 @@
 package com.progici.languagefever.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Korisnik {
 
+  @Id
   private String idKorisnik;
+
   private String ime;
   private String prezime;
   private String email;

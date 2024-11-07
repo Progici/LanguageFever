@@ -1,13 +1,18 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.repository.KorisniciRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KorisnikService {
+
+  @Autowired
+  private KorisniciRepository korisniciRepository;
 
   List<Korisnik> korisnici = new ArrayList<>(
     Arrays.asList(
@@ -18,7 +23,9 @@ public class KorisnikService {
   );
 
   public List<Korisnik> getKorisnici() {
-    return korisnici;
+    List<Korisnik> sviKorisnici = new ArrayList<>();
+    korisniciRepository.findAll().forEach(sviKorisnici::add);
+    return sviKorisnici;
   }
 
   public Korisnik getKorisnik(String id) {
@@ -30,7 +37,7 @@ public class KorisnikService {
   }
 
   public void addKorisnik(Korisnik korisnik) {
-    korisnici.add(korisnik);
+    korisniciRepository.save(korisnik);
   }
 
   public void updateKorisnik(String id, Korisnik korisnik) {
