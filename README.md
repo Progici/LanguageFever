@@ -22,9 +22,12 @@ Kao tim motivirani smo za stjecanje novih iskustava kao što su rad u timu i me�
 > Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
 
 # Funkcijski zahtjevi
-Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređivanje osobnih podataka. 
+Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređivanje osobnih podataka.
+
 Učenik može filtrirati učitelja po jezicima, kvalifikacijama, dostupnosti i stilu. Učenik šalje zahtjev za lekcijom, i ukoliko je ona prihvaćena od strane učitelja, uspostavlja se kontakt.
-Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentarati i ocjeniti učitelja. Učitelj također može registrirati novi jezik.
+
+Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentirati i ocijeniti učitelja. Učitelj također može registrirati novi jezik.
+
 Administrator održava platformu te upravlja korisnicima.
 
 # Tehnologije
