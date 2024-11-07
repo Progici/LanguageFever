@@ -12,7 +12,10 @@ Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Faku
 > Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
 
 # Opis projekta
-Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Ovaj projekt je rezultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Cilj je	stvoriti funkcionalnu	platformu	za spajanje	učitelja stranih	jezika	s	pojedincima	koji	žele	naučiti	novi	jezik. Aplikacija omogućuje učiteljima	i	učenicima alat	za	pretraživanje,	komunikaciju i	raspored lekcija.
+
+Kao tim motivirani smo za stjecanje novih iskustava kao što su rad u timu i međusobna organizacija, ali isto tako za učenje novih vještina i unaprijeđenje postojećeg znanja.
 
 Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije »Zato što je to bio zadatak i nismo imali ideje za drugo.«). Koji problem rješavate?
 > Obzirom da je ovo zadani projekt navedite i što želite/jeste novo  naučili.
@@ -21,7 +24,10 @@ Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije 
 
 # Funkcijski zahtjevi
 > Navedite ključne zahtjeve Vašeg projekta.
-
+Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređivanje osobnih podataka. 
+Učenik može filtrirati učitelja po jezicima, kvalifikacijama, dostupnosti i stilu. Učenik šalje zahtjev za lekcijom, i ukoliko je ona prihvaćena od strane učitelja, uspostavlja se kontakt.
+Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentarati i ocjeniti učitelja. Učitelj također može registrirati novi jezik.
+Administrator održava platformu te upravlja korisnicima.
 
 # Tehnologije
 
