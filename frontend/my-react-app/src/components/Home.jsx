@@ -18,14 +18,12 @@ function Home() {
                 <p>Povezujemo učenike i učitelje stranih jezika diljem svijeta</p> 
               </section>
               <section className ="hero-buttons">
-                <Link to="/signup">
-                  <button className="cta-button" href="#signup">Započni</button>
+                <Link to="/login">
+                  <button className="cta-button">Započni</button>
                 </Link>
                 <button className="cta-button">O nama</button>
               </section>
             </section>
-
-            
             
             <section className="popular-section">
               <h2>Popularni učitelji i jezici</h2>
@@ -68,7 +66,6 @@ function Home() {
                 </div>
               </div>
             </section>
-
             
             <section className="testimonials-section">
               <h2>Iskustva naših korisnika</h2>
@@ -78,7 +75,6 @@ function Home() {
               </div>
             </section>
 
-            
             <footer className="footer">
               <p>&copy; 2024 Language Fever. All rights reserved.</p>
             </footer>

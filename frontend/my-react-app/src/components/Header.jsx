@@ -21,12 +21,6 @@ function Header() {
           </Nav>
 
           <div className="d-flex">
-            <Link to="/signup">
-              <Button className="btn-signup" href="#signup">
-                Sign Up
-              </Button>
-            </Link>
-
             <Link to="/login">
               <Button className="btn-login" href="#login">
                 Log In

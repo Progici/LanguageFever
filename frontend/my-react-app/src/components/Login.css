@@ -1,47 +1,30 @@
-.login {
+.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(141, 141, 240, 0.638);
-    width: 100vw;
     height: 100vh;
-}
-
-.template {
-    padding: 20px;
-    width: 40%;
-    border-radius: 10px;
-    background-color: white;
-    margin-bottom: 0.5rem;
-}
-
-#text {
+    background-color: #f0f2f5;
+  }
+  
+  .login-container {
+    padding: 50px;
+    width: 400px;
     text-align: center;
-}
-
-#option {
-    text-align: center;
-}
-
-
-.password-input-container {
-    position: relative;
-   
-}
-.form-control {
-    padding-right: 3rem; /* Adds space on the right for the toggle button */
-}
-
-.toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 0.9rem;
-    padding: 0;
-    text-decoration: underline;
-}
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .login-container h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333333;
+  }
+  
+  .google-login-button {
+    width: 100% !important;
+    font-size: 1.2em; /* Veći font za gumb */
+    padding: 15px; /* Više paddinga za veći izgled */
+    border-radius: 30px;
+  }
+  
