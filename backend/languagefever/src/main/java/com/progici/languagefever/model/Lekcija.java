@@ -1,25 +1,74 @@
 package com.progici.languagefever.model;
 
+import com.progici.languagefever.service.UcenikService;
+import com.progici.languagefever.service.UciteljService;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Entity
 public class Lekcija {
 
-  private String idLekcija;
+  @Autowired
+  private UciteljService uciteljService;
+
+  @Autowired
+  private UcenikService ucenikService;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @ManyToOne
+  private Ucenik ucenik;
+
+  @ManyToOne
+  private Ucitelj ucitelj;
+
   private String vrijemeLekcije;
-  private String status;
+  private StatusEnum status;
 
   public Lekcija() {}
 
-  public Lekcija(String idLekcija, String vrijemeLekcije, String status) {
-    this.idLekcija = idLekcija;
+  public Lekcija(
+    Long idLekcija,
+    Long idUcenik,
+    Long idUcitelj,
+    String vrijemeLekcije,
+    StatusEnum status
+  ) {
+    this.id = idLekcija;
+    this.ucenik = ucenikService.getUcenikById(idUcenik);
+    this.ucitelj = uciteljService.getUciteljById(idUcitelj);
     this.vrijemeLekcije = vrijemeLekcije;
     this.status = status;
   }
 
-  public String getIdLekcija() {
-    return idLekcija;
+  public Long getId() {
+    return id;
   }
 
-  public void setIdLekcija(String idLekcija) {
-    this.idLekcija = idLekcija;
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Ucenik getUcenik() {
+    return ucenik;
+  }
+
+  public void setUcenik(Ucenik ucenik) {
+    this.ucenik = ucenik;
+  }
+
+  public Ucitelj getUcitelj() {
+    return ucitelj;
+  }
+
+  public void setUcitelj(Ucitelj ucitelj) {
+    this.ucitelj = ucitelj;
   }
 
   public String getVrijemeLekcije() {
@@ -30,11 +79,11 @@ public class Lekcija {
     this.vrijemeLekcije = vrijemeLekcije;
   }
 
-  public String getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 }

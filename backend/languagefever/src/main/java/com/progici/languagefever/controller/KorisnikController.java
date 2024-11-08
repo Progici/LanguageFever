@@ -17,13 +17,13 @@ public class KorisnikController {
   private KorisnikService korisnikService;
 
   @RequestMapping("/korisnici")
-  public List<Korisnik> getKorisnici() {
-    return korisnikService.getKorisnici();
+  public List<Korisnik> getSviKorisnici() {
+    return korisnikService.getSviKorisnici();
   }
 
   @RequestMapping("/korisnici/{id}")
-  public Korisnik requestMethodName(@PathVariable String id) {
-    return korisnikService.getKorisnik(id);
+  public Korisnik getKorisnikById(@PathVariable Long id) {
+    return korisnikService.getKorisnikById(id);
   }
 
   @RequestMapping(value = "/korisnici", method = RequestMethod.POST)
@@ -34,13 +34,13 @@ public class KorisnikController {
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.PUT)
   public void updateKorisnik(
     @RequestBody Korisnik korisnik,
-    @PathVariable String id
+    @PathVariable Long id
   ) {
     korisnikService.updateKorisnik(id, korisnik);
   }
 
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.DELETE)
-  public void deleteKorisnik(@PathVariable String id) {
+  public void deleteKorisnik(@PathVariable Long id) {
     korisnikService.deleteKorisnik(id);
   }
 }
