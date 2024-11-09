@@ -13,6 +13,17 @@ public class KorisnikService {
   @Autowired
   private KorisniciRepository korisniciRepository;
 
+  public void processOAuthPostLogin(String email, String name) {
+    Korisnik existUser = korisniciRepository.findByEmail(email);
+
+    if (existUser == null) {
+      Korisnik newUser = new Korisnik();
+      newUser.setIme(name);
+      newUser.setEmail(email);
+      korisniciRepository.save(newUser);
+    }
+  }
+
   public List<Korisnik> getSviKorisnici() {
     List<Korisnik> sviKorisnici = new ArrayList<>();
     korisniciRepository.findAll().forEach(sviKorisnici::add);

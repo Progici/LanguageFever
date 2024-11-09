@@ -1,6 +1,8 @@
 package com.progici.languagefever.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,9 @@ public class Lekcija {
   private Ucitelj ucitelj;
 
   private String vrijemeLekcije;
-  private StatusEnum status;
+
+  @Enumerated(EnumType.STRING)
+  private Status status;
 
   public Lekcija() {}
 
@@ -77,11 +81,11 @@ public class Lekcija {
     this.vrijemeLekcije = vrijemeLekcije;
   }
 
-  public StatusEnum getStatus() {
+  public Status getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Status status) {
     this.status = status;
   }
 }

@@ -1,6 +1,6 @@
 package com.progici.languagefever.model;
 
-public enum StatusEnum {
+public enum Status {
   PENDING,
   ACCEPTED,
   DENIED,
