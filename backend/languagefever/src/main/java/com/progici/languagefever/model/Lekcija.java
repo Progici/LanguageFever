@@ -1,22 +1,13 @@
 package com.progici.languagefever.model;
 
-import com.progici.languagefever.service.UcenikService;
-import com.progici.languagefever.service.UciteljService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Lekcija {
-
-  @Autowired
-  private UciteljService uciteljService;
-
-  @Autowired
-  private UcenikService ucenikService;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +25,31 @@ public class Lekcija {
   public Lekcija() {}
 
   public Lekcija(
+    String idLekcija,
+    String idUcenik,
+    String idUcitelj,
+    String vrijemeLekcije,
+    String status
+  ) {
+    this.id = new Long(0);
+    this.ucenik = new Ucenik(new Long(0), "", "", "");
+    this.ucitelj = new Ucitelj(new Long(0), "", "", "", "", "", "");
+    this.vrijemeLekcije = "vrijemeLekcije;";
+    this.status = StatusEnum.ACCEPTED;
+  }
+
+  public Lekcija(
     Long idLekcija,
     Long idUcenik,
     Long idUcitelj,
     String vrijemeLekcije,
-    StatusEnum status
+    String status
   ) {
     this.id = idLekcija;
-    this.ucenik = ucenikService.getUcenikById(idUcenik);
-    this.ucitelj = uciteljService.getUciteljById(idUcitelj);
+    this.ucenik = new Ucenik(idUcenik, "", "", "");
+    this.ucitelj = new Ucitelj(idUcitelj, "", "", "", "", "", "");
     this.vrijemeLekcije = vrijemeLekcije;
-    this.status = status;
+    this.status = StatusEnum.ACCEPTED;
   }
 
   public Long getId() {
