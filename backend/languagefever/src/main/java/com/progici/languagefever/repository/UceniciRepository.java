@@ -1,6 +1,8 @@
 package com.progici.languagefever.repository;
 
 import com.progici.languagefever.model.Ucenik;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UceniciRepository extends CrudRepository<Ucenik, Long> {}
+@Repository
+public interface UceniciRepository extends JpaRepository<Ucenik, Long> {}

@@ -18,13 +18,6 @@ public class Korisnik {
 
   public Korisnik() {}
 
-  public Korisnik(Long idKorisnik, String ime, String prezime, String email) {
-    this.id = idKorisnik;
-    this.ime = ime;
-    this.prezime = prezime;
-    this.email = email;
-  }
-
   public Long getIdKorisnik() {
     return id;
   }
