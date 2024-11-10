@@ -1,35 +1,37 @@
 package com.progici.languagefever.config;
 
-import com.progici.languagefever.model.CustomOAuth2User;
 import com.progici.languagefever.service.CustomOAuth2UserService;
-import com.progici.languagefever.service.KorisnikService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
   @Autowired
-  private CustomOAuth2UserService oauthUserService;
+  private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
   @Autowired
-  private KorisnikService korisnikService;
+  private CustomOAuth2UserService oauthUserService;
+
+  @Value("${frontend.url}")
+  private String frontendUrl;
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
-    throws Exception {
-    return httpSecurity
+  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+      .csrf(AbstractHttpConfigurer::disable)
+      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> {
         auth.requestMatchers("/").permitAll();
         auth.anyRequest().authenticated();
@@ -37,30 +39,23 @@ public class SecurityConfig {
       .oauth2Login(oauth2 ->
         oauth2
           .userInfoEndpoint(userInfo -> userInfo.userService(oauthUserService))
-          .successHandler(
-            new AuthenticationSuccessHandler() {
-              @Override
-              public void onAuthenticationSuccess(
-                HttpServletRequest request,
-                HttpServletResponse response,
-                Authentication authentication
-              ) throws IOException, ServletException {
-                CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-
-                String pictureLink = oauthUser.getAttribute("picture");
-                if (pictureLink != null) pictureLink = pictureLink.toString();
-
-                korisnikService.processOAuthPostLogin(
-                  oauthUser.getName(),
-                  oauthUser.getEmail(),
-                  pictureLink
-                );
-
-                response.sendRedirect("/korisnici");
-              }
-            }
-          )
+          .successHandler(oAuth2LoginSuccessHandler)
       )
       .build();
+  }
+
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(List.of(frontendUrl));
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    urlBasedCorsConfigurationSource.registerCorsConfiguration(
+      "/**",
+      configuration
+    );
+    return urlBasedCorsConfigurationSource;
   }
 }
