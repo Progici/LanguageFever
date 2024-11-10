@@ -1,82 +1,80 @@
 package com.progici.languagefever.model;
 
+import com.progici.languagefever.model.enums.Jezici;
+import com.progici.languagefever.model.enums.Kvalifikacija;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
+@Table
 public class Ucitelj {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "student_id", referencedColumnName = "id")
-  // private User student;
+  private Korisnik korisnik;
 
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name = "course_id", referencedColumnName = "id")
-  // private Course course;
+  private List<Ucenik> ucenici;
 
-  private String jezici;
-  private String godIskustva;
-  private String kval;
+  @Enumerated(EnumType.STRING)
+  private List<Jezici> jezici;
+
+  private Integer godineIskustva;
+
+  @Enumerated(EnumType.STRING)
+  private Kvalifikacija kvalifikacija;
+
   private String stilPoducavanja;
-  private String satnica;
+  private Float satnica;
   private String slikaProfila;
 
   public Ucitelj() {}
 
-  public Ucitelj(
-    Long idUcitelj,
-    String jezici,
-    String godIskustva,
-    String kval,
-    String stilPoducavanja,
-    String satnica,
-    String slikaProfila
-  ) {
-    this.id = idUcitelj;
-    this.jezici = jezici;
-    this.godIskustva = godIskustva;
-    this.kval = kval;
-    this.stilPoducavanja = stilPoducavanja;
-    this.satnica = satnica;
-    this.slikaProfila = slikaProfila;
-  }
-
-  public Long getIdUcitelj() {
+  public Long getId() {
     return id;
   }
 
-  public void setIdUcitelj(Long idUcitelj) {
-    this.id = idUcitelj;
+  public Korisnik getKorisnik() {
+    return korisnik;
   }
 
-  public String getJezici() {
+  public void setKorisnik(Korisnik korisnik) {
+    this.korisnik = korisnik;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public List<Jezici> getJezici() {
     return jezici;
   }
 
-  public void setJezici(String jezici) {
+  public void setJezici(List<Jezici> jezici) {
     this.jezici = jezici;
   }
 
-  public String getGodIskustva() {
-    return godIskustva;
+  public Integer getGodineIskustva() {
+    return godineIskustva;
   }
 
-  public void setGodIskustva(String godIskustva) {
-    this.godIskustva = godIskustva;
+  public void setGodineIskustva(Integer godineIskustva) {
+    this.godineIskustva = godineIskustva;
   }
 
-  public String getKval() {
-    return kval;
+  public Kvalifikacija getKvalifikacija() {
+    return kvalifikacija;
   }
 
-  public void setKval(String kval) {
-    this.kval = kval;
+  public void setKvalifikacija(Kvalifikacija kvalifikacija) {
+    this.kvalifikacija = kvalifikacija;
   }
 
   public String getStilPoducavanja() {
@@ -87,11 +85,11 @@ public class Ucitelj {
     this.stilPoducavanja = stilPoducavanja;
   }
 
-  public String getSatnica() {
+  public Float getSatnica() {
     return satnica;
   }
 
-  public void setSatnica(String satnica) {
+  public void setSatnica(Float satnica) {
     this.satnica = satnica;
   }
 
@@ -101,5 +99,13 @@ public class Ucitelj {
 
   public void setSlikaProfila(String slikaProfila) {
     this.slikaProfila = slikaProfila;
+  }
+
+  public List<Ucenik> getUcenici() {
+    return ucenici;
+  }
+
+  public void setUcenici(List<Ucenik> ucenici) {
+    this.ucenici = ucenici;
   }
 }

@@ -1,46 +1,46 @@
-// package com.progici.languagefever.controller;
+package com.progici.languagefever.controller;
 
-// import com.progici.languagefever.model.Korisnik;
-// import com.progici.languagefever.service.KorisnikService;
-// import java.util.List;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestMethod;
-// import org.springframework.web.bind.annotation.RestController;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.service.UcenikService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-// public class UcenikController {
+@RestController
+public class UcenikController {
 
-//   @Autowired
-//   private KorisnikService korisnikService;
+  @Autowired
+  private UcenikService ucenikService;
 
-//   @RequestMapping("/korisnici")
-//   public List<Korisnik> getSviKorisnici() {
-//     return korisnikService.getSviKorisnici();
-//   }
+  @RequestMapping("/ucenici")
+  public List<Ucenik> getSviUcenici() {
+    return ucenikService.getSviUcenici();
+  }
 
-//   @RequestMapping("/korisnici/{id}")
-//   public Korisnik getKorisnikById(@PathVariable String id) {
-//     return korisnikService.getKorisnikById(id);
-//   }
+  @RequestMapping("/ucenici/{id}")
+  public Ucenik getUcenikById(@PathVariable Long id) {
+    return ucenikService.getUcenikById(id);
+  }
 
-//   @RequestMapping(value = "/korisnici", method = RequestMethod.POST)
-//   public void addKorisnik(@RequestBody Korisnik korisnik) {
-//     korisnikService.addKorisnik(korisnik);
-//   }
+  @RequestMapping(value = "/ucenici", method = RequestMethod.POST)
+  public void addUcenik(@RequestBody Ucenik ucenik) {
+    ucenikService.addUcenik(ucenik);
+  }
 
-//   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.PUT)
-//   public void updateKorisnik(
-//     @RequestBody Korisnik korisnik,
-//     @PathVariable String id
-//   ) {
-//     korisnikService.updateKorisnik(id, korisnik);
-//   }
+  @RequestMapping(value = "/ucenici/{id}", method = RequestMethod.PUT)
+  public void updateUcenikById(
+    @RequestBody Ucenik ucenik,
+    @PathVariable Long id
+  ) {
+    ucenikService.updateUcenikById(id, ucenik);
+  }
 
-//   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.DELETE)
-//   public void deleteKorisnik(@PathVariable String id) {
-//     korisnikService.deleteKorisnik(id);
-//   }
-// }
+  @RequestMapping(value = "/ucenici/{id}", method = RequestMethod.DELETE)
+  public void deleteUcenikById(@PathVariable Long id) {
+    ucenikService.deleteUcenikById(id);
+  }
+}

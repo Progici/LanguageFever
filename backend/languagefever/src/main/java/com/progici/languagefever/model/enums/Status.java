@@ -1,4 +1,4 @@
-package com.progici.languagefever.model;
+package com.progici.languagefever.model.enums;
 
 public enum Status {
   PENDING,

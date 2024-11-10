@@ -27,11 +27,12 @@ public class UcenikService {
     uceniciRepository.save(ucenik);
   }
 
-  public void updateUcenik(String id, Ucenik ucenik) {
+  public void updateUcenikById(Long id, Ucenik ucenik) {
+    ucenik.setId(id);
     uceniciRepository.save(ucenik);
   }
 
-  public void deleteUcenik(Long id) {
+  public void deleteUcenikById(Long id) {
     uceniciRepository.deleteById(id);
   }
 }

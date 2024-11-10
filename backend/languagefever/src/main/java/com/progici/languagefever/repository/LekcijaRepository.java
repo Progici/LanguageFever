@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LekcijaRepository extends JpaRepository<Lekcija, Long> {
-  public List<Lekcija> findByUciteljId(Long idUcitelj);
+  public List<Lekcija> findByUciteljId(Long id);
 
-  public List<Lekcija> findByUcenikId(Long idUcenik);
+  public List<Lekcija> findByUcenikId(Long id);
 }

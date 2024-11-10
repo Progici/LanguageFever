@@ -32,15 +32,15 @@ public class KorisnikController {
   }
 
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.PUT)
-  public void updateKorisnik(
+  public void updateKorisnikById(
     @RequestBody Korisnik korisnik,
     @PathVariable Long id
   ) {
-    korisnikService.updateKorisnik(id, korisnik);
+    korisnikService.updateKorisnikById(id, korisnik);
   }
 
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.DELETE)
-  public void deleteKorisnik(@PathVariable Long id) {
-    korisnikService.deleteKorisnik(id);
+  public void deleteKorisnikById(@PathVariable Long id) {
+    korisnikService.deleteKorisnikById(id);
   }
 }

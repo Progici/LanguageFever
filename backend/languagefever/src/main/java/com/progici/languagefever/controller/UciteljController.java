@@ -31,13 +31,16 @@ public class UciteljController {
     uciteljService.addUcitelj(ucitelj);
   }
 
-  @RequestMapping(value = "/ucitelji", method = RequestMethod.PUT)
-  public void updateUcitelj(@RequestBody Ucitelj ucitelj) {
-    uciteljService.updateUcitelj(ucitelj);
+  @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.PUT)
+  public void updateUciteljById(
+    @RequestBody Ucitelj ucitelj,
+    @PathVariable Long id
+  ) {
+    uciteljService.updateUciteljById(id, ucitelj);
   }
 
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.DELETE)
-  public void deleteUcitelj(@PathVariable Long id) {
-    uciteljService.deleteUcitelj(id);
+  public void deleteUciteljById(@PathVariable Long id) {
+    uciteljService.deleteUciteljById(id);
   }
 }

@@ -27,11 +27,12 @@ public class UciteljService {
     uciteljiRepository.save(ucitelj);
   }
 
-  public void updateUcitelj(Ucitelj ucitelj) {
+  public void updateUciteljById(Long id, Ucitelj ucitelj) {
+    ucitelj.setId(id);
     uciteljiRepository.save(ucitelj);
   }
 
-  public void deleteUcitelj(Long id) {
+  public void deleteUciteljById(Long id) {
     uciteljiRepository.deleteById(id);
   }
 }

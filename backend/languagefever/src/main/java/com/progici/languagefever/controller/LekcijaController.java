@@ -42,15 +42,15 @@ public class LekcijaController {
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.PUT)
-  public void updateLekcija(
+  public void updateLekcijaById(
     @RequestBody Lekcija lekcija,
     @PathVariable Long id
   ) {
-    lekcijaService.updateLekcija(id, lekcija);
+    lekcijaService.updateLekcijaById(id, lekcija);
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.DELETE)
-  public void deleteLekcija(@PathVariable Long id) {
-    lekcijaService.deleteLekcija(id);
+  public void deleteLekcijaById(@PathVariable Long id) {
+    lekcijaService.deleteLekcijaById(id);
   }
 }

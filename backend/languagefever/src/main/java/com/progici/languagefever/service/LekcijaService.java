@@ -39,11 +39,12 @@ public class LekcijaService {
     lekcijaRepository.save(lekcija);
   }
 
-  public void updateLekcija(Long id, Lekcija lekcija) {
+  public void updateLekcijaById(Long id, Lekcija lekcija) {
+    lekcija.setId(id);
     lekcijaRepository.save(lekcija);
   }
 
-  public void deleteLekcija(Long id) {
+  public void deleteLekcijaById(Long id) {
     lekcijaRepository.deleteById(id);
   }
 }
