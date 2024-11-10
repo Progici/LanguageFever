@@ -13,13 +13,18 @@ public class KorisnikService {
   @Autowired
   private KorisniciRepository korisniciRepository;
 
-  public void processOAuthPostLogin(String email, String name) {
+  public void processOAuthPostLogin(
+    String name,
+    String email,
+    String pictureLink
+  ) {
     Korisnik existUser = korisniciRepository.findByEmail(email);
 
     if (existUser == null) {
       Korisnik newUser = new Korisnik();
       newUser.setIme(name);
       newUser.setEmail(email);
+      newUser.setPictureLink(pictureLink);
       korisniciRepository.save(newUser);
     }
   }

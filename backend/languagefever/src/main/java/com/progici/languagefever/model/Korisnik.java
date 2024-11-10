@@ -16,6 +16,7 @@ public class Korisnik {
 
   private String ime;
   private String email;
+  private String pictureLink;
 
   public Korisnik() {}
 
@@ -41,5 +42,13 @@ public class Korisnik {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPictureLink() {
+    return pictureLink;
+  }
+
+  public void setPictureLink(String pictureLink) {
+    this.pictureLink = pictureLink;
   }
 }

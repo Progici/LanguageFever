@@ -47,9 +47,13 @@ public class SecurityConfig {
               ) throws IOException, ServletException {
                 CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
+                String pictureLink = oauthUser.getAttribute("picture");
+                if (pictureLink != null) pictureLink = pictureLink.toString();
+
                 korisnikService.processOAuthPostLogin(
+                  oauthUser.getName(),
                   oauthUser.getEmail(),
-                  oauthUser.getName()
+                  pictureLink
                 );
 
                 response.sendRedirect("/korisnici");
