@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,8 +16,13 @@ public class Ocjena {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Ucitelj ucitelj;
+  @ManyToOne
+  @JoinColumn(name = "id_ucenik")
   private Ucenik ucenik;
+
+  @ManyToOne
+  @JoinColumn(name = "id_ucitelj")
+  private Ucitelj ucitelj;
 
   private Integer ocjena;
   private String komentar;

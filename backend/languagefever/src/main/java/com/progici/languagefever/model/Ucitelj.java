@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class Ucitelj {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @OneToOne
+  @JoinColumn(name = "id_korisnik")
   private Korisnik korisnik;
 
-  private List<Ucenik> ucenici;
+  //private List<Ucenik> ucenici;
 
   @Enumerated(EnumType.STRING)
   private List<Jezici> jezici;
@@ -101,11 +105,11 @@ public class Ucitelj {
     this.slikaProfila = slikaProfila;
   }
 
-  public List<Ucenik> getUcenici() {
-    return ucenici;
-  }
+  // public List<Ucenik> getUcenici() {
+  //   return ucenici;
+  // }
 
-  public void setUcenici(List<Ucenik> ucenici) {
-    this.ucenici = ucenici;
-  }
+  // public void setUcenici(List<Ucenik> ucenici) {
+  //   this.ucenici = ucenici;
+  // }
 }

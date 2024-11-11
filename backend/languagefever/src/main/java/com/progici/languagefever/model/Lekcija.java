@@ -7,6 +7,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
 
@@ -18,7 +20,12 @@ public class Lekcija {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "id_ucenik")
   private Ucenik ucenik;
+  
+  @ManyToOne
+  @JoinColumn(name = "id_ucitelj")
   private Ucitelj ucitelj;
   private Timestamp timestampLekcije;
 

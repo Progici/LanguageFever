@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 
@@ -19,7 +21,9 @@ public class Ucenik {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Korisnik korisnik;
+  @OneToOne
+  @JoinColumn(name = "id_korisnik")
+  private Korisnik korisnik;//provjera
 
   @Enumerated(EnumType.STRING)
   private List<Jezici> jezici;
