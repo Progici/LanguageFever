@@ -65,6 +65,9 @@ function Home() {
                   <p>Jezik</p>
                 </div>
               </div>
+              <Link to="/" className="teacher-list-link">            {/*Ovdje staviti link za popis učitelja */}
+                  <h3 className="teacher-list">Pogledaj više</h3>
+              </Link>
             </section>
             
             <section className="testimonials-section">

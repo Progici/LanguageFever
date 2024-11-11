@@ -1,5 +1,3 @@
-/* src/HomePage.css */
-
 .home {
     padding-top: 100px;
     padding-bottom: 30px;
@@ -117,6 +115,21 @@
     text-align: center;
     font-size: larger;
     color: antiquewhite;
+  }
+
+  .teacher-list{
+    color: antiquewhite;
+    text-align: end;
+    padding-top: 15px;
+  }
+
+  .teacher-list-link {
+    text-decoration: none;
+  }
+
+  .teacher-list-link:hover {
+    text-decoration: underline;
+    text-decoration-color: antiquewhite;
   }
   
   /* Testimonijali */
