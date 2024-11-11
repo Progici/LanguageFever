@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/languagefever-0.0.1-SNAPSHOT.jar
+web: bin/start_cloud_sql_proxy &> /dev/null & java -Dserver.port=$PORT -jar target/languagefever-0.0.1-SNAPSHOT.jar
