@@ -37,9 +37,18 @@ public class Ucitelj {
 
   private String stilPoducavanja;
   private Float satnica;
-  private String slikaProfila;
+  //private String slikaProfila;
 
   public Ucitelj() {}
+
+  public Ucitelj(Korisnik korisnik, List<Jezici> jezici, Integer godineIskustva, Kvalifikacija kvalifikacija, String stilPoducavanja, Float satnica) {
+    this.korisnik = korisnik;
+    this.jezici = jezici;
+    this.godineIskustva = godineIskustva;
+    this.kvalifikacija = kvalifikacija;
+    this.stilPoducavanja = stilPoducavanja;
+    this.satnica = satnica;
+  }
 
   public Long getId() {
     return id;
@@ -97,13 +106,13 @@ public class Ucitelj {
     this.satnica = satnica;
   }
 
-  public String getSlikaProfila() {
-    return slikaProfila;
-  }
+  // public String getSlikaProfila() {
+  //   return slikaProfila;
+  // }
 
-  public void setSlikaProfila(String slikaProfila) {
-    this.slikaProfila = slikaProfila;
-  }
+  // public void setSlikaProfila(String slikaProfila) {
+  //   this.slikaProfila = slikaProfila;
+  // }
 
   // public List<Ucenik> getUcenici() {
   //   return ucenici;
