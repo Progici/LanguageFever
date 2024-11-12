@@ -23,8 +23,8 @@
   
   .google-login-button {
     width: 100% !important;
-    font-size: 1.2em; /* Veći font za gumb */
-    padding: 15px; /* Više paddinga za veći izgled */
+    font-size: 1.2em;
+    padding: 15px;
     border-radius: 30px;
   }
   

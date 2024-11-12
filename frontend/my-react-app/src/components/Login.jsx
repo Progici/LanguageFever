@@ -2,7 +2,6 @@ import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import './Login.css';
 import { LoginConfig } from '../config/login.config';
-import { saveToken } from '../api/api';
 
 function Login() {
   const handleLoginSuccess = (credentialResponse) => {
