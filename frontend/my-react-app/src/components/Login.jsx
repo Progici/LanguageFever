@@ -1,31 +1,11 @@
-import React from 'react';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import './Login.css';
-import { LoginConfig } from '../config/login.config';
+import "./Login.css";
+
+import { ApiConfig } from "../config/api.config";
 
 function Login() {
-  const handleLoginSuccess = (credentialResponse) => {
-    console.log("Google Token: ", credentialResponse.credential);
-  };
+  document.location = ApiConfig.API_URL + "/login";
 
-  const handleLoginFailure = () => {
-    console.log("Login failed");
-  };
-
-  return (
-    <GoogleOAuthProvider clientId={LoginConfig.CLIENT_ID}>
-      <div className="login-page">
-        <div className="login-container">
-          <h2>Login with Google</h2>
-          <GoogleLogin
-            onSuccess={handleLoginSuccess}
-            onError={handleLoginFailure}
-            className="google-login-button"
-          />
-        </div>
-      </div>
-    </GoogleOAuthProvider>
-  );
+  return "hej";
 }
 
 export default Login;

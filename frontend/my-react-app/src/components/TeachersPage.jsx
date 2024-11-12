@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import './TeachersPage.css';
-import TeacherCard from './TeacherCard';
-import FilterBar from './FilterBar';
-import { ApiConfig } from '../config/api.config';
+import React, { useState, useEffect } from "react";
+import "./TeachersPage.css";
+import TeacherCard from "./TeacherCard";
+import FilterBar from "./FilterBar";
+import { ApiConfig } from "../config/api.config";
 
 const TeachersPage = () => {
   const [teachers, setTeachers] = useState([]);
@@ -14,21 +14,27 @@ const TeachersPage = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch(ApiConfig.API_URL + "/teachers", { method: 'GET'});
+        const response = await fetch(ApiConfig.API_URL + "/korisnici", {
+          method: "GET",
+        });
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setTeachers(data);  // Spremi podatke u state
-        setLoading(false);   // Postavi loading na false kad su podaci učitani
+        setTeachers(data); // Spremi podatke u state
+        setLoading(false); // Postavi loading na false kad su podaci učitani
       } catch (error) {
         console.error("Error fetching teachers:", error);
-        setLoading(false); 
+        setLoading(false);
+      }
+
+      if (response.redirected) {
+        document.location = response.url;
       }
     };
 
     fetchTeachers(); // Pozivanje fetch funkcije za učitavanje učitelja
-  }, []);  // Prazan niz znači da će se pozvati samo jednom kad se komponenta učita
+  }, []); // Prazan niz znači da će se pozvati samo jednom kad se komponenta učita
 
   // Ako se podaci učitavaju, prikaži indikator učitavanja
   if (loading) {
@@ -56,7 +62,7 @@ const TeachersPage = () => {
     <div className="teachers-page">
       <FilterBar />
       <div className="teacher-cards">
-        {currentTeachers.map(teacher => (
+        {currentTeachers.map((teacher) => (
           <TeacherCard key={teacher.id} teacher={teacher} />
         ))}
       </div>
@@ -65,7 +71,9 @@ const TeachersPage = () => {
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           Prethodna
         </button>
-        <span>Stranica {currentPage} od {Math.ceil(teachers.length / itemsPerPage)}</span>
+        <span>
+          Stranica {currentPage} od {Math.ceil(teachers.length / itemsPerPage)}
+        </span>
         <button
           onClick={handleNextPage}
           disabled={currentPage === Math.ceil(teachers.length / itemsPerPage)}
