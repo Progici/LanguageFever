@@ -2,6 +2,8 @@ package com.progici.languagefever.model;
 
 import com.progici.languagefever.model.enums.Jezici;
 import com.progici.languagefever.model.enums.Kvalifikacija;
+import com.progici.languagefever.model.enums.Stil;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,13 +37,14 @@ public class Ucitelj {
   @Enumerated(EnumType.STRING)
   private Kvalifikacija kvalifikacija;
 
-  private String stilPoducavanja;
+  @Enumerated(EnumType.STRING)
+  private Stil stilPoducavanja;
   private Float satnica;
   //private String slikaProfila;
 
   public Ucitelj() {}
 
-  public Ucitelj(Korisnik korisnik, List<Jezici> jezici, Integer godineIskustva, Kvalifikacija kvalifikacija, String stilPoducavanja, Float satnica) {
+  public Ucitelj(Korisnik korisnik, List<Jezici> jezici, Integer godineIskustva, Kvalifikacija kvalifikacija, Stil stilPoducavanja, Float satnica) {
     this.korisnik = korisnik;
     this.jezici = jezici;
     this.godineIskustva = godineIskustva;
@@ -90,11 +93,11 @@ public class Ucitelj {
     this.kvalifikacija = kvalifikacija;
   }
 
-  public String getStilPoducavanja() {
+  public Stil getStilPoducavanja() {
     return stilPoducavanja;
   }
 
-  public void setStilPoducavanja(String stilPoducavanja) {
+  public void setStilPoducavanja(Stil stilPoducavanja) {
     this.stilPoducavanja = stilPoducavanja;
   }
 
