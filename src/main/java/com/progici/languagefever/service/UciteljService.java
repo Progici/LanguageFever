@@ -28,15 +28,13 @@ public class UciteljService {
     return uciteljiRepository.findById(id).get();
   }
 
-    public Ucitelj addUcitelj(Ucitelj ucitelj) {
-        
-        Korisnik korisnik = ucitelj.getKorisnik();
-        if (korisnik != null && korisnik.getId() == null) {
-            korisniciRepository.save(korisnik);
-        }
-        // Save the Ucitelj entity
-        return uciteljiRepository.save(ucitelj);
-    }
+  public void addUcitelj(Long id_korisnik,Ucitelj ucitelj) {
+      
+      Korisnik korisnik = korisniciRepository.findById(id_korisnik)
+      .orElseThrow(() -> new IllegalArgumentException("Invalid korisnik ID: " + id_korisnik));;
+      ucitelj.setKorisnik(korisnik);
+      uciteljiRepository.save(ucitelj);
+  }
 
   public void updateUciteljById(Long id, Ucitelj ucitelj) {
     ucitelj.setId(id);

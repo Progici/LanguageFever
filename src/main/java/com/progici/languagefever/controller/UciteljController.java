@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,8 +28,8 @@ public class UciteljController {
   }
 
   @RequestMapping(value = "/ucitelji", method = RequestMethod.POST)
-  public void addUcitelj(@RequestBody Ucitelj ucitelj) {
-    uciteljService.addUcitelj(ucitelj);
+  public void addUcitelj(@RequestParam Long id_korisnik, @RequestBody Ucitelj ucitelj) {
+    uciteljService.addUcitelj(id_korisnik, ucitelj);
   }
 
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.PUT)
