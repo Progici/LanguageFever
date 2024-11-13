@@ -3,6 +3,7 @@ package com.progici.languagefever.service;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.repository.UceniciRepository;
+import com.progici.languagefever.repository.KorisniciRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
