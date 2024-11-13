@@ -14,7 +14,11 @@ const TeachersPage = () => {
     const fetchTeachers = async () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/ucitelji", {
-          method: "GET"
+          method: "GET",
+          mode: "no cors",
+          headers: {
+            'Content-Type': 'application/json'
+        }
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
