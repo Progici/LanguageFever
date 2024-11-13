@@ -3,6 +3,7 @@ package com.progici.languagefever.controller;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
