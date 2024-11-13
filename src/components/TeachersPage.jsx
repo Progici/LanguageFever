@@ -16,7 +16,8 @@ const TeachersPage = () => {
         const response = await fetch(ApiConfig.API_URL + "/ucitelji", {
           method: "GET",
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': '*'
           }
         });
         if (!response.ok) {
