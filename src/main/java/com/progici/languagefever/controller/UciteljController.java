@@ -18,6 +18,10 @@ public class UciteljController {
   @Autowired
   private UciteljService uciteljService;
 
+  @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+  public void handleOptions() {
+  }
+  
   @RequestMapping("/ucitelji")
   public List<Ucitelj> getSviUcitelji() {
     return uciteljService.getSviUcitelji();

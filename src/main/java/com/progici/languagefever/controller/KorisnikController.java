@@ -18,6 +18,10 @@ public class KorisnikController {
   @Autowired
   private KorisnikService korisnikService;
 
+  @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+  public void handleOptions() {
+  }
+  
   @RequestMapping("/korisnici")
   public List<Korisnik> getSviKorisnici() {
     return korisnikService.getSviKorisnici();

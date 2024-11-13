@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class HomeController {
 
+  @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+  public void handleOptions() {
+  }
   @GetMapping("/")
   public String home() {
     return "Home Sweet Home!";

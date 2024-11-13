@@ -18,6 +18,10 @@ public class LekcijaController {
   @Autowired
   private LekcijaService lekcijaService;
 
+  @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+  public void handleOptions() {
+  }
+  
   @RequestMapping("/lekcije")
   public List<Lekcija> getSveLekcije() {
     return lekcijaService.getSveLekcije();
