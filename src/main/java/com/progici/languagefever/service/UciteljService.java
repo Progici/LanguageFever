@@ -1,6 +1,7 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.repository.UciteljiRepository;
 import java.util.ArrayList;
@@ -29,14 +30,11 @@ public class UciteljService {
   }
 
     public Ucitelj addUcitelj(Ucitelj ucitelj) {
-        
-        Korisnik korisnik = ucitelj.getKorisnik();
-        if (korisnik != null && korisnik.getId() == null) {
-            korisniciRepository.save(korisnik);
-        }
-        // Save the Ucitelj entity
-        return uciteljiRepository.save(ucitelj);
-    }
+      Korisnik korisnik = ucitelj.getKorisnik(); 
+      korisnik = korisniciRepository.findById(korisnik.getId());
+      ucitelj.setKorisnik(korisnik);
+      return uceniciRepository.save(ucitelj);
+  }
 
   public void updateUciteljById(Long id, Ucitelj ucitelj) {
     ucitelj.setId(id);
