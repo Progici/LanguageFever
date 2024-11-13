@@ -1,6 +1,7 @@
 package com.progici.languagefever.model;
 
 import com.progici.languagefever.model.enums.Jezici;
+import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Razina;
 import com.progici.languagefever.model.enums.Stil;
 
@@ -39,6 +40,20 @@ public class Ucenik {
   private String ciljevi;
 
   public Ucenik() {}
+
+  public Ucenik(
+    Korisnik korisnik,
+    List<Jezici> jezici,
+    Razina razina,
+    Stil stilUcenja,
+    String ciljevi
+  ) {
+    this.korisnik = korisnik;
+    this.jezici = jezici;
+    this.razina = razina;
+    this.stilUcenja = stilUcenja;
+    this.ciljevi = ciljevi;
+  }
 
   public Long getId() {
     return id;

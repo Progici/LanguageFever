@@ -29,10 +29,10 @@ public class UciteljService {
     return uciteljiRepository.findById(id).get();
   }
 
-    public Ucitelj addUcitelj(Ucitelj ucitelj) {
+    public void addUcitelj(Ucitelj ucitelj) {
       Korisnik korisnik = korisniciRepository.findById(ucitelj.getKorisnik().getId()).orElseThrow(() -> new RuntimeException("Korisnik not found"));
       ucitelj.setKorisnik(korisnik);
-      return uciteljiRepository.save(ucitelj);
+      uciteljiRepository.save(ucitelj);
   }
 
   public void updateUciteljById(Long id, Ucitelj ucitelj) {
