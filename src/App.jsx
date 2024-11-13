@@ -20,7 +20,13 @@ function App() {
     const fetchActivityStatus = async () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/active", {
-          method: "GET"
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Headers" :"Origin, X-Requested-With, Content-Type: Accept",
+            'Content-Type': 'application/json'
+          }
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
