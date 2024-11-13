@@ -15,10 +15,9 @@ const TeachersPage = () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/ucitelji", {
           method: "GET",
-          mode: "no cors",
           headers: {
             'Content-Type': 'application/json'
-        }
+          }
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -30,7 +29,7 @@ const TeachersPage = () => {
       }
     };
     fetchTeachers();
-  }, []);
+  }, [currentPage]);
   
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
