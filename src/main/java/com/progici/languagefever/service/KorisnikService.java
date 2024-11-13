@@ -23,6 +23,9 @@ public class KorisnikService {
     if (existUser == null) {
       Korisnik newUser = new Korisnik();
       newUser.setName(name);
+      System.out.println("name: " + name);
+      System.out.println("picture: " + pictureLink);
+      System.out.println("email: " + email);
       newUser.setEmail(email);
       newUser.setPicture(pictureLink);
       korisniciRepository.save(newUser);
