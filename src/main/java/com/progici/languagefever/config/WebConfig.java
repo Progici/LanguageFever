@@ -1,4 +1,4 @@
-package com.progici.config.languagefever;
+package com.progici.languagefever.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
