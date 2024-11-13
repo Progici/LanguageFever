@@ -1,0 +1,53 @@
+.choose-user {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(210, 229, 238);
+    width: 100vw;
+    height: 100vh;
+    min-width: 400px;
+}
+  
+.template {
+    padding: 20px;
+    width: 40%;
+    border-radius: 10px;
+    background-color: white;
+    margin-bottom: 0.5rem;
+    display: flex;  
+    justify-content: center; 
+    flex-direction: column; 
+    align-items: center; 
+}
+h3 {
+    margin-bottom: 20px;
+}
+  
+.role-btns{
+    display: flex;
+    gap: 15px;
+}
+  
+.role-btns button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+.role-btns button:hover {
+    background-color: rgba(16, 16, 226, 0.74);
+    color: white;
+}
+  
+.role-btns button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  
+  
