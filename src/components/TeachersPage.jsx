@@ -17,7 +17,9 @@ const TeachersPage = () => {
           method: "GET",
           headers: {
             'Content-Type': 'application/json',
-            'Allow-Control-Allow-Origin': '*'
+            'Allow-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Headers" :"Origin, X-Requested-With, Content-Type: Accept",
+            'Content-Type': 'application/json'
           }
         });
         if (!response.ok) {
