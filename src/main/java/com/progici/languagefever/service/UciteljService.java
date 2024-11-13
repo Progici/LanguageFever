@@ -33,7 +33,7 @@ public class UciteljService {
       Korisnik korisnik = ucitelj.getKorisnik(); 
       korisnik = korisniciRepository.findById(korisnik.getId());
       ucitelj.setKorisnik(korisnik);
-      return uceniciRepository.save(ucitelj);
+      return uciteljiRepository.save(ucitelj);
   }
 
   public void updateUciteljById(Long id, Ucitelj ucitelj) {
