@@ -40,18 +40,25 @@
 }
 
 */
-/* Glavni grid kontejner */
+
+.profile-content-container {
+    margin: 80px auto;
+}
+
+.profile-form-container {
+    min-width: 400px;
+}
+
 .grid-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dvije kolone jednake širine */
-    grid-template-rows: auto 1fr; /* Prvi red automatske visine za tabove, drugi red za sadržaj */
-    gap: 10px; /* Razmak između ćelija */
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr; 
+    gap: 10px;
     width: 50%;
 }
 
-/* Tabovi */
 .tabs {
-    grid-column: 1/span 2; /* Tabovi se protežu preko obje kolone */
+    grid-column: 1/span 2;
     display: flex;
     list-style-type: none;
     padding: 0;
@@ -100,3 +107,4 @@
 .content {
     display: none;
 }
+

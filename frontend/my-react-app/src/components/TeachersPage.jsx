@@ -7,41 +7,27 @@ import { ApiConfig } from "../config/api.config";
 const TeachersPage = () => {
   const [teachers, setTeachers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   const itemsPerPage = 12;
 
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch(ApiConfig.API_URL + "/korisnici", {
-          method: "GET",
+        const response = await fetch(ApiConfig.API_URL + "/ucitelji", {
+          method: "GET"
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setTeachers(data); // Spremi podatke u state
-        setLoading(false); // Postavi loading na false kad su podaci učitani
+        setTeachers(data);
       } catch (error) {
         console.error("Error fetching teachers:", error);
-        setLoading(false);
-      }
-
-      if (response.redirected) {
-        document.location = response.url;
       }
     };
-
-    fetchTeachers(); // Pozivanje fetch funkcije za učitavanje učitelja
-  }, []); // Prazan niz znači da će se pozvati samo jednom kad se komponenta učita
-
-  // Ako se podaci učitavaju, prikaži indikator učitavanja
-  if (loading) {
-    return <div>Učitavanje...</div>;
-  }
-
-  // Paginacija
+    fetchTeachers();
+  }, []);
+  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTeachers = teachers.slice(indexOfFirstItem, indexOfLastItem);

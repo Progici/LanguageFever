@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-/*import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";*/
 import "./TeacherInfo.css";
 import { ApiConfig } from "../config/api.config";
 
@@ -12,33 +10,44 @@ function TeacherInfo() {
     setIsCalendarOpen(!isCalendarOpen);
   };*/
   }
-  /*
-  const [lagnuage, setLanguage] = useState();
+  
+  const [language, setLanguage] = useState();
   const [years, setYears] = useState();
   const [qualifications, setQualificatios] = useState();
   const [style, setStyle] = useState();
   const [rate, setRate] = useState();
-  //profile pic?*/
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
+    const data = {
+      language: [language],
+      years: years,
+      qualifications: qualifications,
+      style: style,
+      rate: rate
+    };
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formJson),
-      credentials: "include",
+      body: JSON.stringify(data),
+      credentials: "include"
     };
-    fetch(ApiConfig + "/ucitelji", requestOptions).then(async (response) => {
+
+    try {
+      console.log(data)
+      const response = await fetch(ApiConfig.API_URL + "/ucitelji", requestOptions);
       if (!response.ok) {
-        console.log("Error!");
+        throw new Error("Network response was not ok");
       }
-    });
+      const result = await response.json();
+      console.log("Response data:", result);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
+
   {
     /* const [fileName, setFileName] = useState("");
   const handleFileChange = (e) => {

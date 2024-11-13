@@ -12,31 +12,30 @@ const TeacherCard = ({ teacher }) => {
   return (
     <div className="teacher-card">
       <img
-        src="https://ip.index.hr/remote/bucket.index.hr/b/index/4b4b6c6f-b74a-43dd-8a97-c8f053c4a0ac.jpg?width=765&height=470"
-        alt={teacher.name}
+        src={teacher.korisnik.picture}
+        alt={teacher.korisnik.name}
         className={showDetails ? "small-img" : "large-img"}
       />
-      <h3>{teacher.name}</h3>
+      <h3>{teacher.korisnik.name}</h3>
       {!showDetails ? (
         <div className="short-details">
-          <p>Jezici: {teacher.email}</p>
-          <p>Ocjena: {teacher.email}</p>
+          <p>Jezici: {teacher.jezici.join(', ')}</p>
+          <p>Ocjena: 0</p>
         </div>
       ) : (
         <div className="long-details">
-          <p>Jezici: {teacher.email}</p>
-          <p>Iskustvo: {teacher.email} godina</p>
-          <p>Kvalifikacije: {teacher.email}</p>
-          <p>Satnica: {teacher.email}</p>
-          <p>Stil podučavanja: {teacher.email}</p>
-          <p>Ocjena: {teacher.email}</p>
+          <p>Jezici: {teacher.jezici.join(', ')}</p>
+          <p>Iskustvo: {teacher.godineIskustva} godina</p>
+          <p>Kvalifikacije: {teacher.kvalifikacija}</p>
+          <p>Satnica: {teacher.satnica} eura</p>
+          <p>Stil podučavanja: {teacher.stilPoducavanja}</p>
+          <p>Ocjena: 0</p>
         </div>
       )}
       <div className="card-actions">
         <span
           className="toggle-details"
           onClick={handleToggleDetails}
-          id="togl"
         >
           {showDetails ? "Sakrij detalje" : "Prikaži detalje"}
         </span>
