@@ -25,8 +25,8 @@ public class UcenikService {
 
   public void addUcenik(Ucenik ucenik) {
     Korisnik korisnik = ucenik.getKorisnik(); 
-    korisnik = korisniciRepository.findById(korisnik.getId()).get();
-    ucenik.setKorisnik(korisnik1);
+    korisnik = korisniciRepository.findById(korisnik.getId());
+    ucenik.setKorisnik(korisnik);
     return uceniciRepository.save(ucenik);
 }
 
