@@ -15,4 +15,10 @@ public class HomeController {
   public String secured() {
     return "Secured!";
   }
+
+@GetMapping("/active")
+  public Boolean active(OAuth2AuthenticationToken token) {
+    if (token == null) return false;
+    return token.isAuthenticated();
+  }
 }
