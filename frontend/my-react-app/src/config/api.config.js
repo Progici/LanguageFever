@@ -1,3 +1,3 @@
 export const ApiConfig = {
-    API_URL: 'http://localhost:8080'
+    API_URL: 'https://progici2-54ed215166d3.herokuapp.com'
 }
