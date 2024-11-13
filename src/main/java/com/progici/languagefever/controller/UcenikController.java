@@ -18,10 +18,7 @@ public class UcenikController {
   @Autowired
   private UcenikService ucenikService;
 
-  @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-  public void handleOptions() {
-  }
-  
+
   @RequestMapping("/ucenici")
   public List<Ucenik> getSviUcenici() {
     return ucenikService.getSviUcenici();
