@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") 
+@CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class UciteljController {
 
   @Autowired

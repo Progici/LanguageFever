@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class HomeController {
 
   @GetMapping("/")
