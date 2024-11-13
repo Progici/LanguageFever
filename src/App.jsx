@@ -22,9 +22,6 @@ function App() {
         const response = await fetch(ApiConfig.API_URL + "/active", {
           method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            'Allow-Control-Allow-Origin': '*',
-            "Access-Control-Allow-Headers" :"Origin, X-Requested-With, Content-Type: Accept",
             'Content-Type': 'application/json'
           }
         });
@@ -32,10 +29,9 @@ function App() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data)
-        setActive(data)
+        setActive(data.active);
       } catch (error) {
-        console.error("Error fetching status:", error);
+        console.error("Error fetching activity status:", error);
       }
     };
     fetchActivityStatus();
