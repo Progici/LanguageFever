@@ -29,8 +29,7 @@ public class UcenikService {
   }
 
   public void addUcenik(Ucenik ucenik) {
-    Korisnik korisnik = ucenik.getKorisnik(); 
-    korisnik = korisniciRepository.findById(korisnik.getId());
+    Korisnik korisnik = korisniciRepository.findById(ucenik.getKorisnik().getId()).orElseThrow(()-> new RuntimeException("Korisnik not found"));
     ucenik.setKorisnik(korisnik);
     return uceniciRepository.save(ucenik);
 }
