@@ -68,6 +68,4 @@ public class Ocjena {
   public void setKomentar(String komentar) {
     this.komentar = komentar;
   }
-
-
 }

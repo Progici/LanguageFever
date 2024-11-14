@@ -1,7 +1,5 @@
 package com.progici.languagefever.model;
 
-import java.util.List;
-
 import com.progici.languagefever.model.enums.Jezici;
 import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
@@ -15,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table
@@ -53,11 +52,6 @@ public class Ucitelj {
     this.stilPoducavanja = stilPoducavanja;
     this.satnica = satnica;
   }
-  private Ocjena ocjucitelj = new Ocjena();
-
-  private float avgOcjena;
-  private int brocjena=0,ukvrijed=0;
-  
 
   public Long getId() {
     return id;
@@ -130,17 +124,4 @@ public class Ucitelj {
   // public void setUcenici(List<Ucenik> ucenici) {
   //   this.ucenici = ucenici;
   // }
-
-    public float getAvgOcjena() {
-        return avgOcjena;
-    }
-
-    public void setAvgOcjena(float avgOcjena) {
-        this.avgOcjena = avgOcjena;
-    }
-    public void UpdateAvgOcjena(){
-      ukvrijed=ukvrijed+ocjucitelj.getOcjena();
-      brocjena++;
-      avgOcjena=ukvrijed/brocjena;
-    }
 }
