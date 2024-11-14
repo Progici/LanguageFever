@@ -5,7 +5,7 @@ public enum Jezici {
   GERMAN,
   SPANISH,
   MANDARIN,
-  POTRUGUESE,
+  PORTUGUESE,
   RUSSIAN,
   JAPANESE,
   TURKISH,
@@ -18,6 +18,5 @@ public enum Jezici {
   BENGALI,
   KOREAN,
   ARABIC,
-  CROATIAN,
-  
+  CROATIAN;
 }
