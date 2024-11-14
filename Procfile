@@ -1,1 +1,1 @@
-web: npm start
+web: npm install && npx vite build && npx vite preview
