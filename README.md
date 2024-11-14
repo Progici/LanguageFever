@@ -41,7 +41,7 @@ Administrator održava platformu te upravlja korisnicima.
 > | Tomislav Kragujević | / |
 > | Mislav Kukina   | / |
 > | Matej Marić   | / |
-> | Josip Pavić  | / |
+> | Josip Pavić  | baze podataka/ puštanje u pogon/ Backend |
 > | Dario Sučevac   | / |
 > | Patrik Vranješ | / |
 > 
