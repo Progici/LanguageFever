@@ -18,5 +18,5 @@ public enum Jezici {
   BENGALI,
   KOREAN,
   ARABIC,
-  CROATIAN;
+  CROATIAN,
 }
