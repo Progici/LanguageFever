@@ -1,59 +1,64 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Select from 'react-select';
+import Select from 'react-select'; 
 import './FilterBar.css';
 
 const FilterBar = ({ onFilterChange, onSortChange }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isSortOpen, setIsSortOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
-  const [rating, setRating] = useState('');
-  const [selectedSortOption, setSelectedSortOption] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // Stanje za otvaranje/zatvaranje filtera
+  const [isSortOpen, setIsSortOpen] = useState(false); // Stanje za otvaranje/zatvaranje sort funkcionalnosti
+  const [selectedLanguage, setSelectedLanguage] = useState(null); // Stanje za odabrani jezik
+  const [rating, setRating] = useState(''); // Stanje za ocjenu (nije trenutno korišteno)
+  const [selectedSortOption, setSelectedSortOption] = useState(null); // Stanje za odabranu opciju sortiranja
 
+  // Referenciranje elemenata za upravljanje klikovima izvan komponenti
   const filterRef = useRef(null); 
   const sortRef = useRef(null);
   const filterButtonRef = useRef(null);
   const sortButtonRef = useRef(null);
 
+  // Funkcija koja detektira klikove izvan filtera i sort opcija kako bi ih zatvorila
   const handleClickOutside = (event) => {
     if (
       filterRef.current && !filterRef.current.contains(event.target) && 
       !filterButtonRef.current.contains(event.target) && 
       isFilterOpen
     ) {
-      setIsFilterOpen(false);
+      setIsFilterOpen(false); // Zatvara filter ako kliknemo izvan njega
     }
     if (
       sortRef.current && !sortRef.current.contains(event.target) && 
       !sortButtonRef.current.contains(event.target) && 
       isSortOpen
     ) {
-      setIsSortOpen(false);
+      setIsSortOpen(false); // Zatvara sortiranje ako kliknemo izvan njega
     }
   };
 
+  // postavljamo event listener za klikove izvan komponente kad je komponenta montirana
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside); // Uklanja event listener kad se komponenta demontira
     };
-  }, [isFilterOpen, isSortOpen]);
+  }, [isFilterOpen, isSortOpen]); // Pratimo promjene u isFilterOpen i isSortOpen
 
   const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen);
+    setIsFilterOpen(!isFilterOpen); // Prebacuje stanje filtera
     if (isSortOpen) setIsSortOpen(false);
   };
 
   const toggleSort = () => {
-    setIsSortOpen(!isSortOpen);
+    setIsSortOpen(!isSortOpen); // Prebacuje stanje sortiranja
     if (isFilterOpen) setIsFilterOpen(false);
   };
 
+  // Opcije za jezik koje se prikazuju u dropdownu
   const languageOptions = [
     { value: 'English', label: 'Engleski' },
     { value: 'Spanish', label: 'Španjolski' },
     { value: 'German', label: 'Njemački' },
   ];
 
+  // Opcije za sortiranje koje se prikazuju u dropdownu
   const sortOptions = [
     { value: 'experience', label: 'Godine iskustva' },
     { value: 'priceAsc', label: 'Cijena uzlazno' },
@@ -67,40 +72,41 @@ const FilterBar = ({ onFilterChange, onSortChange }) => {
           <button
             ref={filterButtonRef}
             className="filter-button"
-            onClick={toggleFilter}
+            onClick={toggleFilter} // Poziva funkciju za otvaranje/zatvaranje filtera
           >
             Filter
           </button>
           <button
             ref={sortButtonRef}
             className="sort-button"
-            onClick={toggleSort}
+            onClick={toggleSort} // Poziva funkciju za otvaranje/zatvaranje sortiranja
           >
             Sortiranje
           </button>
         </div>
 
+        {/* Prikazivanje filter opcija kad je filter otvoren */}
         {isFilterOpen && (
           <div ref={filterRef} className="filter-options">
             <label>
               Jezik:
               <Select
-                options={languageOptions}
+                options={languageOptions} 
                 value={selectedLanguage}
                 onChange={(selectedOption) => {
-                  setSelectedLanguage(selectedOption);
+                  setSelectedLanguage(selectedOption); // Ažurira odabrani jezik u stanju
                   if (selectedOption) {
-                    onFilterChange('language', selectedOption.value);
+                    onFilterChange('language', selectedOption.value); 
                   } else {
-                    onFilterChange('language', null); 
+                    onFilterChange('language', null);
                   }
                 }}
                 placeholder="Odaberite jezik"
-                isClearable
-                styles={{
+                isClearable // Omogućuje brisanje odabira
+                styles={{ // Stil za okvire Select inputa
                   control: (base) => ({
                     ...base,
-                    borderRadius: '24px',
+                    borderRadius: '24px', 
                     borderColor: '#007bff',
                     padding: '2px',
                   }),
@@ -127,11 +133,11 @@ const FilterBar = ({ onFilterChange, onSortChange }) => {
           <div ref={sortRef} className="sort-options">
             <label>
               Sortiraj po:
-              <Select
-                options={sortOptions}
+              <Select 
+                options={sortOptions} 
                 value={selectedSortOption}
                 onChange={(selectedOption) => {
-                  setSelectedSortOption(selectedOption);
+                  setSelectedSortOption(selectedOption); 
                   if (selectedOption) {
                     onSortChange(selectedOption.value);
                   } else {
@@ -139,11 +145,11 @@ const FilterBar = ({ onFilterChange, onSortChange }) => {
                   }
                 }}
                 placeholder="Odaberite kriterij"
-                isClearable
-                styles={{
+                isClearable // Omogućuje brisanje odabira
+                styles={{ // Stil za okvire Select inputa
                   control: (base) => ({
                     ...base,
-                    borderRadius: '24px',
+                    borderRadius: '24px', // Stil za okvire Select inputa
                     borderColor: '#007bff',
                     padding: '2px',
                   }),
