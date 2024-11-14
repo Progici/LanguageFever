@@ -22,25 +22,25 @@ public class EnumController {
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi jezici")
+  @GetMapping("/sve kvalifikacije")
   public List<Kvalifikacija> getAllKvalifikacije() {
     return Arrays.asList(Kvalifikacija.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi jezici")
+  @GetMapping("/sve razine")
   public List<Razina> getAllRazina() {
     return Arrays.asList(Razina.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi jezici")
+  @GetMapping("/sve stilovi")
   public List<Stil> getAllStil() {
     return Arrays.asList(Stil.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi jezici")
+  @GetMapping("/svi statusi")
   public List<Status> getAllStatus() {
     return Arrays.asList(Status.values());  // Returns a list of enum values
   }
