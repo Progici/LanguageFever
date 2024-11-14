@@ -1,7 +1,5 @@
 package com.progici.languagefever.model.enums;
 
-import org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration;
-
 public enum Jezici {
   ENGLISH,
   GERMAN,
@@ -11,5 +9,13 @@ public enum Jezici {
   RUSSIAN,
   JAPANESE,
   TURKISH,
-  FRENCH
+  FRENCH,
+  ITALIAN,
+  DUTCH,
+  URDU,
+  VIETNAMESE,
+  INDONESIAN,
+  BENGALI,
+  KOREAN,
+  ARABIC
 }
