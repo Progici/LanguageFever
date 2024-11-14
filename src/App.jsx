@@ -14,21 +14,21 @@ import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/Faqs";
 
 function App() {
-
   const [active, setActive] = useState(false);
 
   useEffect(() => {
     const fetchActivityStatus = async () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/active", {
-          method: "GET"
+          method: "GET",
+          credentials: "include",
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data)
-        setActive(data)
+        console.log(data);
+        setActive(data);
       } catch (error) {
         console.error("Error fetching status:", error);
       }
