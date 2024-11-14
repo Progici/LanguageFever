@@ -67,8 +67,8 @@ function TeacherInfo() {
     const requestOptions = {
       method: "POST", // Definiramo HTTP metodu kao POST
       headers: { "Content-Type": "application/json" }, // Postavljamo Content-Type header na JSON
-      body: JSON.stringify(data) // Podaci koje šaljemo u tijelu zahtjeva, pretvoreni u JSON
-                                  // Uključujemo kolačiće za autentifikaciju ako je potrebno
+      body: JSON.stringify(data), // Podaci koje šaljemo u tijelu zahtjeva, pretvoreni u JSON
+      credentials: "include"               // Uključujemo kolačiće za autentifikaciju ako je potrebno
     };
 
     try {
