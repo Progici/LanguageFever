@@ -1,3 +1,4 @@
+
 .faq-container {
     padding-top: 100px;
     padding-bottom: 30px;
@@ -12,7 +13,7 @@
   }
   
   .faq-list {
-    border-radius: 10%;
+    border-radius: 4rem;
     padding-top: 40px;
     padding-bottom: 30px;
     padding-left: 100px;

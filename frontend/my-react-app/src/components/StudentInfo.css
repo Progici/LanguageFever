@@ -1,0 +1,80 @@
+
+.student-info {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+}
+
+
+.template {
+    padding: 20px;
+    width: 40%;
+    border-radius: 10px;
+    background-color: white;
+    margin-bottom: 0.5rem;
+}
+
+#text {
+    text-align: center;
+}
+
+#option {
+    text-align: center;
+}
+
+.floating-label {
+    position: relative;
+    margin-bottom: 1.5rem;
+
+}
+
+.floating-label input {
+    width: 100%;
+    padding: 10px 5px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.floating-label input,
+.floating-label select {
+    width: 100%; 
+    padding: 10px 5px; 
+    font-size: 1rem; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    outline: none; 
+}
+.floating-label label {
+    position: absolute;
+    top: -2px;
+    left: 8px;
+    color: #888;
+    font-size: 1rem;
+    background-color: white;
+    padding: 0 5px;
+    pointer-events: none; 
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label {
+    top: -2px;
+    left: 8px;
+    font-size: 1rem;  
+    color: #888;
+}
+
+
+.form-control {
+    padding-right: 3rem;
+}
+
+.btns {
+    display: flex;         
+    gap: 10px;
+}
+
