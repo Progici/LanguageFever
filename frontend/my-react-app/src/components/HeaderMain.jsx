@@ -1,18 +1,31 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { FaSearch, FaUserCircle, FaBars } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import "./HeaderMain.css";
 
 function HeaderMain({ active }) {
+  // Stanje za kontrolu prikaza navigacije na manjim ekranima
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
     <Navbar bg="light" data-bs-theme="light" className="header">
       <Container>
         <Navbar.Brand as={Link} to="/">LanguageFever</Navbar.Brand>
 
-        <Nav className="me-auto" id="navigation">
+        {/* Hamburger ikona za manje ekrane */}
+        <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
+          <FaBars size={24} />
+        </div>
+
+        {/* Navigacija - prikazuje se samo kad je showMenu true na manjim ekranima */}
+        <Nav
+          className={`me-auto navigation ${showMenu ? "show" : ""}`}
+          id="navigation"
+        >
           <Nav.Link as={Link} to="/teachers">Predavači</Nav.Link>
           <Nav.Link as={Link} to="/lessons">Lekcije</Nav.Link>
           <Nav.Link as={Link} to="/faqs">FAQs</Nav.Link>

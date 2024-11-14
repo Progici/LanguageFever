@@ -32,39 +32,42 @@ function Home() {
                   <h3>John Doe</h3> 
                   <img src={teacherPhoto} className="teach-photo"/>
                   <p>★★★★★</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
                 <div className="card">
                   <h3>Jane Doe</h3>
                   <img src={teacherPhoto} className="teach-photo"/> 
                   <p>★★★★★</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
                 <div className="card">
                   <h3>John Doe</h3>
                   <img src={teacherPhoto} className="teach-photo"/> 
                   <p>★★★★☆</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
                 <div className="card">
                   <h3>Jane Doe</h3>
                   <img src={teacherPhoto} className="teach-photo"/> 
                   <p>★★★★☆</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
                 <div className="card">
                   <h3>John Doe</h3>
                   <img src={teacherPhoto} className="teach-photo"/> 
                   <p>★★★★☆</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
                 <div className="card">
                   <h3>Jane Doe</h3>
                   <img src={teacherPhoto} className="teach-photo"/> 
                   <p>★★★★☆</p> 
-                  <p>Jezik</p>
+                  <p className="language">Jezik</p>
                 </div>
               </div>
+              <Link to="/teachers" className="teacher-list-link">            
+                  <h3 className="teacher-list">Pogledaj više</h3>
+              </Link>
             </section>
             
             <section className="testimonials-section">

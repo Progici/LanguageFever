@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TeachersPage from "./components/TeachersPage";
 import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
+import Faqs from "./components/faqs";
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
           <Route path="/studentInfo" element={<StudentInfo />}></Route>
           <Route path="/editUser" element={<Profile />}></Route>
+          <Route path="/faqs" element={<Faqs />}></Route>
           <Route
             path="/calendar"
             element={<CalendarUser></CalendarUser>}
