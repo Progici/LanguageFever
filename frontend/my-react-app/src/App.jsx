@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TeachersPage from "./components/TeachersPage";
 import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
-import Faqs from "./components/faqs";
+import Faqs from "./components/Faqs";
 
 function App() {
 
