@@ -4,13 +4,6 @@ Web aplikacija za za spajanje učitelja stranih jezika s pojedincima koji žele 
 
 Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Fakultetu elektrotehnike i računarstva, grupa TG17.3, akademska godina 2024/2025.
 
-> Ime projekta u naslovu ima cilj opisati namjenu projekta te pomoći u podizanju početnog interesa za projekt prezentirajući osnovnu svrhu projekta.
-> Isključivo ovisi o Vama!
-> 
-> Naravno, nijedan predložak nije idealan za sve projekte jer su potrebe i ciljevi različiti. Ne bojte se naglasiti Vaš cilj u ovoj početnoj stranici projekta, podržat ćemo ga bez obzira usredotočili se Vi više na tenologiju ili marketing.
-> 
-> Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
-
 # Opis projekta
 Ovaj projekt je rezultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 Cilj je	stvoriti funkcionalnu	platformu	za spajanje	učitelja stranih	jezika	s	pojedincima	koji	žele	naučiti	novi	jezik. Aplikacija omogućuje učiteljima	i	učenicima alat	za	pretraživanje,	komunikaciju i	raspored lekcija.
@@ -19,7 +12,7 @@ Kao tim motivirani smo za stjecanje novih iskustava kao što su rad u timu i me�
 
 > Obzirom da je ovo zadani projekt navedite i što želite/jeste novo  naučili.
 
-> Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
+
 
 # Funkcijski zahtjevi
 Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređivanje osobnih podataka.
@@ -34,16 +27,16 @@ Administrator održava platformu te upravlja korisnicima.
 
 #Instalcija
 # Članovi tima 
-> Popis članova tima/linkovi/ glavni doprinos
-> |     Član      |     Zadatak   |
-> | ------------- | ------------- |
-> | Lucija Bajza  | / |
-> | Tomislav Kragujević | / |
-> | Mislav Kukina   | / |
-> | Matej Marić   | / |
-> | Josip Pavić  | baze podataka/ puštanje u pogon/ backend |
-> | Dario Sučevac   | / |
-> | Patrik Vranješ | / |
+
+> |     Član      |     git      |     Zadatak   |
+> | ------------- | ------------- | ------------- |
+> | Lucija Bajza  |@LucijaBajza| frontend |
+> | Tomislav Kragujević |@tk54015| backend |
+> | Mislav Kukina   |@mk55225| frontend |
+> | Matej Marić   |@mm55104| frontend |
+> | Josip Pavić  |@jp549576| baze podataka/ puštanje u pogon/ backend |
+> | Dario Sučevac |@Dario776| backend |
+> | Patrik Vranješ |@patrik433| dokumentacija |
 > 
 
 # Kontribucije
