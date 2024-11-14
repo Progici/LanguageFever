@@ -1,7 +1,9 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.repository.UceniciRepository;
+import com.progici.languagefever.repository.KorisniciRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ public class UcenikService {
   @Autowired
   private UceniciRepository uceniciRepository;
 
+  @Autowired
+  private KorisniciRepository korisniciRepository;
+
   public List<Ucenik> getSviUcenici() {
     List<Ucenik> sviUcenici = new ArrayList<>();
     uceniciRepository.findAll().forEach(sviUcenici::add);
@@ -23,15 +28,18 @@ public class UcenikService {
     return uceniciRepository.findById(id).get();
   }
 
-  public void addUcenik(Ucenik ucenik) {
+public void addUcenik(Ucenik ucenik) {
+  Korisnik korisnik = korisniciRepository.findById(ucenik.getKorisnik().getId()).orElseThrow(() -> new RuntimeException("Korisnik not found"));
+  ucenik.setKorisnik(korisnik);
+  uceniciRepository.save(ucenik);
+}
+
+  public void updateUcenikById(Long id, Ucenik ucenik) {
+    ucenik.setId(id);
     uceniciRepository.save(ucenik);
   }
 
-  public void updateUcenik(String id, Ucenik ucenik) {
-    uceniciRepository.save(ucenik);
-  }
-
-  public void deleteUcenik(Long id) {
+  public void deleteUcenikById(Long id) {
     uceniciRepository.deleteById(id);
   }
 }

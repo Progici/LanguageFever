@@ -1,24 +1,37 @@
 package com.progici.languagefever.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class Ocjena {
 
-  private String idOcjena;
-  private String ocjena;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  private Integer ocjena;
   private String komentar;
 
-  public String getIdOcjena() {
-    return idOcjena;
+  public Ocjena() {}
+
+  public Long getId() {
+    return id;
   }
 
-  public void setIdOcjena(String idOcjena) {
-    this.idOcjena = idOcjena;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public String getOcjena() {
+  public Integer getOcjena() {
     return ocjena;
   }
 
-  public void setOcjena(String ocjena) {
+  public void setOcjena(Integer ocjena) {
     this.ocjena = ocjena;
   }
 

@@ -1,13 +1,16 @@
 package com.progici.languagefever.model;
 
+import com.progici.languagefever.model.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table
@@ -17,37 +20,21 @@ public class Lekcija {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long idUcenik;
-  private Long idUcitelj;
-
   @ManyToOne
+  @JoinColumn(name = "id_ucenik")
   private Ucenik ucenik;
 
   @ManyToOne
+  @JoinColumn(name = "id_ucitelj")
   private Ucitelj ucitelj;
 
-  private String vrijemeLekcije;
+  private Timestamp timestampLekcije;
+  private Ocjena ocjena;
 
   @Enumerated(EnumType.STRING)
   private Status status;
 
   public Lekcija() {}
-
-  public Long getIdUcenik() {
-    return idUcenik;
-  }
-
-  public void setIdUcenik(Long idUcenik) {
-    this.idUcenik = idUcenik;
-  }
-
-  public Long getIdUcitelj() {
-    return idUcitelj;
-  }
-
-  public void setIdUcitelj(Long idUcitelj) {
-    this.idUcitelj = idUcitelj;
-  }
 
   public Long getId() {
     return id;
@@ -73,12 +60,12 @@ public class Lekcija {
     this.ucitelj = ucitelj;
   }
 
-  public String getVrijemeLekcije() {
-    return vrijemeLekcije;
+  public Timestamp getTimestampLekcije() {
+    return timestampLekcije;
   }
 
-  public void setVrijemeLekcije(String vrijemeLekcije) {
-    this.vrijemeLekcije = vrijemeLekcije;
+  public void setTimestampLekcije(Timestamp timestampLekcije) {
+    this.timestampLekcije = timestampLekcije;
   }
 
   public Status getStatus() {
@@ -87,5 +74,13 @@ public class Lekcija {
 
   public void setStatus(Status status) {
     this.status = status;
+  }
+
+  public Ocjena getOcjena() {
+    return ocjena;
+  }
+
+  public void setOcjena(Ocjena ocjena) {
+    this.ocjena = ocjena;
   }
 }

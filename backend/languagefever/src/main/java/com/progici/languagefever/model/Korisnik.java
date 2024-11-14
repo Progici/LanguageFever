@@ -1,5 +1,6 @@
 package com.progici.languagefever.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,9 +15,10 @@ public class Korisnik {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String ime;
+  private String name;
+  @Column(unique = true, nullable = false)
   private String email;
-  private String pictureLink;
+  private String picture;
 
   public Korisnik() {}
 
@@ -28,14 +30,6 @@ public class Korisnik {
     this.id = id;
   }
 
-  public String getIme() {
-    return ime;
-  }
-
-  public void setIme(String ime) {
-    this.ime = ime;
-  }
-
   public String getEmail() {
     return email;
   }
@@ -44,11 +38,19 @@ public class Korisnik {
     this.email = email;
   }
 
-  public String getPictureLink() {
-    return pictureLink;
+  public String getName() {
+    return name;
   }
 
-  public void setPictureLink(String pictureLink) {
-    this.pictureLink = pictureLink;
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getPicture() {
+    return picture;
+  }
+
+  public void setPicture(String picture) {
+    this.picture = picture;
   }
 }

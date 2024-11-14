@@ -7,14 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMethod;  
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
+// import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+// @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class UciteljController {
 
   @Autowired
   private UciteljService uciteljService;
+
+  // @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
+  // public ResponseEntity<Void> handleOptions() {
+  //     return ResponseEntity.ok().build();
+  // }
 
   @RequestMapping("/ucitelji")
   public List<Ucitelj> getSviUcitelji() {
@@ -31,13 +42,16 @@ public class UciteljController {
     uciteljService.addUcitelj(ucitelj);
   }
 
-  @RequestMapping(value = "/ucitelji", method = RequestMethod.PUT)
-  public void updateUcitelj(@RequestBody Ucitelj ucitelj) {
-    uciteljService.updateUcitelj(ucitelj);
+  @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.PUT)
+  public void updateUciteljById(
+    @RequestBody Ucitelj ucitelj,
+    @PathVariable Long id
+  ) {
+    uciteljService.updateUciteljById(id, ucitelj);
   }
 
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.DELETE)
-  public void deleteUcitelj(@PathVariable Long id) {
-    uciteljService.deleteUcitelj(id);
+  public void deleteUciteljById(@PathVariable Long id) {
+    uciteljService.deleteUciteljById(id);
   }
 }

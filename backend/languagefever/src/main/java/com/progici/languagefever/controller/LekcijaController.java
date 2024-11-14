@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+// @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class LekcijaController {
 
   @Autowired
   private LekcijaService lekcijaService;
+
 
   @RequestMapping("/lekcije")
   public List<Lekcija> getSveLekcije() {
@@ -42,15 +45,15 @@ public class LekcijaController {
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.PUT)
-  public void updateLekcija(
+  public void updateLekcijaById(
     @RequestBody Lekcija lekcija,
     @PathVariable Long id
   ) {
-    lekcijaService.updateLekcija(id, lekcija);
+    lekcijaService.updateLekcijaById(id, lekcija);
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.DELETE)
-  public void deleteLekcija(@PathVariable Long id) {
-    lekcijaService.deleteLekcija(id);
+  public void deleteLekcijaById(@PathVariable Long id) {
+    lekcijaService.deleteLekcijaById(id);
   }
 }

@@ -22,9 +22,12 @@ public class KorisnikService {
 
     if (existUser == null) {
       Korisnik newUser = new Korisnik();
-      newUser.setIme(name);
+      newUser.setName(name);
+      System.out.println("name: " + name);
+      System.out.println("picture: " + pictureLink);
+      System.out.println("email: " + email);
       newUser.setEmail(email);
-      newUser.setPictureLink(pictureLink);
+      newUser.setPicture(pictureLink);
       korisniciRepository.save(newUser);
     }
   }
@@ -43,11 +46,12 @@ public class KorisnikService {
     korisniciRepository.save(korisnik);
   }
 
-  public void updateKorisnik(Long id, Korisnik korisnik) {
+  public void updateKorisnikById(Long id, Korisnik korisnik) {
+    korisnik.setId(id);
     korisniciRepository.save(korisnik);
   }
 
-  public void deleteKorisnik(Long id) {
+  public void deleteKorisnikById(Long id) {
     korisniciRepository.deleteById(id);
   }
 }

@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+// @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class KorisnikController {
 
   @Autowired
   private KorisnikService korisnikService;
+
 
   @RequestMapping("/korisnici")
   public List<Korisnik> getSviKorisnici() {
@@ -32,15 +35,15 @@ public class KorisnikController {
   }
 
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.PUT)
-  public void updateKorisnik(
+  public void updateKorisnikById(
     @RequestBody Korisnik korisnik,
     @PathVariable Long id
   ) {
-    korisnikService.updateKorisnik(id, korisnik);
+    korisnikService.updateKorisnikById(id, korisnik);
   }
 
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.DELETE)
-  public void deleteKorisnik(@PathVariable Long id) {
-    korisnikService.deleteKorisnik(id);
+  public void deleteKorisnikById(@PathVariable Long id) {
+    korisnikService.deleteKorisnikById(id);
   }
 }
