@@ -16,31 +16,31 @@ import com.progici.languagefever.model.enums.Stil;
 public class EnumController {
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi jezici")
+  @GetMapping("/jezici")
   public List<Jezici> getAllJezici() {
     return Arrays.asList(Jezici.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/sve kvalifikacije")
+  @GetMapping("/kvalifikacije")
   public List<Kvalifikacija> getAllKvalifikacije() {
     return Arrays.asList(Kvalifikacija.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/sve razine")
+  @GetMapping("/razine")
   public List<Razina> getAllRazina() {
     return Arrays.asList(Razina.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/sve stilovi")
+  @GetMapping("/stilovi")
   public List<Stil> getAllStil() {
     return Arrays.asList(Stil.values());  // Returns a list of enum values
   }
 
   // Endpoint to get a list of all enum values
-  @GetMapping("/svi statusi")
+  @GetMapping("/statusi")
   public List<Status> getAllStatus() {
     return Arrays.asList(Status.values());  // Returns a list of enum values
   }
