@@ -1,4 +1,6 @@
 package com.progici.languagefever.model.enums;
+
+public enum Jezici {
   ENGLISH,
   GERMAN,
   SPANISH,
@@ -18,5 +20,3 @@ package com.progici.languagefever.model.enums;
   ARABIC,
   CROATIAN
 }
-
-
