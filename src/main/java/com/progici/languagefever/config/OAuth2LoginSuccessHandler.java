@@ -6,8 +6,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -28,6 +30,7 @@ public class OAuth2LoginSuccessHandler
     HttpServletResponse response,
     Authentication authentication
   ) throws ServletException, IOException {
+    addSameSiteCookieAttribute(response);
     this.setAlwaysUseDefaultTargetUrl(true);
     this.setDefaultTargetUrl(frontendUrl);
     super.onAuthenticationSuccess(request, response, authentication);
@@ -43,5 +46,25 @@ public class OAuth2LoginSuccessHandler
       oauthUser.getEmail(),
       pictureLink
     );
+  }
+
+  private void addSameSiteCookieAttribute(HttpServletResponse response) {
+    Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
+    boolean firstHeader = true;
+    // there can be multiple Set-Cookie attributes
+    for (String header : headers) {
+      if (firstHeader) {
+        response.setHeader(
+          HttpHeaders.SET_COOKIE,
+          String.format("%s; %s", header, "SameSite=None")
+        );
+        firstHeader = false;
+        continue;
+      }
+      response.addHeader(
+        HttpHeaders.SET_COOKIE,
+        String.format("%s; %s", header, "SameSite=None")
+      );
+    }
   }
 }
