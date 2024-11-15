@@ -20,8 +20,7 @@ function App() {
     const fetchCookie = async () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/cookie", {
-          method: "GET",
-          credentials: "include",
+          method: "GET"
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
