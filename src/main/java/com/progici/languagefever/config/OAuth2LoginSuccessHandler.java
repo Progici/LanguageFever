@@ -32,6 +32,15 @@ public class OAuth2LoginSuccessHandler
     this.setDefaultTargetUrl(frontendUrl);
     super.onAuthenticationSuccess(request, response, authentication);
 
+     String token = generateToken(authentication);  
+
+    Cookie cookie = new Cookie("access_token", token);
+    cookie.setHttpOnly(false);  // Kako bi bio nedostupan za JavaScript (sigurnost)
+    cookie.setSecure(true);    // Postavi ovo samo ako koristiš HTTPS
+    cookie.setPath("/");      // Postavi putanju na koju kolačić treba biti dostupan
+    cookie.setMaxAge(60 * 60 * 24);  // Postavi vreme isteka kolačića (npr. 1 dan)
+    response.addCookie(cookie);
+
     //dio sa spremanjem usera
     CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 
@@ -44,4 +53,15 @@ public class OAuth2LoginSuccessHandler
       pictureLink
     );
   }
+
+  public String generateToken(Authentication authentication) {
+    CustomOAuth2User user = (CustomOAuth2User) authentication.getPrincipal();
+
+    return Jwts.builder()
+        .setSubject(user.getName())
+        .setIssuedAt(new Date())
+        .setExpiration(new Date(System.currentTimeMillis() + 86400000))  // Token važi 1 dan
+        .signWith(SignatureAlgorithm.HS256, "secret-key")  // Tajni ključ za potpisivanje
+        .compact();
+}
 }
