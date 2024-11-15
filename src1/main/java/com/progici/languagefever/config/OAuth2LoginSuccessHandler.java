@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,8 @@ import org.springframework.stereotype.Component;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final KorisnikService korisnikService;
-    private final String frontendUrl = "http://localhost:3000/dashboard"; // Adjust this URL as needed
-
+  @Value("${frontend.url}")
+    private String frontendUrl;
     @Autowired
     public OAuth2LoginSuccessHandler(KorisnikService korisnikService) {
         this.korisnikService = korisnikService;
