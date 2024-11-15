@@ -11,8 +11,6 @@ Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Faku
 # Deploy
 Link za aplikaciju: https://progici2front-62a5e06d95e8.herokuapp.com
 
-Link za server: https://progici2-54ed215166d3.herokuapp.com
-
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
