@@ -19,6 +19,11 @@ target/
 *.iml
 *.ipr
 
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
