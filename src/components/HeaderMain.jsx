@@ -16,7 +16,9 @@ function HeaderMain({ active }) {
     <Navbar bg="light" data-bs-theme="light" className="header">
       {/* Navigacijski bar */}
       <Container>
-        <Navbar.Brand as={Link} to="/">LanguageFever</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          LanguageFever
+        </Navbar.Brand>
 
         {/* Hamburger ikona za manje ekrane */}
         <div className="hamburger-icon" onClick={() => setShowMenu(!showMenu)}>
@@ -28,16 +30,21 @@ function HeaderMain({ active }) {
           className={`me-auto navigation ${showMenu ? "show" : ""}`}
           id="navigation"
         >
-          <Nav.Link as={Link} to="/teachers">Predavači</Nav.Link>
+          <Nav.Link as={Link} to="/teachers">
+            Predavači
+          </Nav.Link>
           {/* Link koji vodi do stranice s predavačima */}
-          <Nav.Link as={Link} to="/lessons">Lekcije</Nav.Link>
+          <Nav.Link as={Link} to="/lessons">
+            Lekcije
+          </Nav.Link>
           {/* Link koji vodi do stranice s lekcijama */}
-          <Nav.Link as={Link} to="/faqs">FAQs</Nav.Link>
+          <Nav.Link as={Link} to="/faqs">
+            FAQs
+          </Nav.Link>
           {/* link koji vodi do stranice s čestim pitanjima */}
         </Nav>
 
         <div className="d-flex align-items-center">
-          
           <div className="search-container">
             {/* Kontejner za ikonu pretrage i polje za pretragu */}
             <button className="icon-button">
@@ -49,7 +56,7 @@ function HeaderMain({ active }) {
               className="search-input"
             />
           </div>
-          
+
           {active ? (
             // Ako je korisnik prijavljen (prop 'active' je true)
             <div className="profile-container">
@@ -69,14 +76,14 @@ function HeaderMain({ active }) {
                     <Link to="/calendar">Kalendar</Link>
                     {/* Link za prikazivanje kalendara */}
                   </li>
-                  <li className="d-grid">
+                  {/* <li className="d-grid">
                     <Link to="/">
                       <button className="btn btn-primary" id="logout">
                         Log Out
                       </button>
-                      {/* Gumb za odjavu korisnika */}
+                      { Gumb za odjavu korisnika }
                     </Link>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
@@ -86,9 +93,7 @@ function HeaderMain({ active }) {
               {/* Div za korisnike koji nisu prijavljeni */}
               <Link to="/login">
                 {/* Link za prijavu */}
-                <Button className="btn-login">
-                  Log In
-                </Button>
+                <Button className="btn-login">Log In</Button>
                 {/* Gumb za prijavu */}
               </Link>
             </div>

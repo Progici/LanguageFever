@@ -1,9 +1,7 @@
 package com.progici.languagefever.config;
 
 import com.progici.languagefever.service.CustomOAuth2UserService;
-
 import java.util.Arrays;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +33,7 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> {
-        auth.requestMatchers("/", "/ucitelji/**", "/active" ).permitAll();
+        auth.requestMatchers("/", "/ucitelji/**", "/active").permitAll();
         auth.anyRequest().authenticated();
       })
       .oauth2Login(oauth2 ->
@@ -49,7 +47,9 @@ public class SecurityConfig {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList(frontendUrl, "http://localhost:5173"));
+    configuration.setAllowedOrigins(
+      Arrays.asList(frontendUrl, "http://localhost:5173")
+    );
     configuration.addAllowedHeader("*");
     configuration.addAllowedMethod("*");
     configuration.setAllowCredentials(true);
