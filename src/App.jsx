@@ -17,6 +17,21 @@ function App() {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
+    const fetchCookie = async () => {
+      try {
+        const response = await fetch(ApiConfig.API_URL + "/cookie", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log("Cookie fetched successfully");
+      } catch (error) {
+        console.error("Error fetching cookie:", error);
+      }
+    };
+
     const fetchActivityStatus = async () => {
       try {
         const response = await fetch(ApiConfig.API_URL + "/active", {
@@ -33,28 +48,27 @@ function App() {
         console.error("Error fetching status:", error);
       }
     };
-    fetchActivityStatus();
+
+    fetchCookie().then(fetchActivityStatus);
   }, []);
 
   return (
-    <>
-      <Router>
-        <HeaderMain active={active}></HeaderMain>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/teachers" element={<TeachersPage />}></Route>
-          <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
-          <Route path="/studentInfo" element={<StudentInfo />}></Route>
-          <Route path="/editUser" element={<Profile />}></Route>
-          <Route path="/faqs" element={<Faqs />}></Route>
-          <Route
-            path="/calendar"
-            element={<CalendarUser></CalendarUser>}
-          ></Route>
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <HeaderMain active={active}></HeaderMain>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/teachers" element={<TeachersPage />}></Route>
+        <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
+        <Route path="/studentInfo" element={<StudentInfo />}></Route>
+        <Route path="/editUser" element={<Profile />}></Route>
+        <Route path="/faqs" element={<Faqs />}></Route>
+        <Route
+          path="/calendar"
+          element={<CalendarUser></CalendarUser>}
+        ></Route>
+      </Routes>
+    </Router>
   );
 }
 
