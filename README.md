@@ -10,7 +10,10 @@ Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Faku
 > Naravno, nijedan predložak nije idealan za sve projekte jer su potrebe i ciljevi različiti. Ne bojte se naglasiti Vaš cilj u ovoj početnoj stranici projekta, podržat ćemo ga bez obzira usredotočili se Vi više na tenologiju ili marketing.
 > 
 > Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
+# Deploy
+Link za aplikaciju: https://progici2front-62a5e06d95e8.herokuapp.com
 
+Link za server: https://progici2-54ed215166d3.herokuapp.com
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
