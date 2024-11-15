@@ -3,7 +3,6 @@ package com.progici.languagefever.config;
 import com.progici.languagefever.service.CustomOAuth2UserService;
 
 import java.util.Arrays;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -49,15 +48,23 @@ public class SecurityConfig {
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
+    
+    // Set allowed origins to your frontend and localhost for testing
     configuration.setAllowedOrigins(Arrays.asList(frontendUrl, "http://localhost:5173"));
-    configuration.addAllowedHeader("*");
+    
+    // Specify allowed headers (or leave as "*" for all headers)
+    configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+    
+    // Allow all HTTP methods (GET, POST, etc.)
     configuration.addAllowedMethod("*");
+    
+    // Allow credentials (session cookies)
     configuration.setAllowCredentials(true);
+    
+    // Register CORS configuration for all endpoints
     UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-    urlBasedCorsConfigurationSource.registerCorsConfiguration(
-      "/**",
-      configuration
-    );
+    urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
+    
     return urlBasedCorsConfigurationSource;
   }
 }
