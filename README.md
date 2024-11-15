@@ -7,39 +7,50 @@ Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Faku
 > Ime projekta u naslovu ima cilj opisati namjenu projekta te pomoći u podizanju početnog interesa za projekt prezentirajući osnovnu svrhu projekta.
 > Isključivo ovisi o Vama!
 > 
-> Naravno, nijedan predložak nije idealan za sve projekte jer su potrebe i ciljevi različiti. Ne bojte se naglasiti Vaš cilj u ovoj početnoj stranici projekta, podržat ćemo ga bez obzira usredotočili se Vi više na tenologiju ili marketing.
-> 
-> Zašto ovaj dokument? Samo manji dio timova je do sada propoznao potrebu (a i meni je lakše pratiti Vaš rad).  
+
 # Deploy
 Link za aplikaciju: https://progici2front-62a5e06d95e8.herokuapp.com
 
 Link za server: https://progici2-54ed215166d3.herokuapp.com
+
 # Opis projekta
-Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Ovaj projekt je reultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
-Kratko opisati cilj Vašeg projekta. Vaša motivacija?  (Napomena: odgovor nije »Zato što je to bio zadatak i nismo imali ideje za drugo.«). Koji problem rješavate?
-> Obzirom da je ovo zadani projekt navedite i što želite/jeste novo  naučili.
+Cilj je	stvoriti funkcionalnu	platformu	za spajanje	učitelja stranih	jezika	s	pojedincima	koji	žele	naučiti	novi	jezik. 
+Aplikacija omogućuje učiteljima	i	učenicima alat	za	pretraživanje,	komunikaciju i	raspored lekcija.
 
-> Dobro izrađen opis omogućuje vam da pokažete svoj rad drugim programerima, kao i potencijalnim poslodavcima. Ne samo da prvi dojam na stranici opisa često razlikuje dobar projekt od lošeg projekta već i predstavlja dobru praksu koju morate savladati.
+Kao tim motivirani smo za stjecanje novih iskustava kao što su rad u timu i međusobna organizacija, ali isto tako za učenje novih vještina i unaprjeđenje postojećeg znanja.
+
 
 # Funkcijski zahtjevi
-> Navedite ključne zahtjeve Vašeg projekta.
 
+Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređivanje osobnih podataka.
+
+Učenik može filtrirati učitelja po jezicima, kvalifikacijama, dostupnosti i stilu. Učenik šalje zahtjev za lekcijom, i ukoliko je ona prihvaćena od strane učitelja, uspostavlja se kontakt.
+
+Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentirati i ocijeniti učitelja. Učitelj također može registrirati novi jezik.
+
+Administrator održava platformu te upravlja korisnicima.
 
 # Tehnologije
 
-#Instalcija
+Frontend je izrađen pomoću JavaScript ReactJS-a, a backend pomoću Spring Boot-a.
+Baze napravljene u PostgreSQL-u.
+Puštanje u pogon putem Heroku.
+
+Upute za instalaciju će biti dodane kada projekt bude završen.
+
 # Članovi tima 
 > Popis članova tima/linkovi/ glavni doprinos
-> |     Član      |     Zadatak   |
-> | ------------- | ------------- |
-> | Lucija Bajza  | / |
-> | Tomislav Kragujević | / |
-> | Mislav Kukina   | / |
-> | Matej Marić   | / |
-> | Josip Pavić  | / |
-> | Dario Sučevac   | / |
-> | Patrik Vranješ | / |
+> |     Član      |     Git   |     Zadatak   |
+> | ------------- | ------------- | ------------- |
+> | Lucija Bajza  | @LucijaBajza | frontend |
+> | Tomislav Kragujević | @tk54015| backend|
+> | Mislav Kukina   | @mk55225 | frontend|
+> | Matej Marić   |  @mm55104 | frontend |
+> | Josip Pavić  | @jp549576 | baze/backend |
+> | Dario Sučevac   | @Dario776 | backend |
+> | Patrik Vranješ | @patrik433 | dokumentacija |
 > 
 
 # Kontribucije
