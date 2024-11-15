@@ -13,19 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
-// import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
-// @CrossOrigin(origins = "https://progici2front-62a5e06d95e8.herokuapp.com") 
 public class UciteljController {
 
   @Autowired
   private UciteljService uciteljService;
-
-  // @RequestMapping(value = "/**", method = RequestMethod.OPTIONS)
-  // public ResponseEntity<Void> handleOptions() {
-  //     return ResponseEntity.ok().build();
-  // }
 
   @RequestMapping("/ucitelji")
   public List<Ucitelj> getSviUcitelji() {
