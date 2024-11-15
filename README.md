@@ -48,7 +48,7 @@ Upute za instalaciju će biti dodane kada projekt bude završen.
 > | Tomislav Kragujević | @tk54015| backend|
 > | Mislav Kukina   | @mk55225 | frontend|
 > | Matej Marić   |  @mm55104 | frontend |
-> | Josip Pavić  | @jp549576 | baze/backend |
+> | Josip Pavić  | @jp549576 | baze/backend/deploy |
 > | Dario Sučevac   | @Dario776 | backend |
 > | Patrik Vranješ | @patrik433 | dokumentacija |
 > 
