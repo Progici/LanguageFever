@@ -63,6 +63,12 @@
 	</dependencies>
 
 	<build>
+	        <sourceDirectory>src1/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src1/main/resources</directory>
+            </resource>
+        </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

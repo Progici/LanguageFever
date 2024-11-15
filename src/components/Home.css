@@ -1,0 +1,320 @@
+
+.home {
+    padding-top: 8rem;
+    padding-bottom: 3rem;
+    padding-left: 14rem;
+    padding-right: 14rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(141, 141, 240, 0.638);
+    width: 100vw;
+  }
+
+  .home-section{
+    border-radius: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 7rem;
+    padding-right: 7rem;
+    background-color: rgba(61, 76, 243, 0.582);
+  }
+  
+  .hero-section {
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    border: dashed rgba(141, 141, 240, 0.638) 5px;
+    padding: 3rem 1.5rem;
+    text-align:left;
+    padding-right: 6rem;
+  }
+
+  .home-picture-div{
+    padding-right: 2rem;
+  }
+  .home-picture  {
+    width: 90%;
+  }
+
+  .hero-text{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-text p{
+    width: 70%
+  }
+
+  .hero-buttons{
+    margin-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+  }
+  
+  .hero-section h1 {
+    font-size: 3.5em;
+    color:whitesmoke;
+    padding-bottom: 3rem;
+    width: 80%;
+  }
+  
+  .hero-section p {
+    font-size: 1.5em;
+    color:aliceblue;
+  }
+  
+  .cta-button {
+    margin-top: 1.3rem;
+    padding: 1rem 1rem;
+    font-size: 1.rem;
+    color: antiquewhite;
+    background-color:rgba(61, 76, 243, 0.582);
+    border: 4px solid rgba(141, 141, 240, 0.638);
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+  
+  .popular-section {
+    padding-top: 30px;
+    padding-bottom: 50px;
+  }
+
+  .popular-section h2{
+    color: antiquewhite;
+  }
+  
+  .popular-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .card {
+    width: 200px;
+    height: 300px;
+    padding: 20px;
+    background-color: rgba(61, 76, 243, 0.582);
+    border-radius: 8px;
+    border: none;
+  }
+
+  .card h3{
+    color: antiquewhite;
+    text-align: center;
+  }
+
+  .card p{
+    text-align: center;
+    font-size: larger;
+    color: antiquewhite;
+  }
+
+  .teacher-list{
+    color: antiquewhite;
+    text-align: end;
+    padding-top: 15px;
+  }
+  .teacher-list-link {
+    text-decoration: none;
+  }
+  .teacher-list-link:hover {
+    text-decoration: underline;
+    text-decoration-color: antiquewhite;
+  }
+  
+  /* Testimonijali */
+  .testimonials-section {
+    background-color: rgba(61, 76, 243, 0.582);
+    border-radius: 8px;
+    padding: 20px 20px;
+    color: antiquewhite;
+  }
+  
+  .testimonial {
+    font-style: italic;
+    color: antiquewhite;
+    margin: 20px 0;
+  }
+  
+  /* Footer */
+  .footer {
+    width: 100%; 
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+
+@media (min-width: 768px) and (max-width: 1600px) {
+  .home {
+      padding: 9rem;
+      padding-top: 7rem;
+      padding-bottom: 3rem;
+  }
+
+  .home-section {
+      padding: 2rem;
+      border-radius: 4rem;
+  }
+
+  .hero-section {
+      flex-direction: column;
+      padding: 30px 20px;
+      border: dashed rgba(141, 141, 240, 0.638) 3px;
+  }
+
+  .home-picture-div {
+      padding-right: 0;
+      text-align: center; 
+  }
+
+  .home-picture {
+      width: 30%;
+  }
+
+  .hero-text {
+      align-items: center;
+      text-align: center;
+      margin-top: 20px;
+  }
+
+  .hero-text h1 {
+      font-size: 2.5em; 
+      
+  }
+
+  .hero-text p {
+      font-size: 1.2em; 
+      width: 100%;
+  }
+
+  .hero-buttons {
+      margin-top: 30px;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+      justify-content: center;
+  }
+
+  .cta-button {
+      font-size: 0.9em;
+      margin: 10px 0;
+  }
+
+  .popular-section {
+      padding: 20px 0;
+  }
+
+  .popular-section h2 {
+      font-size: 1.8em; 
+      text-align: center;
+  }
+
+  .popular-cards {
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+  }
+
+  .card {
+      width: 30%;
+      padding: 15px;
+      align-items: center;
+      height: auto;
+  }
+
+  .teach-photo{
+    width: 80%;
+  }
+
+  .testimonials-section {
+      padding: 20px;
+      border-radius: 5px;
+      font-size: 1em; 
+  }
+
+  .testimonial {
+      margin: 15px 0;
+      text-align: center; 
+  }
+
+  .footer {
+      padding: 15px;
+      font-size: 0.9em;
+  }
+}
+    
+
+/* Mobitel (Širina manja od 768px) */
+@media (max-width: 767px) {
+    .home {
+        padding: 20px;
+        padding-top: 100px;
+    }
+
+    .home-section {
+        padding: 2rem;
+        border-radius: 4rem;
+    }
+
+    .hero-section {
+        padding-top: 20px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .home-picture {
+        width: 70%;
+        max-width: 300px;
+    }
+    
+    .home-picture-div{
+      padding-right: 0px;
+    }
+    
+    .hero-text{
+      align-items: center;
+    }
+
+    .hero-text h1 {
+        font-size: 1.8em;
+    }
+
+    .hero-text p {
+        font-size: 1.1em;
+    }
+
+    .hero-buttons {
+        height: 10px;
+        flex-direction: row;
+        gap: 10px;
+        margin-top: 20px;
+        padding-bottom: 30px;
+    }
+
+    .popular-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;  
+    }
+
+    .card {
+        width: 70%;
+        max-width: 300px;
+        align-items: center;
+        height: auto;
+    }
+
+    .teach-photo{
+      width: 70%;
+    }
+}
+
+
