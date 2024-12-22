@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./TeachersPage.css";
+import "../css/TeachersPage.css";
 import TeacherCard from "./TeacherCard";
 import FilterBar from "./FilterBar";
-import { ApiConfig } from "../config/api.config";
+import { ApiConfig } from "../../config/api.config";
 
 const TeachersPage = () => {
   // Definicija stanja za učitelje i trenutnu stranicu
@@ -17,7 +17,7 @@ const TeachersPage = () => {
       try {
         // Pokretanje fetch zahtjeva za dohvat podataka sa servera
         const response = await fetch(ApiConfig.API_URL + "/ucitelji", {
-          method: "GET"
+          method: "GET",
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -31,7 +31,7 @@ const TeachersPage = () => {
 
     fetchTeachers(); // Pozivanje funkcije za dohvat podataka
   }, []); // Prazan niz znači da će efekt biti pozvan samo jednom, prilikom mountanja komponente
-  
+
   const indexOfLastItem = currentPage * itemsPerPage; // Indeks posljednjeg učitelja na stranici
   const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Indeks prvog učitelja na stranici
   const currentTeachers = teachers.slice(indexOfFirstItem, indexOfLastItem); // Uzima se podskup učitelja za trenutnu stranicu
@@ -51,21 +51,24 @@ const TeachersPage = () => {
   };
 
   return (
-    <div className="teachers-page"> {/* Glavni kontejner za stranicu učitelja */}
+    <div className="teachers-page">
+      {" "}
+      {/* Glavni kontejner za stranicu učitelja */}
       <FilterBar /> {/* Komponenta za filtriranje učitelja */}
-      
       <div className="teacher-cards">
         {currentTeachers.map((teacher) => (
           <TeacherCard key={teacher.id} teacher={teacher} /> // Prikazujemo svaki učitelj kao komponentu
         ))}
       </div>
-
-      <div className="pagination"> {/* Sekcija za stranice */}
+      <div className="pagination">
+        {" "}
+        {/* Sekcija za stranice */}
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           Prethodna {/* Gumb za prethodnu stranicu */}
         </button>
         <span>
-          Stranica {currentPage} od {Math.ceil(teachers.length / itemsPerPage)} {/* Tekst koji prikazuje trenutnu stranicu */}
+          Stranica {currentPage} od {Math.ceil(teachers.length / itemsPerPage)}{" "}
+          {/* Tekst koji prikazuje trenutnu stranicu */}
         </span>
         <button
           onClick={handleNextPage}

@@ -8,17 +8,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(141, 141, 240, 0.638);
     width: 100vw;
   }
   
   .faq-list {
     border-radius: 4rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     padding-top: 40px;
     padding-bottom: 30px;
     padding-left: 100px;
     padding-right: 100px;
     background-color: rgba(61, 76, 243, 0.582);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     width: 78vw;
   }
 
@@ -35,20 +36,23 @@
   .faq-question {
     cursor: pointer;
     padding: 10px;
-    background-color: rgba(141, 141, 240, 0.638);
+    /*background-color: rgba(141, 141, 240, 0.638);*/
     border-radius: 5px;
+    border: 2px outset rgba(255, 255, 255, 0.332);
     font-weight: bold;
     color: antiquewhite ;
   }
   
-  .faq-question:hover {
-    background-color: antiquewhite;
-    color: rgba(32, 48, 221, 0.582);
+  .faq-question:hover, .faq-question:active{
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 1);
+    /*background-color: antiquewhite;
+    color: rgba(32, 48, 221, 0.582);*/
   }
   
   .faq-answer {
     padding: 10px;
-    background-color: antiquewhite;
+    background-color: rgba(250, 235, 215, 0.305);
+    
     margin-top: 10px;
     border-radius: 5px;
   }

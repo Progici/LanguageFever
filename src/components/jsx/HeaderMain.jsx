@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { FaSearch, FaUserCircle, FaBars } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
-import "./HeaderMain.css";
+import "../css/HeaderMain.css";
 
 function HeaderMain({ active }) {
   // Stanje za kontrolu prikaza navigacije na manjim ekranima

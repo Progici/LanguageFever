@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ApiConfig } from "../config/api.config";
+import { ApiConfig } from "../../config/api.config";
 
 function Login() {
   useEffect(() => {

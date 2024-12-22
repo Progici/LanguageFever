@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../css/Profile.css";
 import StudentInfo from "./StudentInfo";
-import "./Profile.css";
 import TeacherInfo from "./TeacherInfo";
 
 function Profile() {

@@ -1,17 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Login from "./components/Login";
-import Home from "./components/Home";
-import TeacherInfo from "./components/TeacherInfo";
-import StudentInfo from "./components/StudentInfo";
-import HeaderMain from "./components/HeaderMain";
-import Profile from "./components/Profile";
-import CalendarUser from "./components/CalendarUser";
+import Login from "./components/jsx/Login";
+import Home from "./components/jsx/Home";
+import TeacherInfo from "./components/jsx/TeacherInfo";
+import StudentInfo from "./components/jsx/StudentInfo";
+import HeaderMain from "./components/jsx/HeaderMain";
+import Profile from "./components/jsx/Profile";
+import CalendarUser from "./components/jsx/CalendarUser";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import TeachersPage from "./components/TeachersPage";
+import TeachersPage from "./components/jsx/TeachersPage";
 import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
-import Faqs from "./components/Faqs";
+import Faqs from "./components/jsx/Faqs";
+import LoginUser from "./components/jsx/LoginUser";
 
 function App() {
   const [active, setActive] = useState(false);
@@ -40,6 +41,7 @@ function App() {
     <>
       <Router>
         <HeaderMain active={active}></HeaderMain>
+
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<Login />}></Route>
@@ -52,6 +54,9 @@ function App() {
             path="/calendar"
             element={<CalendarUser></CalendarUser>}
           ></Route>
+
+          {/*PRIVREMENA RUTA HELP*/}
+          <Route path="/login2" element={<LoginUser />}></Route>
         </Routes>
       </Router>
     </>

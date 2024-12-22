@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./TeacherInfo.css";
-import { ApiConfig } from "../config/api.config";
+import "../css/TeacherInfo.css";
+import { ApiConfig } from "../../config/api.config";
 
 function TeacherInfo() {
   // Definicija stanja za unos podataka o učitelju
@@ -15,26 +15,31 @@ function TeacherInfo() {
   const languages = [
     { value: "ENGLISH", label: "ENGLESKI" },
     { value: "GERMAN", label: "NJEMAČKI" },
-    { value: "SPANISH", label: "ŠPANJOLSKI" }
+    { value: "SPANISH", label: "ŠPANJOLSKI" },
   ];
 
   const qualificationsList = [
     { value: "BACHELORS_DEGREE", label: "Preddiplomski studij" },
     { value: "POST_BACCALAUREATE_DIPLOMA", label: "Postdiplomski studij" },
     { value: "MASTERS_DEGREE", label: "Magistarski studij" },
-    { value: "DOCTORATE", label: "Doktorski studij" }
-  ];  
+    { value: "DOCTORATE", label: "Doktorski studij" },
+  ];
 
   const teachingStyles = [
     { value: "The_Direct_Method", label: "Direktna metoda" },
-    { value: "The_Grammar_Translation_Method", label: "Metoda gramatičkog prevođenja" },
-    { value: "The_Structural_Approach", label: "Strukturni pristup" }
+    {
+      value: "The_Grammar_Translation_Method",
+      label: "Metoda gramatičkog prevođenja",
+    },
+    { value: "The_Structural_Approach", label: "Strukturni pristup" },
   ];
 
   // Funkcija za provjeru da li su svi podaci uneseni
   const isFormValid = () => {
-    const isYearsValid = Number.isInteger(parseInt(years)) && parseInt(years) > 0;
-    const isHourlyRateValid = Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
+    const isYearsValid =
+      Number.isInteger(parseInt(years)) && parseInt(years) > 0;
+    const isHourlyRateValid =
+      Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
 
     return (
       language &&
@@ -57,10 +62,10 @@ function TeacherInfo() {
 
     const data = {
       jezici: [language], // Prebacujemo uneseni jezik u niz
-      godineIskustva: parsedYears,  // Parsirani broj
-      kvalifikacija: qualifications, 
-      stilPoducavanja: style, 
-      satnica: parsedHourlyRate  // Parsirani broj
+      godineIskustva: parsedYears, // Parsirani broj
+      kvalifikacija: qualifications,
+      stilPoducavanja: style,
+      satnica: parsedHourlyRate, // Parsirani broj
     };
 
     // Opcije za fetch zahtjev (POST metoda)
@@ -68,18 +73,21 @@ function TeacherInfo() {
       method: "POST", // Definiramo HTTP metodu kao POST
       headers: { "Content-Type": "application/json" }, // Postavljamo Content-Type header na JSON
       body: JSON.stringify(data), // Podaci koje šaljemo u tijelu zahtjeva, pretvoreni u JSON
-      credentials: "include"               // Uključujemo kolačiće za autentifikaciju ako je potrebno
+      credentials: "include", // Uključujemo kolačiće za autentifikaciju ako je potrebno
     };
 
     try {
       // Pokrećemo fetch zahtjev za slanje podataka na API
-      const response = await fetch(ApiConfig.API_URL + "/ucitelji", requestOptions);
+      const response = await fetch(
+        ApiConfig.API_URL + "/ucitelji",
+        requestOptions
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json(); // Parsiramo odgovor u JSON
     } catch (error) {
-      console.error("Error:", error); 
+      console.error("Error:", error);
     }
   }
 
@@ -179,7 +187,7 @@ function TeacherInfo() {
           <br />
 
           <div className="btns">
-            <Link to="/"> 
+            <Link to="/">
               <button className="btn">Natrag</button>
             </Link>
             <button

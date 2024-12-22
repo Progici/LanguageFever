@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "./StudentInfo.css";
-import { ApiConfig } from "../config/api.config";
+import "../css/StudentInfo.css";
+import { ApiConfig } from "../../config/api.config";
 
 function StudentInfo() {
   const [language, setLanguage] = useState(""); // Jedan jezik
@@ -13,21 +13,24 @@ function StudentInfo() {
   const levelOptions = [
     { value: "BEGINNER", label: "Početna" },
     { value: "INTERMEDIATE", label: "Srednja" },
-    { value: "EXPERT", label: "Napredna" }
+    { value: "EXPERT", label: "Napredna" },
   ];
 
   // Opcije za stilove učenja
   const teachingStyles = [
     { value: "The_Direct_Method", label: "Direktna metoda" },
-    { value: "The_Grammar_Translation_Method", label: "Metoda gramatičkog prevođenja" },
-    { value: "The_Structural_Approach", label: "Strukturni pristup" }
+    {
+      value: "The_Grammar_Translation_Method",
+      label: "Metoda gramatičkog prevođenja",
+    },
+    { value: "The_Structural_Approach", label: "Strukturni pristup" },
   ];
 
   // Opcije za jezike
   const languageOptions = [
     { value: "ENGLISH", label: "Engleski" },
     { value: "GERMAN", label: "Njemački" },
-    { value: "SPANISH", label: "Španjolski" }
+    { value: "SPANISH", label: "Španjolski" },
   ];
 
   // Funkcija za provjeru jesu li svi podaci uneseni
@@ -58,18 +61,21 @@ function StudentInfo() {
       jezici: [language], // Jedan jezik u nizu
       razina: level, // Razina znanja
       ciljevi: goals, // Ciljevi
-      stilUcenja: style // Stil učenja
+      stilUcenja: style, // Stil učenja
     };
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      credentials: "include" 
+      credentials: "include",
     };
 
     try {
-      const response = await fetch(ApiConfig.API_URL + "/ucenici", requestOptions);
+      const response = await fetch(
+        ApiConfig.API_URL + "/ucenici",
+        requestOptions
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
