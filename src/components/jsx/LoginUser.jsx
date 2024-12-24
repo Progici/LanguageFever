@@ -1,3 +1,4 @@
+import { ApiConfig } from "../../config/api.config";
 import "../css/LoginUser.css";
 
 function LoginUser() {
@@ -8,12 +9,17 @@ function LoginUser() {
           <div class="item login-text">Prijava putem OAuth 2.0</div>
           <div class="item instructions">Izaberite jedan od načina prijave</div>
           <div class="item options">
-            {/*<a href="/oauth2/authorization/github" id="option">*/}
-            <a href="#" id="option">
-              GitHub
+            <a
+              href={`${ApiConfig.API_URL}/oauth2/authorization/github`}
+              id="option"
+            >
+              Github
             </a>
-            {/*<a href="/oauth2/authorization/google" id="option">*/}
-            <a href="#" id="option">
+
+            <a
+              href={`${ApiConfig.API_URL}/oauth2/authorization/google`}
+              id="option"
+            >
               Google
             </a>
           </div>

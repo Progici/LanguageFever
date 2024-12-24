@@ -44,7 +44,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/login" element={<LoginUser />}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
           <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
           <Route path="/studentInfo" element={<StudentInfo />}></Route>
@@ -54,9 +54,6 @@ function App() {
             path="/calendar"
             element={<CalendarUser></CalendarUser>}
           ></Route>
-
-          {/*PRIVREMENA RUTA HELP*/}
-          <Route path="/login2" element={<LoginUser />}></Route>
         </Routes>
       </Router>
     </>
