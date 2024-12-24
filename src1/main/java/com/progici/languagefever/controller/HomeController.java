@@ -31,13 +31,21 @@ public class HomeController {
         }
         try {
             String tokenValue = token.getPrincipal().toString();
+            System.out.println("Debug 1");
             logger.info("Token value: " + tokenValue);
+            System.out.println("Debug 2");
             Cookie cookie = new Cookie("accessToken", tokenValue);
+            System.out.println("Debug 3");
             cookie.setHttpOnly(true);
+            System.out.println("Debug 4");
             cookie.setSecure(true); // Use HTTPS in production
+            System.out.println("Debug 5");
             cookie.setPath("/");
+            System.out.println("Debug 6");
             cookie.setMaxAge(3600); // 1 hour
+            System.out.println("Debug 7");
             response.addCookie(cookie);
+            System.out.println("Debug 8");
             return token.isAuthenticated();
         } catch (Exception e) {
             logger.error("Error in /active endpoint", e);
