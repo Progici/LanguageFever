@@ -5,30 +5,43 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class HomeController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-  @GetMapping("/")
-  public String home() {
-    return "Home Sweet Home!";
-  }
+    @GetMapping("/")
+    public String home() {
+        return "Home Sweet Home!";
+    }
 
-  @GetMapping("/secured")
-  public String secured() {
-    return "Secured!";
-  }
+    @GetMapping("/secured")
+    public String secured() {
+        return "Secured!";
+    }
 
-  @GetMapping("/active")
-  public Boolean active(OAuth2AuthenticationToken token, HttpServletResponse response) {
-    if (token == null) return false;
-    Cookie cookie = new Cookie("accessToken", token.getPrincipal().toString());
-    cookie.setHttpOnly(true);
-    cookie.setSecure(true); // Use HTTPS in production
-    cookie.setPath("/");
-    cookie.setMaxAge(3600); // 1 hour
-    response.addCookie(cookie);
-    return token.isAuthenticated();
-  }
+    @GetMapping("/active")
+    public Boolean active(OAuth2AuthenticationToken token, HttpServletResponse response) {
+        if (token == null) {
+            logger.error("Token is null");
+            return false;
+        }
+        try {
+            String tokenValue = token.getPrincipal().toString();
+            logger.info("Token value: " + tokenValue);
+            Cookie cookie = new Cookie("accessToken", tokenValue);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true); // Use HTTPS in production
+            cookie.setPath("/");
+            cookie.setMaxAge(3600); // 1 hour
+            response.addCookie(cookie);
+            return token.isAuthenticated();
+        } catch (Exception e) {
+            logger.error("Error in /active endpoint", e);
+            return false;
+        }
+    }
 }
