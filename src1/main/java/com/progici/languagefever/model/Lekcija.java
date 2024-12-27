@@ -21,14 +21,15 @@ public class Lekcija {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "id_ucenik")
-  private Ucenik ucenik;
-
-  @ManyToOne
   @JoinColumn(name = "id_ucitelj")
   private Ucitelj ucitelj;
 
-  private Timestamp timestampLekcije;
+  @ManyToOne
+  @JoinColumn(name = "id_ucenik")
+  private Ucenik ucenik;
+
+  private Timestamp timestampPocetka;
+  private Timestamp timestampZavrsetka;
 
   @Enumerated(EnumType.STRING)
   private Status status;
@@ -59,12 +60,20 @@ public class Lekcija {
     this.ucitelj = ucitelj;
   }
 
-  public Timestamp getTimestampLekcije() {
-    return timestampLekcije;
+  public Timestamp gettimestampPocetka() {
+    return timestampPocetka;
   }
 
-  public void setTimestampLekcije(Timestamp timestampLekcije) {
-    this.timestampLekcije = timestampLekcije;
+  public void settimestampPocetka(Timestamp timestampPocetka) {
+    this.timestampPocetka = timestampPocetka;
+  }
+
+  public Timestamp getTimestampZavrsetka() {
+    return timestampZavrsetka;
+  }
+
+  public void setTimestampZavrsetka(Timestamp timestampZavrsetka) {
+    this.timestampZavrsetka = timestampZavrsetka;
   }
 
   public Status getStatus() {

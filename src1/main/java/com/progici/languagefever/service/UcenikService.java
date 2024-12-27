@@ -2,8 +2,13 @@ package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.UcenikJezici;
+import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UceniciRepository;
+import com.progici.languagefever.repository.UcenikJeziciRepository;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +44,10 @@ public class UcenikService {
 
   public void updateUcenikById(Long id, Ucenik ucenik) throws Exception {
     Ucenik UcenikById = getUcenikById(id);
-    UcenikById.setJezici(ucenik.getJezici());
     UcenikById.setCiljevi(ucenik.getCiljevi());
     UcenikById.setKorisnik(ucenik.getKorisnik());
     UcenikById.setRazina(ucenik.getRazina());
     UcenikById.setStilUcenja(ucenik.getStilUcenja());
-
     uceniciRepository.save(UcenikById);
   }
 

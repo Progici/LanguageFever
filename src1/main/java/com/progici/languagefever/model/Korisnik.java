@@ -1,5 +1,7 @@
 package com.progici.languagefever.model;
 
+import javax.management.relation.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,7 @@ public class Korisnik {
   @Column(unique = true, nullable = false)
   private String email;
   private String picture;
+  private Role role;
 
   public Korisnik() {}
 
@@ -53,4 +56,9 @@ public class Korisnik {
   public void setPicture(String picture) {
     this.picture = picture;
   }
+
+  public Role getRole() {
+    return role;
+  }
+
 }

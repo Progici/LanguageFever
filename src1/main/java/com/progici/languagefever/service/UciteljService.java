@@ -1,5 +1,6 @@
 package com.progici.languagefever.service;
 
+import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.repository.KorisniciRepository;
@@ -39,13 +40,11 @@ public class UciteljService {
 
   public void updateUciteljById(Long id, Ucitelj ucitelj) throws Exception {
     Ucitelj UciteljById = getUciteljById(id);
-    UciteljById.setJezici(ucitelj.getJezici());
     UciteljById.setGodineIskustva(ucitelj.getGodineIskustva());
     UciteljById.setKorisnik(ucitelj.getKorisnik());
     UciteljById.setKvalifikacija(ucitelj.getKvalifikacija());
     UciteljById.setSatnica(ucitelj.getSatnica());
     UciteljById.setStilPoducavanja(ucitelj.getStilPoducavanja());
-
     uciteljiRepository.save(UciteljById);
   }
 

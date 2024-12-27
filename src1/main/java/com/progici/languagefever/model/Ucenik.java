@@ -1,7 +1,5 @@
 package com.progici.languagefever.model;
 
-import com.progici.languagefever.model.enums.Jezici;
-import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Razina;
 import com.progici.languagefever.model.enums.Stil;
 import jakarta.persistence.Entity;
@@ -13,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table
@@ -28,9 +25,6 @@ public class Ucenik {
   private Korisnik korisnik;
 
   @Enumerated(EnumType.STRING)
-  private List<Jezici> jezici;
-
-  @Enumerated(EnumType.STRING)
   private Razina razina;
 
   @Enumerated(EnumType.STRING)
@@ -42,13 +36,11 @@ public class Ucenik {
 
   public Ucenik(
     Korisnik korisnik,
-    List<Jezici> jezici,
     Razina razina,
     Stil stilUcenja,
     String ciljevi
   ) {
     this.korisnik = korisnik;
-    this.jezici = jezici;
     this.razina = razina;
     this.stilUcenja = stilUcenja;
     this.ciljevi = ciljevi;
@@ -68,14 +60,6 @@ public class Ucenik {
 
   public void setKorisnik(Korisnik korisnik) {
     this.korisnik = korisnik;
-  }
-
-  public List<Jezici> getJezici() {
-    return jezici;
-  }
-
-  public void setJezici(List<Jezici> jezici) {
-    this.jezici = jezici;
   }
 
   public Razina getRazina() {

@@ -1,7 +1,10 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.UcenikJezici;
 import com.progici.languagefever.service.UcenikService;
+import com.progici.languagefever.service.UcenikJeziciService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class UcenikController {
 
   @Autowired
   private UcenikService ucenikService;
+
+  @Autowired
+  private UcenikJeziciService ucenik_jeziciService;
 
   @RequestMapping("/ucenici")
   public List<Ucenik> getSviUcenici() {
@@ -34,10 +41,12 @@ public class UcenikController {
   @RequestMapping(value = "/ucenici/{idKorisnika}", method = RequestMethod.POST)
   public ResponseEntity<Void> addUcenikByKorisnikId(
     @RequestBody Ucenik ucenik,
+    @RequestBody Jezik jezik,
     @PathVariable Long idKorisnika
   ) {
     try {
       ucenikService.addUcenikByKorisnikId(ucenik, idKorisnika);
+      ucenik_jeziciService.addUcenikJezici(ucenik, jezik);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

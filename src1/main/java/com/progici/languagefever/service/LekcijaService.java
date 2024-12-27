@@ -56,7 +56,7 @@ public class LekcijaService {
   public void updateLekcijaById(Long id, Lekcija lekcija) throws Exception {
     Lekcija LekcijaById = getLekcijaById(id);
     LekcijaById.setStatus(lekcija.getStatus());
-    LekcijaById.setTimestampLekcije(lekcija.getTimestampLekcije());
+    LekcijaById.settimestampPocetka(lekcija.gettimestampPocetka());
 
     lekcijaRepository.save(LekcijaById);
   }

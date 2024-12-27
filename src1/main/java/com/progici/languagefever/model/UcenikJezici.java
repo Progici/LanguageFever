@@ -1,0 +1,52 @@
+package com.progici.languagefever.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "ucenik_jezici")
+public class UcenikJezici {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "ucenik_id")
+    private Ucenik ucenik;
+
+    @ManyToOne
+    @JoinColumn(name = "jezik_id")
+    private Jezik jezik;
+
+    public UcenikJezici() {}
+
+    public UcenikJezici(Ucenik ucenik, Jezik jezik) {
+        this.ucenik = ucenik;
+        this.jezik = jezik;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Ucenik getUcenik() {
+        return ucenik;
+    }
+
+    public void setUcenik(Ucenik ucenik) {
+        this.ucenik = ucenik;
+    }
+
+    public Jezik getJezik() {
+        return jezik;
+    }
+
+    public void setJezik(Jezik jezik) {
+        this.jezik = jezik;
+    }
+}
