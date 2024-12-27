@@ -4,15 +4,12 @@ import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.service.UciteljService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;  
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UciteljController {
@@ -27,20 +24,42 @@ public class UciteljController {
 
   @RequestMapping("/ucitelji/{id}")
   public Ucitelj getUciteljById(@PathVariable Long id) {
-    return uciteljService.getUciteljById(id);
+    try {
+      return uciteljService.getUciteljById(id);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
-  @RequestMapping(value = "/ucitelji", method = RequestMethod.POST)
-  public void addUcitelj(@RequestBody Ucitelj ucitelj) {
-    uciteljService.addUcitelj(ucitelj);
+  @RequestMapping(
+    value = "/ucitelji/{idKorisnika}",
+    method = RequestMethod.POST
+  )
+  public ResponseEntity<Void> addUciteljByKorisnikId(
+    @RequestBody Ucitelj ucitelj,
+    @PathVariable Long idKorisnika
+  ) {
+    try {
+      uciteljService.addUciteljByKorisnikId(ucitelj, idKorisnika);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.ok().build();
   }
 
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.PUT)
-  public void updateUciteljById(
+  public ResponseEntity<Void> updateUciteljById(
     @RequestBody Ucitelj ucitelj,
     @PathVariable Long id
   ) {
-    uciteljService.updateUciteljById(id, ucitelj);
+    try {
+      uciteljService.updateUciteljById(id, ucitelj);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.ok().build();
   }
 
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.DELETE)

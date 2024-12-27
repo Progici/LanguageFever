@@ -4,6 +4,7 @@ import com.progici.languagefever.model.Lekcija;
 import com.progici.languagefever.service.LekcijaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ public class LekcijaController {
 
   @Autowired
   private LekcijaService lekcijaService;
-
 
   @RequestMapping("/lekcije")
   public List<Lekcija> getSveLekcije() {
@@ -37,17 +37,34 @@ public class LekcijaController {
     return lekcijaService.getLekcijeByUcenikId(id);
   }
 
-  @RequestMapping(value = "/lekcije", method = RequestMethod.POST)
-  public void addLekcija(@RequestBody Lekcija lekcija) {
-    lekcijaService.addLekcija(lekcija);
+  @RequestMapping(
+    value = "/lekcije/{idUcitelja}/{idUcenika}",
+    method = RequestMethod.POST
+  )
+  public ResponseEntity<Void> addLekcija(
+    @RequestBody Lekcija lekcija,
+    @PathVariable Long idUcitelja,
+    @PathVariable Long idUcenika
+  ) {
+    try {
+      lekcijaService.addLekcija(lekcija, idUcitelja, idUcenika);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok().build();
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.PUT)
-  public void updateLekcijaById(
+  public ResponseEntity<Void> updateLekcijaById(
     @RequestBody Lekcija lekcija,
     @PathVariable Long id
   ) {
-    lekcijaService.updateLekcijaById(id, lekcija);
+    try {
+      lekcijaService.updateLekcijaById(id, lekcija);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok().build();
   }
 
   @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.DELETE)

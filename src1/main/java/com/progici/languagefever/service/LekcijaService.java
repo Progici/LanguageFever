@@ -1,6 +1,8 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.repository.LekcijaRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,12 @@ public class LekcijaService {
 
   @Autowired
   private LekcijaRepository lekcijaRepository;
+
+  @Autowired
+  private UcenikService ucenikService;
+
+  @Autowired
+  private UciteljService uciteljService;
 
   public List<Lekcija> getSveLekcije() {
     List<Lekcija> sveLekcije = new ArrayList<>();
@@ -35,13 +43,22 @@ public class LekcijaService {
     return lekcijaRepository.findById(id).get();
   }
 
-  public void addLekcija(Lekcija lekcija) {
+  public void addLekcija(Lekcija lekcija, Long idUcitelja, Long idUcenika)
+    throws Exception {
+    Ucitelj ucitelj = uciteljService.getUciteljById(idUcitelja);
+    lekcija.setUcitelj(ucitelj);
+    Ucenik ucenik = ucenikService.getUcenikById(idUcenika);
+    lekcija.setUcenik(ucenik);
+
     lekcijaRepository.save(lekcija);
   }
 
-  public void updateLekcijaById(Long id, Lekcija lekcija) {
-    lekcija.setId(id);
-    lekcijaRepository.save(lekcija);
+  public void updateLekcijaById(Long id, Lekcija lekcija) throws Exception {
+    Lekcija LekcijaById = getLekcijaById(id);
+    LekcijaById.setStatus(lekcija.getStatus());
+    LekcijaById.setTimestampLekcije(lekcija.getTimestampLekcije());
+
+    lekcijaRepository.save(LekcijaById);
   }
 
   public void deleteLekcijaById(Long id) {

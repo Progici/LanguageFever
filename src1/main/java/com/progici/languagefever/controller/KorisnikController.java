@@ -1,9 +1,12 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.CustomOAuth2User;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.service.KorisnikService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,16 @@ public class KorisnikController {
   @Autowired
   private KorisnikService korisnikService;
 
+  @GetMapping("/trenutnikorisnik")
+  public Korisnik GetCurrentUser(OAuth2AuthenticationToken token) {
+    CustomOAuth2User oauthUser = (CustomOAuth2User) token.getPrincipal();
+
+    Korisnik existUser = korisnikService.getKorisnikByEmail(
+      oauthUser.getEmail()
+    );
+
+    return existUser;
+  }
 
   @RequestMapping("/korisnici")
   public List<Korisnik> getSviKorisnici() {

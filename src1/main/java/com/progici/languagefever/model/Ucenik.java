@@ -4,7 +4,6 @@ import com.progici.languagefever.model.enums.Jezici;
 import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Razina;
 import com.progici.languagefever.model.enums.Stil;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,7 +25,7 @@ public class Ucenik {
 
   @OneToOne
   @JoinColumn(name = "id_korisnik")
-  private Korisnik korisnik;//provjera
+  private Korisnik korisnik;
 
   @Enumerated(EnumType.STRING)
   private List<Jezici> jezici;
@@ -98,6 +97,7 @@ public class Ucenik {
   public Stil getStilUcenja() {
     return stilUcenja;
   }
+
   public void setStilUcenja(Stil stilUcenja) {
     this.stilUcenja = stilUcenja;
   }

@@ -42,6 +42,10 @@ public class KorisnikService {
     return korisniciRepository.findById(id).get();
   }
 
+  public Korisnik getKorisnikByEmail(String email) {
+    return korisniciRepository.findByEmail(email);
+  }
+
   public void addKorisnik(Korisnik korisnik) {
     korisniciRepository.save(korisnik);
   }

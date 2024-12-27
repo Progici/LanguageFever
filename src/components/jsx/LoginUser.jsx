@@ -15,7 +15,6 @@ function LoginUser() {
             >
               Github
             </a>
-
             <a
               href={`${ApiConfig.API_URL}/oauth2/authorization/google`}
               id="option"

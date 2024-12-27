@@ -1,9 +1,9 @@
 package com.progici.languagefever.service;
 
-import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.repository.UceniciRepository;
+import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.repository.KorisniciRepository;
+import com.progici.languagefever.repository.UceniciRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +24,28 @@ public class UcenikService {
     return sviUcenici;
   }
 
-  public Ucenik getUcenikById(Long id) {
+  public Ucenik getUcenikById(Long id) throws Exception {
     return uceniciRepository.findById(id).get();
   }
 
-public void addUcenik(Ucenik ucenik) {
-  Korisnik korisnik = korisniciRepository.findById(ucenik.getKorisnik().getId()).orElseThrow(() -> new RuntimeException("Korisnik not found"));
-  ucenik.setKorisnik(korisnik);
-  uceniciRepository.save(ucenik);
-}
-
-  public void updateUcenikById(Long id, Ucenik ucenik) {
-    ucenik.setId(id);
+  public void addUcenikByKorisnikId(Ucenik ucenik, Long idKorisnika)
+    throws Exception {
+    Korisnik korisnik = korisniciRepository
+      .findById(idKorisnika)
+      .orElseThrow(() -> new RuntimeException("Korisnik not found"));
+    ucenik.setKorisnik(korisnik);
     uceniciRepository.save(ucenik);
+  }
+
+  public void updateUcenikById(Long id, Ucenik ucenik) throws Exception {
+    Ucenik UcenikById = getUcenikById(id);
+    UcenikById.setJezici(ucenik.getJezici());
+    UcenikById.setCiljevi(ucenik.getCiljevi());
+    UcenikById.setKorisnik(ucenik.getKorisnik());
+    UcenikById.setRazina(ucenik.getRazina());
+    UcenikById.setStilUcenja(ucenik.getStilUcenja());
+
+    uceniciRepository.save(UcenikById);
   }
 
   public void deleteUcenikById(Long id) {

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,13 +28,17 @@ public class SecurityConfig {
   @Value("${frontend.url}")
   private String frontendUrl;
 
+  CookieClearingLogoutHandler cookies = new CookieClearingLogoutHandler(
+    "our-custom-cookie"
+  );
+
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
       .csrf(AbstractHttpConfigurer::disable)
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> {
-        auth.requestMatchers("/", "/ucitelji/**", "/active").permitAll();
+        auth.requestMatchers("/", "/ucitelji", "/active").permitAll();
         auth.anyRequest().authenticated();
       })
       .oauth2Login(oauth2 ->
@@ -41,6 +46,7 @@ public class SecurityConfig {
           .userInfoEndpoint(userInfo -> userInfo.userService(oauthUserService))
           .successHandler(oAuth2LoginSuccessHandler)
       )
+      .logout(logout -> logout.logoutSuccessUrl(frontendUrl))
       .build();
   }
 

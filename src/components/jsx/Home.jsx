@@ -20,6 +20,7 @@ function Home() {
               <Link to="/login">
                 <button className="cta-button">Započni</button>
               </Link>
+
               <button className="cta-button">O nama</button>
             </section>
           </section>

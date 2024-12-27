@@ -23,10 +23,11 @@ public class Lekcija {
   @ManyToOne
   @JoinColumn(name = "id_ucenik")
   private Ucenik ucenik;
-  
+
   @ManyToOne
   @JoinColumn(name = "id_ucitelj")
   private Ucitelj ucitelj;
+
   private Timestamp timestampLekcije;
 
   @Enumerated(EnumType.STRING)

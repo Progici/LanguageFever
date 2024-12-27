@@ -1,14 +1,13 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UciteljiRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.progici.languagefever.repository.KorisniciRepository;
 
 @Service
 public class UciteljService {
@@ -25,19 +24,29 @@ public class UciteljService {
     return sviUcitelji;
   }
 
-  public Ucitelj getUciteljById(Long id) {
+  public Ucitelj getUciteljById(Long id) throws Exception {
     return uciteljiRepository.findById(id).get();
   }
 
-    public void addUcitelj(Ucitelj ucitelj) {
-      Korisnik korisnik = korisniciRepository.findById(ucitelj.getKorisnik().getId()).orElseThrow(() -> new RuntimeException("Korisnik not found"));
-      ucitelj.setKorisnik(korisnik);
-      uciteljiRepository.save(ucitelj);
+  public void addUciteljByKorisnikId(Ucitelj ucitelj, Long idKorisnika)
+    throws Exception {
+    Korisnik korisnik = korisniciRepository
+      .findById(idKorisnika)
+      .orElseThrow(() -> new RuntimeException("Korisnik not found"));
+    ucitelj.setKorisnik(korisnik);
+    uciteljiRepository.save(ucitelj);
   }
 
-  public void updateUciteljById(Long id, Ucitelj ucitelj) {
-    ucitelj.setId(id);
-    uciteljiRepository.save(ucitelj);
+  public void updateUciteljById(Long id, Ucitelj ucitelj) throws Exception {
+    Ucitelj UciteljById = getUciteljById(id);
+    UciteljById.setJezici(ucitelj.getJezici());
+    UciteljById.setGodineIskustva(ucitelj.getGodineIskustva());
+    UciteljById.setKorisnik(ucitelj.getKorisnik());
+    UciteljById.setKvalifikacija(ucitelj.getKvalifikacija());
+    UciteljById.setSatnica(ucitelj.getSatnica());
+    UciteljById.setStilPoducavanja(ucitelj.getStilPoducavanja());
+
+    uciteljiRepository.save(UciteljById);
   }
 
   public void deleteUciteljById(Long id) {
