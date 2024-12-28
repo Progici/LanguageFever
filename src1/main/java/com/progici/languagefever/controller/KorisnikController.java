@@ -89,6 +89,11 @@ public class KorisnikController {
     return lista;
   }
 
+  @GetMapping("/trenutnikorisnik")
+  public Korisnik getCurrentUser(OAuth2AuthenticationToken authentication) {
+    return getKorisnikFromOAuth2AuthenticationToken(authentication);
+  }
+
   @PostMapping("/azurirajkorisnika")
   public ResponseEntity<Void> updateCurrentUser(
     OAuth2AuthenticationToken authentication,

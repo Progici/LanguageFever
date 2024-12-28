@@ -31,6 +31,15 @@ public class UciteljController {
   @Autowired
   private LekcijaService lekcijaService;
 
+  @GetMapping("/trenutniucitelj")
+  public Ucitelj getCurrentUser(OAuth2AuthenticationToken authentication) {
+    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
+      authentication
+    );
+
+    return uciteljService.getUciteljByKorisnikId(korisnik.getId());
+  }
+
   @PostMapping("/azurirajucitelja")
   public ResponseEntity<Void> updateCurrentUcitelj(
     OAuth2AuthenticationToken authentication,

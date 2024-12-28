@@ -102,6 +102,64 @@ public class LekcijaController {
     return lista;
   }
 
+  @GetMapping("/ucitelji/{id}/dovrsenelekcije")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public List<Lekcija> getLekcijeFinishedByUciteljId(@PathVariable Long id) {
+    List<Lekcija> lista = new ArrayList<>();
+
+    Ucitelj ucitelj;
+    try {
+      ucitelj = uciteljService.getUciteljById(id);
+    } catch (Exception e) {
+      ucitelj = null;
+    }
+
+    if (ucitelj != null) lista.addAll(
+      lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(ucitelj.getId())
+    );
+
+    return lista;
+  }
+
+  @GetMapping("/ucitelji/{id}/dovrsenelekcijebroj")
+  public Long getLekcijeFinishedBrojByUciteljId(@PathVariable Long id) {
+    List<Lekcija> lista = new ArrayList<>();
+
+    lista.addAll(getLekcijeFinishedByUciteljId(id));
+
+    return (long) lista.size();
+  }
+
+  @GetMapping("/ucitelji/{id}/poducavaniucenici")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public List<Ucenik> getPoducavaniUceniciByUciteljId(@PathVariable Long id) {
+    List<Ucenik> lista = new ArrayList<>();
+
+    Ucitelj ucitelj;
+    try {
+      ucitelj = uciteljService.getUciteljById(id);
+    } catch (Exception e) {
+      ucitelj = null;
+    }
+
+    if (ucitelj != null) lista.addAll(
+      lekcijaService.getUceniciByUciteljIdAndByLekcijaStatusFinished(
+        ucitelj.getId()
+      )
+    );
+
+    return lista;
+  }
+
+  @GetMapping("/ucitelji/{id}/poducavaniucenicibroj")
+  public Long getPoducavaniUceniciBrojByUciteljId(@PathVariable Long id) {
+    List<Ucenik> lista = new ArrayList<>();
+
+    lista.addAll(getPoducavaniUceniciByUciteljId(id));
+
+    return (long) lista.size();
+  }
+
   @GetMapping("/mojelekcije/ucenik")
   public List<Lekcija> getLekcijeUcenik(
     OAuth2AuthenticationToken authentication
