@@ -100,14 +100,14 @@ public class OAuth2LoginSuccessHandler
       if (firstHeader) {
         response.setHeader(
           HttpHeaders.SET_COOKIE,
-          String.format("%s; %s", header, "SameSite=Lax")
+          String.format("%s; %s", header, "SameSite=None")
         );
         firstHeader = false;
         continue;
       }
       response.addHeader(
         HttpHeaders.SET_COOKIE,
-        String.format("%s; %s", header, "SameSite=Lax")
+        String.format("%s; %s", header, "SameSite=None")
       );
     }
   }
