@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +43,7 @@ public class KorisnikController {
     return korisnikService.getAllAdminRoles();
   }
 
-  @GetMapping("/admin/{id}")
+  @PutMapping("/setadmin/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> setAdminByKorisnikId(@PathVariable Long id) {
     Korisnik korisnik;
@@ -172,6 +173,12 @@ public class KorisnikController {
   @RequestMapping(value = "/korisnici/{id}", method = RequestMethod.DELETE)
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteKorisnikById(@PathVariable Long id) {
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(id);
+    if (ucitelj != null) uciteljService.deleteUciteljById(ucitelj.getId());
+
+    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(id);
+    if (ucenik != null) ucenikService.deleteUcenikById(ucenik.getId());
+
     korisnikService.deleteKorisnikById(id);
   }
 

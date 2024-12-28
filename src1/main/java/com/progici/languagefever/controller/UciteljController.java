@@ -1,7 +1,9 @@
 package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +27,9 @@ public class UciteljController {
 
   @Autowired
   private KorisnikController korisnikController;
+
+  @Autowired
+  private LekcijaService lekcijaService;
 
   @PostMapping("/azurirajucitelja")
   public ResponseEntity<Void> updateCurrentUcitelj(
@@ -48,6 +54,27 @@ public class UciteljController {
       return ResponseEntity.badRequest().build();
     }
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/poducavaniucenici")
+  public List<Ucenik> getPoducavaniUceniciUcitelj(
+    OAuth2AuthenticationToken authentication
+  ) {
+    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
+      authentication
+    );
+
+    if (korisnik == null) return null;
+
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
+
+    if (ucitelj == null) return null;
+
+    List<Ucenik> lista = lekcijaService.getUceniciByUciteljIdAndByLekcijaStatusFinished(
+      ucitelj.getId()
+    );
+
+    return lista;
   }
 
   @DeleteMapping("/izbrisiucitelja")

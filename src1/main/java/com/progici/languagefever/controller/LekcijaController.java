@@ -241,7 +241,7 @@ public class LekcijaController {
     return ResponseEntity.ok().build();
   }
 
-  @DeleteMapping("/izbrisilekciju/{idLekcije}")
+  @DeleteMapping("/izbrisimojulekciju/{idLekcije}")
   public ResponseEntity<Void> deleteLekcijaUcitelj(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idLekcije

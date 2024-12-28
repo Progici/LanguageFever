@@ -7,6 +7,8 @@ import com.progici.languagefever.model.enums.Status;
 import com.progici.languagefever.repository.LekcijaRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,6 @@ public class LekcijaService {
 
   @Autowired
   private LekcijaRepository lekcijaRepository;
-
-  @Autowired
-  private UcenikService ucenikService;
-
-  @Autowired
-  private UciteljService uciteljService;
 
   public List<Lekcija> getSveLekcije() {
     List<Lekcija> sveLekcije = new ArrayList<>();
@@ -44,6 +40,24 @@ public class LekcijaService {
         }
       });
     return sveLekcije;
+  }
+
+  public List<Ucenik> getUceniciByUciteljIdAndByLekcijaStatusFinished(Long id) {
+    List<Lekcija> sveLekcije = new ArrayList<>();
+    lekcijaRepository
+      .findByUciteljId(id)
+      .forEach(e -> {
+        if (e.getStatus() == Status.FINISHED) {
+          sveLekcije.add(e);
+        }
+      });
+
+    Set<Ucenik> jedinstveniUcenici = sveLekcije
+      .stream()
+      .map(Lekcija::getUcenik)
+      .collect(Collectors.toSet());
+
+    return new ArrayList<Ucenik>(jedinstveniUcenici);
   }
 
   public List<Lekcija> getLekcijeByUcenikId(Long id) {
