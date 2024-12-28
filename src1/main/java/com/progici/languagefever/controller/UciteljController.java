@@ -1,6 +1,7 @@
 package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.UciteljDTO;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljService;
@@ -118,16 +119,30 @@ public class UciteljController {
     value = "/ucitelji/{idKorisnika}",
     method = RequestMethod.POST
   )
-
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> addUciteljByKorisnikId(
     @RequestBody Ucitelj ucitelj,
-    @RequestBody Jezik jezik,
     @PathVariable Long idKorisnika
   ) {
     try {
       uciteljService.addUciteljByKorisnikId(ucitelj, idKorisnika);
-      ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.ok().build();
+  }
+
+  @RequestMapping(value = "/ucitelji}", method = RequestMethod.POST)
+  public ResponseEntity<Void> addUciteljByKorisnikId(@RequestBody UciteljDTO uciteljDTO) {
+    try {
+      Ucitelj ucitelj = new Ucitelj();
+      ucitelj.setGodineIskustva(uciteljDTO.getGodineIskustva());
+      ucitelj.setKvalifikacija(uciteljDTO.getKvalifikacija());
+      ucitelj.setStilPoducavanja(uciteljDTO.getStilPoducavanja());
+      ucitelj.setSatnica(uciteljDTO.getSatnica());
+      uciteljService.addUciteljByKorisnikId(ucitelj, uciteljDTO.getIdKorisnika());
+      ucitelj_jeziciService.addUcitelj_jezici(ucitelj, uciteljDTO.getJezik());
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

@@ -52,6 +52,31 @@ function TeacherInfo() {
     );
   };
 
+  const [korisnik, setKorisnik] = useState(null);
+
+  useEffect(() => {
+    const fetchKorisnik = async () => {
+      try {
+        const response = await fetch(ApiConfig.API_URL + "/trenutnikorisnik", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        console.log(data);
+        setKorisnik(data);
+      } catch (error) {
+        console.error("Error fetching korisnik:", error);
+      }
+    };
+    fetchKorisnik();
+  }, []);
+
+  const idUser = korisnik ? Object.values(korisnik)[0] : null;
+
+
   // Funkcija za slanje podataka na server kada se forma pošalje
   async function handleSubmit(event) {
     event.preventDefault();
@@ -61,6 +86,7 @@ function TeacherInfo() {
     const parsedHourlyRate = parseInt(hourlyRate);
 
     const data = {
+      idKorisnik: idUSer,
       jezici: [language], // Prebacujemo uneseni jezik u niz
       godineIskustva: parsedYears, // Parsirani broj
       kvalifikacija: qualifications,
