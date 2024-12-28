@@ -133,7 +133,7 @@ public class UciteljController {
     return ResponseEntity.ok().build();
   }
 
-  @RequestMapping(value = "/ucitelji}", method = RequestMethod.POST)
+  @RequestMapping(value = "/ucitelji", method = RequestMethod.POST)
   public ResponseEntity<Void> addUciteljByKorisnikId(@RequestBody UciteljDTO uciteljDTO) {
     try {
       Ucitelj ucitelj = new Ucitelj();
