@@ -29,6 +29,10 @@ public class UciteljService {
     return uciteljiRepository.findById(id).get();
   }
 
+  public Ucitelj getUciteljByKorisnikId(Long id) {
+    return uciteljiRepository.findByKorisnikId(id);
+  }
+
   public void addUciteljByKorisnikId(Ucitelj ucitelj, Long idKorisnika)
     throws Exception {
     Korisnik korisnik = korisniciRepository
@@ -50,5 +54,9 @@ public class UciteljService {
 
   public void deleteUciteljById(Long id) {
     uciteljiRepository.deleteById(id);
+  }
+
+  public void deleteUciteljAll() {
+    uciteljiRepository.deleteAll();
   }
 }

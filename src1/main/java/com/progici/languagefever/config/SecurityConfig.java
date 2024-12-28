@@ -1,11 +1,11 @@
 package com.progici.languagefever.config;
 
-import com.progici.languagefever.service.CustomOAuth2UserService;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,20 +17,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
   @Autowired
   private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-  @Autowired
-  private CustomOAuth2UserService oauthUserService;
-
   @Value("${frontend.url}")
   private String frontendUrl;
 
-  CookieClearingLogoutHandler cookies = new CookieClearingLogoutHandler(
-    "our-custom-cookie"
-  );
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,11 +36,7 @@ public class SecurityConfig {
         auth.requestMatchers("/", "/ucitelji", "/active").permitAll();
         auth.anyRequest().authenticated();
       })
-      .oauth2Login(oauth2 ->
-        oauth2
-          .userInfoEndpoint(userInfo -> userInfo.userService(oauthUserService))
-          .successHandler(oAuth2LoginSuccessHandler)
-      )
+      .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
       .logout(logout -> logout.logoutSuccessUrl(frontendUrl))
       .build();
   }

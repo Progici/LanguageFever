@@ -20,12 +20,12 @@ public class EnumController {
     return Status.values();
   }
 
-  @GetMapping("/jeziciDefault")
+  @GetMapping("/jezici")
   public Jezici[] getAllJeziciByNumberOfPeopleSpeaking() {
     return Jezici.values();
   }
 
-  @GetMapping("/jeziciAZ")
+  @GetMapping("/jeziciabecedno")
   public Jezici[] getAllJeziciAlphabetical() {
     return Arrays
       .stream(Jezici.values())
@@ -33,7 +33,7 @@ public class EnumController {
       .toArray(Jezici[]::new);
   }
 
-  @GetMapping("/jeziciZA")
+  @GetMapping("/jeziciabecednounatrag")
   public Jezici[] getAllJeziciReverseAlphabetical() {
     return Arrays
       .stream(Jezici.values())

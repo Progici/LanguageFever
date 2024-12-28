@@ -26,7 +26,7 @@ public class JezikService {
     }
 
     public Jezik getJezikByNaziv(String naziv) {
-        return jeziciRepository.findByNaziv(naziv);
+        return jeziciRepository.findByName(naziv);
     }
 
     public void addJezik(Jezik jezik) {

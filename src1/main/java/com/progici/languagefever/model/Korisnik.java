@@ -1,7 +1,8 @@
 package com.progici.languagefever.model;
 
-import javax.management.relation.Role;
-
+import com.progici.languagefever.model.enums.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,8 @@ public class Korisnik {
   @Column(unique = true, nullable = false)
   private String email;
   private String picture;
+    // user ili admin
+  @Enumerated(EnumType.STRING)
   private Role role;
 
   public Korisnik() {}
@@ -60,5 +63,10 @@ public class Korisnik {
   public Role getRole() {
     return role;
   }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
 
 }
