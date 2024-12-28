@@ -1,6 +1,7 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UciteljiRepository;
@@ -28,6 +29,10 @@ public class UciteljService {
     return uciteljiRepository.findById(id).get();
   }
 
+  public Ucitelj getUciteljByKorisnikId(Long id) {
+    return uciteljiRepository.findByKorisnikId(id);
+  }
+
   public void addUciteljByKorisnikId(Ucitelj ucitelj, Long idKorisnika)
     throws Exception {
     Korisnik korisnik = korisniciRepository
@@ -51,5 +56,9 @@ public class UciteljService {
 
   public void deleteUciteljById(Long id) {
     uciteljiRepository.deleteById(id);
+  }
+
+  public void deleteUciteljAll() {
+    uciteljiRepository.deleteAll();
   }
 }
