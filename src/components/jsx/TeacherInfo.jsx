@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/TeacherInfo.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ApiConfig } from "../../config/api.config";
 
 function TeacherInfo() {
@@ -87,7 +87,7 @@ function TeacherInfo() {
     const parsedHourlyRate = parseInt(hourlyRate);
 
     const data = {
-      idKorisnik: idUSer,
+      idKorisnik: idUser,
       jezici: [language], // Prebacujemo uneseni jezik u niz
       godineIskustva: parsedYears, // Parsirani broj
       kvalifikacija: qualifications,
