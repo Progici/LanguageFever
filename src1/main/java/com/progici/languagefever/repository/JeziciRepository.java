@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JeziciRepository extends JpaRepository<Jezik, Long> {
-  public Jezik findByNaziv(String naziv);
+  public Jezik findByName(String name);
 }
