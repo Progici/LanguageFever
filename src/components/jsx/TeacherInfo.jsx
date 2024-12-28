@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/TeacherInfo.css";
+import { useEffect, useState } from "react";
 import { ApiConfig } from "../../config/api.config";
 
 function TeacherInfo() {
