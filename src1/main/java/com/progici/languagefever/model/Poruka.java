@@ -1,7 +1,5 @@
 package com.progici.languagefever.model;
 
-import java.sql.Timestamp;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,71 +7,78 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table
 public class Poruka {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_sender")
-    private Korisnik sender;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_receiver")
-    private Korisnik receiver;
+  @ManyToOne
+  @JoinColumn(name = "id_sender")
+  private Korisnik sender;
 
-    private Timestamp timestampPoruke;
-    private String sadrzaj;
+  @ManyToOne
+  @JoinColumn(name = "id_receiver")
+  private Korisnik receiver;
 
-    public Poruka() {}
+  private Timestamp timestampPoruke;
+  private String sadrzaj;
 
-    public Poruka(Korisnik sender, Korisnik receiver, Timestamp timestampPoruke, String sadrzaj) {
-        this.sender = sender;
-        this.receiver = receiver;
-        this.timestampPoruke = timestampPoruke;
-        this.sadrzaj = sadrzaj;
-    }
+  public Poruka() {}
 
-    public Long getId() {
-        return id;
-    }
+  public Poruka(
+    Korisnik sender,
+    Korisnik receiver,
+    Timestamp timestampPoruke,
+    String sadrzaj
+  ) {
+    this.sender = sender;
+    this.receiver = receiver;
+    this.timestampPoruke = timestampPoruke;
+    this.sadrzaj = sadrzaj;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Korisnik getSender() {
-        return sender;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setSender(Korisnik sender) {
-        this.sender = sender;
-    }
+  public Korisnik getSender() {
+    return sender;
+  }
 
-    public Korisnik getReceiver() {
-        return receiver;
-    }
+  public void setSender(Korisnik sender) {
+    this.sender = sender;
+  }
 
-    public void setReceiver(Korisnik receiver) {
-        this.receiver = receiver;
-    }
+  public Korisnik getReceiver() {
+    return receiver;
+  }
 
-    public Timestamp getTimestampPoruke() {
-        return timestampPoruke;
-    }
+  public void setReceiver(Korisnik receiver) {
+    this.receiver = receiver;
+  }
 
-    public void setTimestampPoruke(Timestamp timestampPoruke) {
-        this.timestampPoruke = timestampPoruke;
-    }
+  public Timestamp getTimestampPoruke() {
+    return timestampPoruke;
+  }
 
-    public String getSadrzaj() {
-        return sadrzaj;
-    }
+  public void setTimestampPoruke(Timestamp timestampPoruke) {
+    this.timestampPoruke = timestampPoruke;
+  }
 
-    public void setSadrzaj(String sadrzaj) {
-        this.sadrzaj = sadrzaj;
-    }
+  public String getSadrzaj() {
+    return sadrzaj;
+  }
+
+  public void setSadrzaj(String sadrzaj) {
+    this.sadrzaj = sadrzaj;
+  }
 }

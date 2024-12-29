@@ -4,59 +4,68 @@ import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
 
 public class UciteljDTO {
-    private String[] jezici;
-    private Integer godineIskustva;
-    private Kvalifikacija kvalifikacija;
-    private Stil stilPoducavanja;
-    private Float satnica;
-    public String[] getJezici() {
-        return jezici;
-    }
 
-    public void setJezici(String[] jezici) {
-        this.jezici = jezici;
-    }
+  private String[] jezici;
+  private Integer godineIskustva;
+  private Kvalifikacija kvalifikacija;
+  private Stil stilPoducavanja;
+  private Float satnica;
 
-    public Integer getGodineIskustva() {
-        return godineIskustva;
-    }
+  public String[] getJezici() {
+    return jezici;
+  }
 
-    public void setGodineIskustva(Integer godineIskustva) {
-        this.godineIskustva = godineIskustva;
-    }
+  public void setJezici(String[] jezici) {
+    this.jezici = jezici;
+  }
 
-    public Kvalifikacija getKvalifikacija() {
-        return kvalifikacija;
-    }
+  public Integer getGodineIskustva() {
+    return godineIskustva;
+  }
 
-    public void setKvalifikacija(Kvalifikacija kvalifikacija) {
-        this.kvalifikacija = kvalifikacija;
-    }
+  public void setGodineIskustva(Integer godineIskustva) {
+    this.godineIskustva = godineIskustva;
+  }
 
-    public Stil getStilPoducavanja() {
-        return stilPoducavanja;
-    }
+  public Kvalifikacija getKvalifikacija() {
+    return kvalifikacija;
+  }
 
-    public void setStilPoducavanja(Stil stilPoducavanja) {
-        this.stilPoducavanja = stilPoducavanja;
-    }
+  public void setKvalifikacija(Kvalifikacija kvalifikacija) {
+    this.kvalifikacija = kvalifikacija;
+  }
 
-    public Float getSatnica() {
-        return satnica;
-    }
+  public Stil getStilPoducavanja() {
+    return stilPoducavanja;
+  }
 
-    public void setSatnica(Float satnica) {
-        this.satnica = satnica;
-    }
+  public void setStilPoducavanja(Stil stilPoducavanja) {
+    this.stilPoducavanja = stilPoducavanja;
+  }
 
-    @Override
-    public String toString() {
-        return "UciteljDTO{" +
-                ", jezik=" + String.join(", ", jezici) +
-                ", godineIskustva=" + godineIskustva +
-                ", kvalifikacija=" + kvalifikacija +
-                ", stilPoducavanja=" + stilPoducavanja +
-                ", satnica=" + satnica +
-                '}';
-    }
+  public Float getSatnica() {
+    return satnica;
+  }
+
+  public void setSatnica(Float satnica) {
+    this.satnica = satnica;
+  }
+
+  @Override
+  public String toString() {
+    return (
+      "UciteljDTO{" +
+      ", jezik=" +
+      String.join(", ", jezici) +
+      ", godineIskustva=" +
+      godineIskustva +
+      ", kvalifikacija=" +
+      kvalifikacija +
+      ", stilPoducavanja=" +
+      stilPoducavanja +
+      ", satnica=" +
+      satnica +
+      '}'
+    );
+  }
 }

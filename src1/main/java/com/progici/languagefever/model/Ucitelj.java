@@ -97,19 +97,4 @@ public class Ucitelj {
   public void setSatnica(Float satnica) {
     this.satnica = satnica;
   }
-  // public String getSlikaProfila() {
-  //   return slikaProfila;
-  // }
-
-  // public void setSlikaProfila(String slikaProfila) {
-  //   this.slikaProfila = slikaProfila;
-  // }
-
-  // public List<Ucenik> getUcenici() {
-  //   return ucenici;
-  // }
-
-  // public void setUcenici(List<Ucenik> ucenici) {
-  //   this.ucenici = ucenici;
-  // }
 }
