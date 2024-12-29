@@ -8,20 +8,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-import java.util.List;
-import java.util.Map;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-
-
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 @Component
 public class OAuth2LoginSuccessHandler
@@ -79,8 +77,8 @@ public class OAuth2LoginSuccessHandler
       List.of(new SimpleGrantedAuthority(user.getRole().name())),
       attributes,
       id
-      );
-          Authentication securityAuth = new OAuth2AuthenticationToken(
+    );
+    Authentication securityAuth = new OAuth2AuthenticationToken(
       newUser,
       List.of(new SimpleGrantedAuthority(user.getRole().name())),
       oAuth2AuthenticationToken.getAuthorizedClientRegistrationId()
@@ -91,7 +89,7 @@ public class OAuth2LoginSuccessHandler
     this.setDefaultTargetUrl(frontendUrl);
     super.onAuthenticationSuccess(request, response, authentication);
   }
-  
+
   private void addSameSiteCookieAttribute(HttpServletResponse response) {
     Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
     boolean firstHeader = true;
@@ -100,14 +98,14 @@ public class OAuth2LoginSuccessHandler
       if (firstHeader) {
         response.setHeader(
           HttpHeaders.SET_COOKIE,
-          String.format("%s; %s", header, "SameSite=None")
+          String.format("%s; %s", header, "SameSite=Lax")
         );
         firstHeader = false;
         continue;
       }
       response.addHeader(
         HttpHeaders.SET_COOKIE,
-        String.format("%s; %s", header, "SameSite=None")
+        String.format("%s; %s", header, "SameSite=Lax")
       );
     }
   }
