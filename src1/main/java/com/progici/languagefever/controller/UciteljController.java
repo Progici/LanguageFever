@@ -7,6 +7,7 @@ import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljService;
 import com.progici.languagefever.service.Ucitelj_jeziciService;
 import com.progici.languagefever.model.Jezik;
+import java.util.Map;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -138,34 +139,21 @@ public class UciteljController {
   }
 
   @RequestMapping(value = "/ucitelji", method = RequestMethod.POST)
-  public ResponseEntity<Void> addUciteljByKorisnikId(@RequestBody UciteljDTO uciteljDTO) {
+  public ResponseEntity<Void> addUciteljByKorisnikEmai(@RequestBody UciteljDTO uciteljDTO,
+  OAuth2AuthenticationToken authentication) {
     try {
       Ucitelj ucitelj = new Ucitelj();
       ucitelj.setGodineIskustva(uciteljDTO.getGodineIskustva());
       ucitelj.setKvalifikacija(uciteljDTO.getKvalifikacija());
       ucitelj.setStilPoducavanja(uciteljDTO.getStilPoducavanja());
       ucitelj.setSatnica(uciteljDTO.getSatnica());
-      System.out.println(ucitelj.getKvalifikacija());
-      System.out.println(uciteljDTO.toString());
-      System.out.println(uciteljDTO.getIdKorisnik());
-      System.out.println(uciteljDTO.getGodineIskustva());
-      System.out.println(uciteljDTO.getStilPoducavanja());
-      
-      System.out.println(uciteljDTO.getJezici()[0]); 
-      // for (String lan : uciteljDTO.getJezici()) {
-      //   Jezik jezik = jezikService.getJezikByNaziv(lan);
-      //   ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik );
-      //   System.out.println("jezik: " + jezik.getName());
-      // }
-      Jezik jezik = jezikService.getJezikByName(uciteljDTO.getJezici()[0]);
-      System.out.println("jezik: " + jezik.getName());
-      System.out.println("jezik: " + jezik.getName());
-      System.out.println("jezik id: " + jezik.getId()); 
-      uciteljService.addUciteljByKorisnikId(ucitelj, uciteljDTO.getIdKorisnik());
-      ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik);
-     
-      
-      
+      Map<String, Object> attributes = authentication.getPrincipal().getAttributes();
+      String email = (String) attributes.get("email");
+      uciteljService.addUciteljByKorisnikEmail(ucitelj, email);
+      for (String lan : uciteljDTO.getJezici()) {
+        Jezik jezik = jezikService.getJezikByName(lan);
+        ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik );
+      }
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

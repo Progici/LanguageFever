@@ -3,6 +3,7 @@ package com.progici.languagefever.service;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.UcenikJezici;
+import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UceniciRepository;
@@ -44,6 +45,13 @@ public class UcenikService {
       .orElseThrow(() -> new RuntimeException("Korisnik not found"));
     ucenik.setKorisnik(korisnik);
     uceniciRepository.save(ucenik);
+  }
+
+  public void addUcenikByKorisnikEmail(Ucenik ucenik, String email) {
+    Korisnik korisnik = korisniciRepository
+      .findByEmail(email);
+      ucenik.setKorisnik(korisnik);
+      uceniciRepository.save(ucenik);
   }
 
   public void updateUcenikById(Long id, Ucenik ucenik) throws Exception {

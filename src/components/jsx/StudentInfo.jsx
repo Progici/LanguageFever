@@ -18,12 +18,19 @@ function StudentInfo() {
 
   // Opcije za stilove učenja
   const teachingStyles = [
-    { value: "The_Direct_Method", label: "Direktna metoda" },
+    { value: "THE_DIRECT_METHOD", label: "Direktna metoda" },
     {
-      value: "The_Grammar_Translation_Method",
+      value: "THE_GRAMMAR_TRANSLATION_METHOD",
       label: "Metoda gramatičkog prevođenja",
     },
-    { value: "The_Structural_Approach", label: "Strukturni pristup" },
+    { value: "THE_STRUCTURAL_APPROACH", label: "Strukturni pristup" },
+    { value: "SUGGESTOPEDIA", label: "Suggestopedia" },
+    { value: "TOTAL_PHYSICAL_RESPONSE", label: "Akcija i reakcija" },
+    { value: "COMMUNiCATIVE_LANGUAGE_TEACHING", label: "Poučavanje komunikacije i komuniciranja" },
+    { value: "THE_SILENT_WAY", label: "Tihi način učenja" },
+    { value: "THE_NATURAL_APPROACH", label: "Prirodni pristup usvajanju jezika" },
+    { value: "IMMERSION", label: "Uranjanje u jezik" },
+    { value: "THE_LEXICAL_SYLLABUS", label: "Vokabular" },
   ];
 
   // Opcije za jezike

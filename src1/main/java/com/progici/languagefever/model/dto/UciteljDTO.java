@@ -4,20 +4,11 @@ import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
 
 public class UciteljDTO {
-    private Long idKorisnik;
     private String[] jezici;
     private Integer godineIskustva;
     private Kvalifikacija kvalifikacija;
     private Stil stilPoducavanja;
     private Float satnica;
-
-    public Long getIdKorisnik() {
-        return idKorisnik;
-    }
-
-    public void setIdKorisnik(Long idKorisnik) {
-        this.idKorisnik = idKorisnik;
-    }
     public String[] getJezici() {
         return jezici;
     }
@@ -61,7 +52,6 @@ public class UciteljDTO {
     @Override
     public String toString() {
         return "UciteljDTO{" +
-                "idKorisnika=" + idKorisnik +
                 ", jezik=" + String.join(", ", jezici) +
                 ", godineIskustva=" + godineIskustva +
                 ", kvalifikacija=" + kvalifikacija +

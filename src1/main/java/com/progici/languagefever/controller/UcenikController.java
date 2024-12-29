@@ -4,9 +4,15 @@ import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.UcenikJezici;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.UcenikDTO;
+import com.progici.languagefever.service.JezikService;
 import com.progici.languagefever.service.UcenikService;
 import com.progici.languagefever.service.UcenikJeziciService;
 import java.util.List;
+import java.util.Map;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +32,9 @@ public class UcenikController {
 
   @Autowired
   private UcenikService ucenikService;
+
+  @Autowired
+  private JezikService jezikService;
 
   @Autowired
   private UcenikJeziciService ucenik_jeziciService;
@@ -63,6 +72,8 @@ public class UcenikController {
     }
     return ResponseEntity.ok().build();
   }
+
+  
   @DeleteMapping("/izbrisiucenika")
   public ResponseEntity<Void> deleteCurrentUcenik(
     OAuth2AuthenticationToken authentication
@@ -77,6 +88,27 @@ public class UcenikController {
     return ResponseEntity.ok().build();
   }
 
+    @RequestMapping(value = "/ucenici", method = RequestMethod.POST)
+  public ResponseEntity<Void> addUciteljByKorisnikEmai(@RequestBody UcenikDTO ucenikDTO,
+  OAuth2AuthenticationToken authentication) {
+    try {
+      Ucenik ucenik = new Ucenik();
+      ucenik.setRazina(ucenikDTO.getRazina());
+      ucenik.setCiljevi(ucenikDTO.getciljevi());
+      ucenik.setStilUcenja(ucenikDTO.getstilUcenja());
+      Map<String, Object> attributes = authentication.getPrincipal().getAttributes();
+      String email = (String) attributes.get("email");
+      ucenikService.addUcenikByKorisnikEmail(ucenik, email);
+      for (String lan : ucenikDTO.getJezici()) {
+        Jezik jezik = jezikService.getJezikByName(lan);
+        ucenik_jeziciService.addUcenikJezici(ucenik, jezik );
+      }
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    return ResponseEntity.ok().build();
+  }
 
   @RequestMapping("/ucenici")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
