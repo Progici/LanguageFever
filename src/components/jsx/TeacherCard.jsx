@@ -22,14 +22,16 @@ const TeacherCard = ({ teacher }) => {
       {/* Prikazujemo kratke ili duže detalje o učitelju na temelju stanja */}
       {!showDetails ? (
         <div className="short-details">
-          <p>Jezici: {teacher.jezici.join(", ")}</p>{" "}
+          {/* improvizirano */}
+          {/* <p>Jezici: {teacher.jezici.join(", ")}</p>{" "} */}
           {/* Prikazujemo jezike učitelja */}
           <p>Ocjena: 0</p>{" "}
           {/* Ovdje bi trebala biti ocjena učitelja, trenutno statički postavljeno na 0 */}
         </div>
       ) : (
         <div className="long-details">
-          <p>Jezici: {teacher.jezici.join(", ")}</p>{" "}
+           {/* improvizirano */}
+          {/* <p>Jezici: {teacher.jezici.join(", ")}</p>{" "} */}
           {/* Prikazujemo jezike učitelja */}
           <p>Iskustvo: {teacher.godineIskustva} godina</p>{" "}
           {/* Prikazujemo godine iskustva učitelja */}

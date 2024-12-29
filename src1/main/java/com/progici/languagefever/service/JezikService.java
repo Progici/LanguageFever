@@ -25,11 +25,13 @@ public class JezikService {
         return jeziciRepository.findById(id).get();
     }
 
-    public Jezik getJezikByNaziv(String naziv) {
-        return jeziciRepository.findByName(naziv);
+    public Jezik getJezikByName(String name) {
+        return jeziciRepository.findByName(name);
     }
 
-    public void addJezik(Jezik jezik) {
+    public void addJezik(String jezikName) {
+        Jezik jezik = new Jezik();
+        jezik.setName(jezikName);
         jeziciRepository.save(jezik);
     }
 

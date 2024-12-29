@@ -21,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.service.JezikService;
 
 
 @RestController
@@ -31,6 +32,9 @@ public class UciteljController {
 
   @Autowired
   private Ucitelj_jeziciService ucitelj_jeziciService;
+
+  @Autowired
+  private JezikService jezikService;
 
   @Autowired
   private KorisnikController korisnikController;
@@ -141,8 +145,27 @@ public class UciteljController {
       ucitelj.setKvalifikacija(uciteljDTO.getKvalifikacija());
       ucitelj.setStilPoducavanja(uciteljDTO.getStilPoducavanja());
       ucitelj.setSatnica(uciteljDTO.getSatnica());
-      uciteljService.addUciteljByKorisnikId(ucitelj, uciteljDTO.getIdKorisnika());
-      ucitelj_jeziciService.addUcitelj_jezici(ucitelj, uciteljDTO.getJezik());
+      System.out.println(ucitelj.getKvalifikacija());
+      System.out.println(uciteljDTO.toString());
+      System.out.println(uciteljDTO.getIdKorisnik());
+      System.out.println(uciteljDTO.getGodineIskustva());
+      System.out.println(uciteljDTO.getStilPoducavanja());
+      
+      System.out.println(uciteljDTO.getJezici()[0]); 
+      // for (String lan : uciteljDTO.getJezici()) {
+      //   Jezik jezik = jezikService.getJezikByNaziv(lan);
+      //   ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik );
+      //   System.out.println("jezik: " + jezik.getName());
+      // }
+      Jezik jezik = jezikService.getJezikByName(uciteljDTO.getJezici()[0]);
+      System.out.println("jezik: " + jezik.getName());
+      System.out.println("jezik: " + jezik.getName());
+      System.out.println("jezik id: " + jezik.getId()); 
+      uciteljService.addUciteljByKorisnikId(ucitelj, uciteljDTO.getIdKorisnik());
+      ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik);
+     
+      
+      
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

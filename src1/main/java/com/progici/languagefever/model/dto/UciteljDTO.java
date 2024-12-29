@@ -1,30 +1,29 @@
 package com.progici.languagefever.model.dto;
 
-import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
 
 public class UciteljDTO {
-    private Long idKorisnika;
-    private Jezik jezik;
+    private Long idKorisnik;
+    private String[] jezici;
     private Integer godineIskustva;
     private Kvalifikacija kvalifikacija;
     private Stil stilPoducavanja;
     private Float satnica;
 
-    public Long getIdKorisnika() {
-        return idKorisnika;
+    public Long getIdKorisnik() {
+        return idKorisnik;
     }
 
-    public void setIdKorisnika(Long idKorisnika) {
-        this.idKorisnika = idKorisnika;
+    public void setIdKorisnik(Long idKorisnik) {
+        this.idKorisnik = idKorisnik;
     }
-    public Jezik getJezik() {
-        return jezik;
+    public String[] getJezici() {
+        return jezici;
     }
 
-    public void setJezik(Jezik jezik) {
-        this.jezik = jezik;
+    public void setJezici(String[] jezici) {
+        this.jezici = jezici;
     }
 
     public Integer getGodineIskustva() {
@@ -57,5 +56,17 @@ public class UciteljDTO {
 
     public void setSatnica(Float satnica) {
         this.satnica = satnica;
+    }
+
+    @Override
+    public String toString() {
+        return "UciteljDTO{" +
+                "idKorisnika=" + idKorisnik +
+                ", jezik=" + String.join(", ", jezici) +
+                ", godineIskustva=" + godineIskustva +
+                ", kvalifikacija=" + kvalifikacija +
+                ", stilPoducavanja=" + stilPoducavanja +
+                ", satnica=" + satnica +
+                '}';
     }
 }

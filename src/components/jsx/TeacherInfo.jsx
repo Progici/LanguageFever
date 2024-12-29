@@ -14,9 +14,9 @@ function TeacherInfo() {
 
   // Definicija predviđenih vrijednosti za jezike, kvalifikacije i stilove podučavanja
   const languages = [
-    { value: "ENGLISH", label: "ENGLESKI" },
-    { value: "GERMAN", label: "NJEMAČKI" },
-    { value: "SPANISH", label: "ŠPANJOLSKI" },
+    { value: "English", label: "ENGLESKI" },
+    { value: "German", label: "NJEMAČKI" },
+    { value: "Spanish", label: "ŠPANJOLSKI" },
   ];
 
   const qualificationsList = [
@@ -27,12 +27,19 @@ function TeacherInfo() {
   ];
 
   const teachingStyles = [
-    { value: "The_Direct_Method", label: "Direktna metoda" },
+    { value: "THE_DIRECT_METHOD", label: "Direktna metoda" },
     {
-      value: "The_Grammar_Translation_Method",
+      value: "THE_GRAMMAR_TRANSLATION_METHOD",
       label: "Metoda gramatičkog prevođenja",
     },
-    { value: "The_Structural_Approach", label: "Strukturni pristup" },
+    { value: "THE_STRUCTURAL_APPROACH", label: "Strukturni pristup" },
+    { value: "SUGGESTOPEDIA", label: "Suggestopedia" },
+    { value: "TOTAL_PHYSICAL_RESPONSE", label: "Akcija i reakcija" },
+    { value: "COMMUNiCATIVE_LANGUAGE_TEACHING", label: "Poučavanje komunikacije i komuniciranja" },
+    { value: "THE_SILENT_WAY", label: "Tihi način učenja" },
+    { value: "THE_NATURAL_APPROACH", label: "Prirodni pristup usvajanju jezika" },
+    { value: "IMMERSION", label: "Uranjanje u jezik" },
+    { value: "THE_LEXICAL_SYLLABUS", label: "Vokabular" },
   ];
 
   // Funkcija za provjeru da li su svi podaci uneseni
@@ -53,6 +60,7 @@ function TeacherInfo() {
     );
   };
 
+//improvizirano rješenje za teacher
   const [korisnik, setKorisnik] = useState(null);
 
   useEffect(() => {
@@ -66,7 +74,6 @@ function TeacherInfo() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
         setKorisnik(data);
       } catch (error) {
         console.error("Error fetching korisnik:", error);
@@ -76,6 +83,8 @@ function TeacherInfo() {
   }, []);
 
   const idUser = korisnik ? Object.values(korisnik)[0] : null;
+
+//kraj improviziranog rješenja za teacher
 
 
   // Funkcija za slanje podataka na server kada se forma pošalje
