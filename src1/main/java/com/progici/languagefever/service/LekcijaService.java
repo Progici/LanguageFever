@@ -18,13 +18,12 @@ public class LekcijaService {
   @Autowired
   private LekcijaRepository lekcijaRepository;
 
-
   public List<Lekcija> getSveLekcije() {
     List<Lekcija> sveLekcije = new ArrayList<>();
     lekcijaRepository.findAll().forEach(sveLekcije::add);
     return sveLekcije;
   }
-  
+
   public List<Lekcija> getLekcijeByUciteljIdAndByStatusPending(Long id) {
     List<Lekcija> sveLekcije = new ArrayList<>();
     lekcijaRepository
@@ -48,7 +47,6 @@ public class LekcijaService {
       });
     return sveLekcije;
   }
-
 
   public List<Lekcija> getLekcijeByUciteljId(Long id) {
     List<Lekcija> sveLekcije = new ArrayList<>();
@@ -78,7 +76,7 @@ public class LekcijaService {
     return new ArrayList<Ucenik>(jedinstveniUcenici);
   }
 
-  public Lekcija getLekcijaById(Long id) throws Exception{
+  public Lekcija getLekcijaById(Long id) throws Exception {
     return lekcijaRepository.findById(id).get();
   }
 
@@ -87,13 +85,16 @@ public class LekcijaService {
     lekcija.setStatus(Status.ACCEPTED);
     lekcijaRepository.save(lekcija);
   }
+
   public void addLekcija(Lekcija lekcija, Ucitelj ucitelj) throws Exception {
     Lekcija newLekcija = new Lekcija();
     newLekcija.setUcitelj(ucitelj);
-    newLekcija.settimestampPocetka(lekcija.gettimestampPocetka());
+    newLekcija.setTimestampPocetka(lekcija.getTimestampPocetka());
+    newLekcija.setTimestampZavrsetka(lekcija.getTimestampZavrsetka());
     newLekcija.setStatus(Status.AVAILABLE);
     lekcijaRepository.save(newLekcija);
   }
+
   public void addLekcijaExplicit(
     Lekcija lekcija,
     Ucitelj ucitelj,
@@ -102,7 +103,8 @@ public class LekcijaService {
     Lekcija newLekcija = new Lekcija();
     newLekcija.setUcitelj(ucitelj);
     newLekcija.setUcenik(ucenik);
-    newLekcija.settimestampPocetka(lekcija.gettimestampPocetka());
+    newLekcija.setTimestampPocetka(lekcija.getTimestampPocetka());
+    newLekcija.setTimestampZavrsetka(lekcija.getTimestampZavrsetka());
     newLekcija.setStatus(lekcija.getStatus());
     lekcijaRepository.save(newLekcija);
   }
@@ -120,11 +122,12 @@ public class LekcijaService {
     lekcija.setUcenik(null);
     lekcijaRepository.save(lekcija);
   }
+
   public void updateLekcijaById(Long id, Lekcija lekcija) throws Exception {
     Lekcija LekcijaById = getLekcijaById(id);
     LekcijaById.setStatus(lekcija.getStatus());
-    LekcijaById.settimestampPocetka(lekcija.gettimestampPocetka());
-
+    LekcijaById.setTimestampPocetka(lekcija.getTimestampPocetka());
+    LekcijaById.setTimestampZavrsetka(lekcija.getTimestampZavrsetka());
     lekcijaRepository.save(LekcijaById);
   }
 

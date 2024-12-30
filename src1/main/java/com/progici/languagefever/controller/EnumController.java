@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/enums")
 public class EnumController {
 
+  //
+  //  USER ENDPOINTS
+  //
+
   @GetMapping("/statusi")
   public Status[] getAllStatuses() {
     return Status.values();
@@ -31,4 +35,7 @@ public class EnumController {
   public Stil[] getAllStilovi() {
     return Stil.values();
   }
+  //
+  //  ADMIN ENDPOINTS
+  //
 }

@@ -4,6 +4,7 @@ import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.repository.JeziciRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,14 @@ public class JezikService {
     List<Jezik> sviJezici = new ArrayList<>();
     jeziciRepository.findAll().forEach(sviJezici::add);
     return sviJezici;
+  }
+
+  public List<String> getSviJeziciString() {
+    return jeziciRepository
+      .findAll()
+      .stream()
+      .map(Jezik::getName)
+      .collect(Collectors.toList());
   }
 
   public Jezik getJezikById(Long id) {

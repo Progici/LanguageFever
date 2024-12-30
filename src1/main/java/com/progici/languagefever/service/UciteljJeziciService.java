@@ -60,4 +60,10 @@ public class UciteljJeziciService {
         uciteljJeziciRepository.deleteById(uciteljJezici.getId())
       );
   }
+
+  public void deleteJeziciByJezikId(Long JezikId) {
+    uciteljJeziciRepository
+      .findByJezikId(JezikId)
+      .forEach(jezik -> uciteljJeziciRepository.deleteById(jezik.getId()));
+  }
 }

@@ -1,4 +1,5 @@
 package com.progici.languagefever.controller;
+
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
@@ -12,113 +13,96 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 public class OcjenaController {
+
   @Autowired
   private KorisnikController korisnikController;
+
   @Autowired
   private OcjenaService ocjenaService;
+
   @Autowired
   private UciteljService uciteljService;
+
   @Autowired
   private UcenikService ucenikService;
+
   @Autowired
   private LekcijaService lekcijaService;
-  @RequestMapping("/mojeocjene")
+
+  @Autowired
+  private UciteljController uciteljController;
+
+  @Autowired
+  private UcenikController ucenikController;
+
+  //
+  //  USER ENDPOINTS
+  //
+
+  @GetMapping("/mojeocjene")
   public List<Ocjena> getSveMojeOcjene(
     OAuth2AuthenticationToken authentication
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return null;
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik == null) return null;
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
     return ocjenaService.getOcjeneByUcenikId(ucenik.getId());
   }
-  @RequestMapping("/mojeocjene/{idUcitelja}")
+
+  @GetMapping("/mojeocjene/{idUcitelja}")
   public List<Ocjena> getSveMojeOcjeneByCertainUciteljId(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idUcitelja
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return null;
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik == null) return null;
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
     return ocjenaService
       .getOcjeneByUcenikId(ucenik.getId())
       .stream()
       .filter(ocjena -> ocjena.getUcitelj().getId().equals(idUcitelja))
       .collect(Collectors.toList());
   }
-  @RequestMapping("/ocjene")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ocjena> getSveOcjene() {
-    return ocjenaService.getSveOcjene();
-  }
-  @RequestMapping("/ocjene/{id}")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public Ocjena getOcjenaById(@PathVariable Long id) {
-    try {
-      return ocjenaService.getOcjenaById(id);
-    } catch (Exception e) {
-      return null;
-    }
-  }
-  @RequestMapping("/ucitelji/{id}/ocjene")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ocjena> getOcjeneByUciteljId(@PathVariable Long id) {
-    return ocjenaService.getOcjeneByUciteljId(id);
-  }
-  @RequestMapping("/ucenici/{id}/ocjene")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ocjena> getOcjeneByUcenikId(@PathVariable Long id) {
-    return ocjenaService.getOcjeneByUcenikId(id);
-  }
+
   @SuppressWarnings("unlikely-arg-type")
-  @RequestMapping(
-    value = "/mojeocjene/{idUcitelja}",
-    method = RequestMethod.POST
-  )
+  @PostMapping("/mojeocjene/{idUcitelja}")
   public ResponseEntity<Void> addMojaOcjena(
     OAuth2AuthenticationToken authentication,
     @RequestBody Ocjena ocjena,
     @PathVariable Long idUcitelja
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (
-      lekcijaService
-        .getLekcijeByUcenikId(ucenik.getId())
-        .contains(lekcijaService.getLekcijeByUciteljId(idUcitelja))
-    ) try {
-      ocjena.setUcenik(ucenik);
-      ocjena.setUcitelj(uciteljService.getUciteljById(idUcitelja));
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    try {
+      if (
+        lekcijaService
+          .getLekcijeByUcenikId(ucenik.getId())
+          .contains(lekcijaService.getLekcijeByUciteljId(idUcitelja))
+      ) {
+        ocjena.setUcenik(ucenik);
+        ocjena.setUcitelj(uciteljService.getUciteljById(idUcitelja));
+        ocjenaService.addOcjena(ocjena);
+      } else return ResponseEntity.badRequest().build();
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
-    ocjenaService.addOcjena(ocjena);
+
     return ResponseEntity.ok().build();
   }
-  @RequestMapping(value = "/mojeocjene/{id}", method = RequestMethod.PUT)
+
+  @PutMapping("/mojeocjene/{id}")
   public ResponseEntity<Void> updateMojaOcjenaById(
     OAuth2AuthenticationToken authentication,
     @RequestBody Ocjena ocjena,
     @PathVariable Long id
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+
     try {
       if (
         ocjenaService
@@ -132,32 +116,61 @@ public class OcjenaController {
     }
     return ResponseEntity.ok().build();
   }
-  @RequestMapping(value = "/mojeocjene/{id}", method = RequestMethod.DELETE)
+
+  @DeleteMapping("/mojeocjene/{id}")
   public ResponseEntity<Void> DeleteMojaOcjenaById(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long id
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik == null) return ResponseEntity.badRequest().build();
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+
     try {
       if (
         ocjenaService
           .getOcjeneByUcenikId(ucenik.getId())
           .contains(ocjenaService.getOcjenaById(id))
-      ) ocjenaService.deleteOcjenaById(id);
+      ) ocjenaService.deleteOcjenaById(id); else return ResponseEntity
+        .badRequest()
+        .build();
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
     return ResponseEntity.ok().build();
   }
-  @RequestMapping(
-    value = "/ocjene/{idUcitelja}/{idUcenika}",
-    method = RequestMethod.POST
-  )
+
+  //
+  //  ADMIN ENDPOINTS
+  //
+
+  @GetMapping("/ocjene")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public List<Ocjena> getSveOcjene() {
+    return ocjenaService.getSveOcjene();
+  }
+
+  @GetMapping("/ocjene/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public Ocjena getOcjenaById(@PathVariable Long id) {
+    try {
+      return ocjenaService.getOcjenaById(id);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  @GetMapping("/ucitelji/{id}/ocjene")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public List<Ocjena> getOcjeneByUciteljId(@PathVariable Long id) {
+    return ocjenaService.getOcjeneByUciteljId(id);
+  }
+
+  @GetMapping("/ucenici/{id}/ocjene")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public List<Ocjena> getOcjeneByUcenikId(@PathVariable Long id) {
+    return ocjenaService.getOcjeneByUcenikId(id);
+  }
+
+  @PostMapping("/ocjene/{idUcitelja}/{idUcenika}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> addOcjena(
     @RequestBody Ocjena ocjena,
@@ -167,13 +180,14 @@ public class OcjenaController {
     try {
       ocjena.setUcitelj(uciteljService.getUciteljById(idUcitelja));
       ocjena.setUcenik(ucenikService.getUcenikById(idUcenika));
+      ocjenaService.addOcjena(ocjena);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
-    ocjenaService.addOcjena(ocjena);
     return ResponseEntity.ok().build();
   }
-  @RequestMapping(value = "/ocjene/{id}", method = RequestMethod.PUT)
+
+  @PutMapping("/ocjene/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> updateOcjenaById(
     @RequestBody Ocjena ocjena,
@@ -186,12 +200,14 @@ public class OcjenaController {
     }
     return ResponseEntity.ok().build();
   }
-  @RequestMapping(value = "/ocjene/{id}", method = RequestMethod.DELETE)
+
+  @DeleteMapping("/ocjene/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteOcjenaById(@PathVariable Long id) {
     ocjenaService.deleteOcjenaById(id);
   }
-  @RequestMapping(value = "/ocjene/deleteall", method = RequestMethod.DELETE)
+
+  @DeleteMapping("/ocjene/deleteall")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteOcjenaAll() {
     ocjenaService.deleteOcjenaAll();

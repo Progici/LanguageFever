@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,16 +30,27 @@ public class LekcijaController {
 
   @Autowired
   private KorisnikController korisnikController;
+
   @Autowired
   private UciteljService uciteljService;
+
+  @Autowired
+  private UciteljController uciteljController;
+
+  @Autowired
+  private UcenikController ucenikController;
+
   @Autowired
   private UcenikService ucenikService;
+
+  //
+  //  USER ENDPOINTS
+  //
+
   @GetMapping("/mojelekcije")
   public List<Lekcija> getLekcije(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return null;
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
+
     List<Lekcija> lista = new ArrayList<>();
     Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
     if (ucitelj != null) lista.addAll(
@@ -54,108 +63,41 @@ public class LekcijaController {
     return lista;
   }
 
-  @GetMapping("/ucitelji/{id}/dovrsenelekcije")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Lekcija> getLekcijeFinishedByUciteljId(@PathVariable Long id) {
-    List<Lekcija> lista = new ArrayList<>();
-    Ucitelj ucitelj;
-    try {
-      ucitelj = uciteljService.getUciteljById(id);
-    } catch (Exception e) {
-      ucitelj = null;
-    }
-    if (ucitelj != null) lista.addAll(
-      lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(ucitelj.getId())
-    );
-    return lista;
-  }
-  @GetMapping("/ucitelji/{id}/dovrsenelekcijebroj")
-  public Long getLekcijeFinishedBrojByUciteljId(@PathVariable Long id) {
-    List<Lekcija> lista = new ArrayList<>();
-    lista.addAll(getLekcijeFinishedByUciteljId(id));
-    return (long) lista.size();
-  }
-  @GetMapping("/ucitelji/{id}/poducavaniucenici")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ucenik> getPoducavaniUceniciByUciteljId(@PathVariable Long id) {
-    List<Ucenik> lista = new ArrayList<>();
-    Ucitelj ucitelj;
-    try {
-      ucitelj = uciteljService.getUciteljById(id);
-    } catch (Exception e) {
-      ucitelj = null;
-    }
-    if (ucitelj != null) lista.addAll(
-      lekcijaService.getUceniciByUciteljIdAndByLekcijaStatusFinished(
-        ucitelj.getId()
-      )
-    );
-    return lista;
-  }
-  @GetMapping("/ucitelji/{id}/poducavaniucenicibroj")
-  public Long getPoducavaniUceniciBrojByUciteljId(@PathVariable Long id) {
-    List<Ucenik> lista = new ArrayList<>();
-    lista.addAll(getPoducavaniUceniciByUciteljId(id));
-    return (long) lista.size();
-  }
-
-  
   @GetMapping("/mojelekcije/ucitelj")
   public List<Lekcija> getLekcijeUcitelj(
     OAuth2AuthenticationToken authentication
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return null;
-    List<Lekcija> lista = new ArrayList<>();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj != null) lista.addAll(
-      lekcijaService.getLekcijeByUciteljId(ucitelj.getId())
-    );
-    return lista;
+    Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
+
+    return lekcijaService.getLekcijeByUciteljId(ucitelj.getId());
   }
+
   @GetMapping("/mojelekcije/ucitelj/novizahtjevi")
   public List<Lekcija> getLekcijeUciteljNoviZahtjevi(
     OAuth2AuthenticationToken authentication
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
+    Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
+
+    return lekcijaService.getLekcijeByUciteljIdAndByStatusPending(
+      ucitelj.getId()
     );
-    if (korisnik == null) return null;
-    List<Lekcija> lista = new ArrayList<>();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj != null) lista.addAll(
-      lekcijaService.getLekcijeByUciteljIdAndByStatusPending(ucitelj.getId())
-    );
-    return lista;
   }
+
   @GetMapping("/mojelekcije/ucenik")
   public List<Lekcija> getLekcijeUcenik(
     OAuth2AuthenticationToken authentication
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return null;
-    List<Lekcija> lista = new ArrayList<>();
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik != null) lista.addAll(
-      lekcijaService.getLekcijeByUcenikId(ucenik.getId())
-    );
-    return lista;
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+
+    return lekcijaService.getLekcijeByUcenikId(ucenik.getId());
   }
+
   @PostMapping("/dodajlekciju")
   public ResponseEntity<Void> addLekcijaUcitelj(
     OAuth2AuthenticationToken authentication,
     @RequestBody Lekcija lekcija
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj == null) return ResponseEntity.badRequest().build();
+    Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
     try {
       lekcijaService.addLekcija(lekcija, ucitelj);
     } catch (Exception e) {
@@ -163,17 +105,13 @@ public class LekcijaController {
     }
     return ResponseEntity.ok().build();
   }
+
   @PutMapping("/rezervirajlekciju/{idLekcije}")
   public ResponseEntity<Void> reservationLekcija(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idLekcije
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik == null) return ResponseEntity.badRequest().build();
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
     try {
       lekcijaService.rezervirajLekciju(idLekcije, ucenik);
     } catch (Exception e) {
@@ -181,17 +119,13 @@ public class LekcijaController {
     }
     return ResponseEntity.ok().build();
   }
+
   @PutMapping("/prihvatirezervacijulekcije/{idLekcije}")
   public ResponseEntity<Void> acceptReservationLekcijaUcitelj(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idLekcije
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj == null) return ResponseEntity.badRequest().build();
+    Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
     Lekcija lekcija;
     try {
       lekcija = lekcijaService.getLekcijaById(idLekcije);
@@ -210,15 +144,13 @@ public class LekcijaController {
     }
     return ResponseEntity.ok().build();
   }
+
   @PutMapping("/otkazirezervacijulekcije/{idLekcije}")
   public ResponseEntity<Void> cancelReservationLekcije(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idLekcije
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
     Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
     Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
     try {
@@ -240,17 +172,13 @@ public class LekcijaController {
     }
     return ResponseEntity.ok().build();
   }
+
   @DeleteMapping("/izbrisimojulekciju/{idLekcije}")
   public ResponseEntity<Void> deleteLekcijaUcitelj(
     OAuth2AuthenticationToken authentication,
     @PathVariable Long idLekcije
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-    if (korisnik == null) return ResponseEntity.badRequest().build();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj == null) return ResponseEntity.badRequest().build();
+    Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
     try {
       if (
         lekcijaService
@@ -263,13 +191,17 @@ public class LekcijaController {
     return ResponseEntity.ok().build();
   }
 
-  @RequestMapping("/lekcije")
+  //
+  //  ADMIN ENDPOINTS
+  //
+
+  @GetMapping("/lekcije")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<Lekcija> getSveLekcije() {
     return lekcijaService.getSveLekcije();
   }
 
-  @RequestMapping("/lekcije/{id}")
+  @GetMapping("/lekcije/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Lekcija getLekcijaById(@PathVariable Long id) {
     try {
@@ -277,25 +209,21 @@ public class LekcijaController {
     } catch (Exception e) {
       return null;
     }
-
   }
 
-  @RequestMapping("/ucitelji/{id}/lekcije")
+  @GetMapping("/ucitelji/{id}/lekcije")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<Lekcija> getLekcijeByUciteljId(@PathVariable Long id) {
     return lekcijaService.getLekcijeByUciteljId(id);
   }
 
-  @RequestMapping("/ucenici/{id}/lekcije")
+  @GetMapping("/ucenici/{id}/lekcije")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<Lekcija> getLekcijeByUcenikId(@PathVariable Long id) {
     return lekcijaService.getLekcijeByUcenikId(id);
   }
 
-  @RequestMapping(
-    value = "/lekcije/{idUcitelja}/{idUcenika}",
-    method = RequestMethod.POST
-  )
+  @PostMapping("/lekcije/{idUcitelja}/{idUcenika}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> addLekcija(
     @RequestBody Lekcija lekcija,
@@ -314,7 +242,7 @@ public class LekcijaController {
     return ResponseEntity.ok().build();
   }
 
-  @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.PUT)
+  @PutMapping("/lekcije/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> updateLekcijaById(
     @RequestBody Lekcija lekcija,
@@ -328,15 +256,15 @@ public class LekcijaController {
     return ResponseEntity.ok().build();
   }
 
-  @RequestMapping(value = "/lekcije/{id}", method = RequestMethod.DELETE)
+  @DeleteMapping("/lekcije/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteLekcijaById(@PathVariable Long id) {
     lekcijaService.deleteLekcijaById(id);
   }
-  @RequestMapping(value = "/lekcije/deleteall", method = RequestMethod.DELETE)
+
+  @DeleteMapping("/lekcije/deleteall")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteLekcijaAll() {
     lekcijaService.deleteLekcijaAll();
   }
-
 }

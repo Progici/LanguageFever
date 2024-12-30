@@ -42,11 +42,14 @@ public class KorisnikService {
 
   public void updateKorisnikById(Long id, Korisnik korisnik) throws Exception {
     Korisnik korisnikById = getKorisnikById(id);
-    //namjerno stavljeno da je email nepromjenjiv
-    //korisnikById.setEmail(korisnik.getEmail());
     korisnikById.setName(korisnik.getName());
     korisnikById.setPicture(korisnik.getPicture());
-    korisnikById.setRole(korisnik.getRole());
+    korisniciRepository.save(korisnikById);
+  }
+
+  public void setRoleToKorisnikById(Long id, Role role) throws Exception {
+    Korisnik korisnikById = getKorisnikById(id);
+    korisnikById.setRole(role);
     korisniciRepository.save(korisnikById);
   }
 

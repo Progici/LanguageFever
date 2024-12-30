@@ -1,9 +1,6 @@
 package com.progici.languagefever.service;
 
-import com.progici.languagefever.model.Jezik;
-import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UciteljiRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +12,6 @@ public class UciteljService {
 
   @Autowired
   private UciteljiRepository uciteljiRepository;
-
-  @Autowired
-  private KorisniciRepository korisniciRepository;
 
   public List<Ucitelj> getSviUcitelji() {
     List<Ucitelj> sviUcitelji = new ArrayList<>();
@@ -33,19 +27,13 @@ public class UciteljService {
     return uciteljiRepository.findByKorisnikId(id);
   }
 
-  public void addUciteljByKorisnikId(Ucitelj ucitelj, Long idKorisnika)
-    throws Exception {
-    Korisnik korisnik = korisniciRepository
-      .findById(idKorisnika)
-      .orElseThrow(() -> new RuntimeException("Korisnik not found"));
-    ucitelj.setKorisnik(korisnik);
+  public void addUcitelj(Ucitelj ucitelj) {
     uciteljiRepository.save(ucitelj);
   }
 
-  public void updateUciteljById(Long id, Ucitelj ucitelj) throws Exception {
-    Ucitelj UciteljById = getUciteljById(id);
+  public void updateUciteljByKorisnikId(Long id, Ucitelj ucitelj) {
+    Ucitelj UciteljById = getUciteljByKorisnikId(id);
     UciteljById.setGodineIskustva(ucitelj.getGodineIskustva());
-    UciteljById.setKorisnik(ucitelj.getKorisnik());
     UciteljById.setKvalifikacija(ucitelj.getKvalifikacija());
     UciteljById.setSatnica(ucitelj.getSatnica());
     UciteljById.setStilPoducavanja(ucitelj.getStilPoducavanja());
@@ -54,15 +42,5 @@ public class UciteljService {
 
   public void deleteUciteljById(Long id) {
     uciteljiRepository.deleteById(id);
-  }
-
-  public void deleteUciteljAll() {
-    uciteljiRepository.deleteAll();
-  }
-
-  public void addUciteljByKorisnikEmail(Ucitelj ucitelj, String email) {
-    Korisnik korisnik = korisniciRepository.findByEmail(email);
-    ucitelj.setKorisnik(korisnik);
-    uciteljiRepository.save(ucitelj);
   }
 }

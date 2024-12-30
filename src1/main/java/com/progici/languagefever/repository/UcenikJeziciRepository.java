@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UcenikJeziciRepository
   extends JpaRepository<UcenikJezici, Long> {
   public List<UcenikJezici> findByUcenikId(Long id);
+
+  public List<UcenikJezici> findByJezikId(Long id);
 }

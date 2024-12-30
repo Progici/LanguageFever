@@ -41,15 +41,10 @@ public class UcenikController {
   //
 
   @GetMapping("/trenutniucenik")
-  public UcenikDTO getCurrentUcenik(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
+  public UcenikDTO getCurrentUcenikDTO(
+    OAuth2AuthenticationToken authentication
+  ) {
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
 
     Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
 
@@ -67,18 +62,11 @@ public class UcenikController {
   }
 
   @PostMapping("/azurirajucenika")
-  public void updateCurrentUcenik(
+  public void updateCurrentUcenikDTO(
     OAuth2AuthenticationToken authentication,
     @RequestBody UcenikDTO ucenikDTO
   ) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
 
     Ucenik trenutniUcenik = ucenikService.getUcenikByKorisnikId(
       korisnik.getId()
@@ -114,22 +102,7 @@ public class UcenikController {
 
   @DeleteMapping("/izbrisiucenika")
   public void deleteCurrentUcenik(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getKorisnikFromOAuth2AuthenticationToken(
-      authentication
-    );
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-
-    if (ucenik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucenik not found"
-    );
-
+    Ucenik ucenik = getCurrentUcenik(authentication);
     ucenikJeziciService.deleteJeziciByUcenikId(ucenik.getId());
     ucenikService.deleteUcenikById(ucenik.getId());
   }
@@ -262,5 +235,18 @@ public class UcenikController {
 
     ucenikJeziciService.deleteJeziciByUcenikId(ucenik.getId());
     ucenikService.deleteUcenikById(ucenik.getId());
+  }
+
+  public Ucenik getCurrentUcenik(OAuth2AuthenticationToken authentication) {
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
+
+    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
+
+    if (ucenik == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Ucenik not found"
+    );
+
+    return ucenik;
   }
 }

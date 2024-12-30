@@ -44,14 +44,6 @@ public class Lekcija {
     this.id = id;
   }
 
-  public Ucenik getUcenik() {
-    return ucenik;
-  }
-
-  public void setUcenik(Ucenik ucenik) {
-    this.ucenik = ucenik;
-  }
-
   public Ucitelj getUcitelj() {
     return ucitelj;
   }
@@ -60,11 +52,19 @@ public class Lekcija {
     this.ucitelj = ucitelj;
   }
 
-  public Timestamp gettimestampPocetka() {
+  public Ucenik getUcenik() {
+    return ucenik;
+  }
+
+  public void setUcenik(Ucenik ucenik) {
+    this.ucenik = ucenik;
+  }
+
+  public Timestamp getTimestampPocetka() {
     return timestampPocetka;
   }
 
-  public void settimestampPocetka(Timestamp timestampPocetka) {
+  public void setTimestampPocetka(Timestamp timestampPocetka) {
     this.timestampPocetka = timestampPocetka;
   }
 
