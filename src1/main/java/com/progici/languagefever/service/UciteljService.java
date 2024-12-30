@@ -60,9 +60,8 @@ public class UciteljService {
     uciteljiRepository.deleteAll();
   }
 
-public void addUciteljByKorisnikEmail(Ucitelj ucitelj, String email) {
-    Korisnik korisnik = korisniciRepository
-      .findByEmail(email);
+  public void addUciteljByKorisnikEmail(Ucitelj ucitelj, String email) {
+    Korisnik korisnik = korisniciRepository.findByEmail(email);
     ucitelj.setKorisnik(korisnik);
     uciteljiRepository.save(ucitelj);
   }

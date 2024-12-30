@@ -69,4 +69,19 @@ public class Korisnik {
   public void setRole(Role role) {
     this.role = role;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Korisnik [id=" +
+      id +
+      ", name=" +
+      name +
+      ", email=" +
+      email +
+      ", role=" +
+      role +
+      "]"
+    );
+  }
 }

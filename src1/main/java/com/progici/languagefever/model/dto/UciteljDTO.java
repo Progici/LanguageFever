@@ -2,20 +2,35 @@ package com.progici.languagefever.model.dto;
 
 import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
+import java.util.List;
 
 public class UciteljDTO {
 
-  private String[] jezici;
+  private List<String> jezici;
   private Integer godineIskustva;
   private Kvalifikacija kvalifikacija;
   private Stil stilPoducavanja;
   private Float satnica;
 
-  public String[] getJezici() {
+  public UciteljDTO(
+    List<String> jezici,
+    Integer godineIskustva,
+    Kvalifikacija kvalifikacija,
+    Stil stilPoducavanja,
+    Float satnica
+  ) {
+    this.jezici = jezici;
+    this.godineIskustva = godineIskustva;
+    this.kvalifikacija = kvalifikacija;
+    this.stilPoducavanja = stilPoducavanja;
+    this.satnica = satnica;
+  }
+
+  public List<String> getJezici() {
     return jezici;
   }
 
-  public void setJezici(String[] jezici) {
+  public void setJezici(List<String> jezici) {
     this.jezici = jezici;
   }
 
@@ -54,9 +69,8 @@ public class UciteljDTO {
   @Override
   public String toString() {
     return (
-      "UciteljDTO{" +
-      ", jezik=" +
-      String.join(", ", jezici) +
+      "UciteljDTO [jezici=" +
+      jezici +
       ", godineIskustva=" +
       godineIskustva +
       ", kvalifikacija=" +
@@ -65,7 +79,7 @@ public class UciteljDTO {
       stilPoducavanja +
       ", satnica=" +
       satnica +
-      '}'
+      "]"
     );
   }
 }

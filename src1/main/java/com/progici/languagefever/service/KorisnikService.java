@@ -1,9 +1,9 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.enums.Role;
 import com.progici.languagefever.repository.KorisniciRepository;
 import java.util.ArrayList;
-import com.progici.languagefever.model.enums.Role;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,6 @@ public class KorisnikService {
 
   @Autowired
   private KorisniciRepository korisniciRepository;
-
-
 
   public List<Korisnik> getSviKorisnici() {
     List<Korisnik> sviKorisnici = new ArrayList<>();
@@ -29,6 +27,7 @@ public class KorisnikService {
   public List<Korisnik> getAllAdminRoles() {
     return korisniciRepository.findByRole(Role.ROLE_ADMIN);
   }
+
   public List<Korisnik> getAllUserRoles() {
     return korisniciRepository.findByRole(Role.ROLE_USER);
   }

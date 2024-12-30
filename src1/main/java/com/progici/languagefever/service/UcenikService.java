@@ -2,14 +2,9 @@ package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucenik;
-import com.progici.languagefever.model.UcenikJezici;
-import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.repository.KorisniciRepository;
 import com.progici.languagefever.repository.UceniciRepository;
 import com.progici.languagefever.repository.UcenikJeziciRepository;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +42,22 @@ public class UcenikService {
     uceniciRepository.save(ucenik);
   }
 
+  public void addUcenik(Ucenik ucenik) {
+    uceniciRepository.save(ucenik);
+  }
+
+  public void updateUcenikByKorisnikId(Long id, Ucenik ucenik) {
+    Ucenik UcenikById = getUcenikByKorisnikId(id);
+    UcenikById.setCiljevi(ucenik.getCiljevi());
+    UcenikById.setRazina(ucenik.getRazina());
+    UcenikById.setStilUcenja(ucenik.getStilUcenja());
+    uceniciRepository.save(UcenikById);
+  }
+
   public void addUcenikByKorisnikEmail(Ucenik ucenik, String email) {
-    Korisnik korisnik = korisniciRepository
-      .findByEmail(email);
-      ucenik.setKorisnik(korisnik);
-      uceniciRepository.save(ucenik);
+    Korisnik korisnik = korisniciRepository.findByEmail(email);
+    ucenik.setKorisnik(korisnik);
+    uceniciRepository.save(ucenik);
   }
 
   public void updateUcenikById(Long id, Ucenik ucenik) throws Exception {

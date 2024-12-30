@@ -30,18 +30,6 @@ public class Poruka {
 
   public Poruka() {}
 
-  public Poruka(
-    Korisnik sender,
-    Korisnik receiver,
-    Timestamp timestampPoruke,
-    String sadrzaj
-  ) {
-    this.sender = sender;
-    this.receiver = receiver;
-    this.timestampPoruke = timestampPoruke;
-    this.sadrzaj = sadrzaj;
-  }
-
   public Long getId() {
     return id;
   }

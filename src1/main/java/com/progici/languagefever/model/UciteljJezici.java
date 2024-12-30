@@ -17,8 +17,8 @@ public class UciteljJezici {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "Ucitelj_id")
-  private Ucitelj Ucitelj;
+  @JoinColumn(name = "ucitelj_id")
+  private Ucitelj ucitelj;
 
   @ManyToOne
   @JoinColumn(name = "jezik_id")
@@ -26,21 +26,16 @@ public class UciteljJezici {
 
   public UciteljJezici() {}
 
-  public UciteljJezici(Ucitelj Ucitelj, Jezik jezik) {
-    this.Ucitelj = Ucitelj;
-    this.jezik = jezik;
-  }
-
   public Long getId() {
     return id;
   }
 
   public Ucitelj getUcitelj() {
-    return Ucitelj;
+    return ucitelj;
   }
 
   public void setUcitelj(Ucitelj Ucitelj) {
-    this.Ucitelj = Ucitelj;
+    this.ucitelj = Ucitelj;
   }
 
   public Jezik getJezik() {

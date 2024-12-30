@@ -1,16 +1,21 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.Jezik;
+import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.dto.UciteljDTO;
-import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.service.JezikService;
 import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
-import com.progici.languagefever.service.Ucitelj_jeziciService;
-import com.progici.languagefever.model.Jezik;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,21 +23,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.service.JezikService;
-
 
 @RestController
 public class UciteljController {
 
   @Autowired
   private UciteljService uciteljService;
-
-  @Autowired
-  private Ucitelj_jeziciService ucitelj_jeziciService;
 
   @Autowired
   private JezikService jezikService;
@@ -51,7 +47,6 @@ public class UciteljController {
     return uciteljService.getUciteljByKorisnikId(korisnik.getId());
   }
 
-  
   @PostMapping("/azurirajucitelja")
   public ResponseEntity<Void> updateCurrentUcitelj(
     OAuth2AuthenticationToken authentication,
@@ -90,7 +85,6 @@ public class UciteljController {
     return lista;
   }
 
-
   @DeleteMapping("/izbrisiucitelja")
   public ResponseEntity<Void> deleteCurrentUcitelj(
     OAuth2AuthenticationToken authentication
@@ -104,7 +98,6 @@ public class UciteljController {
     uciteljService.deleteUciteljById(ucitelj.getId());
     return ResponseEntity.ok().build();
   }
-
 
   @RequestMapping("/ucitelji")
   public List<Ucitelj> getSviUcitelji() {
@@ -139,20 +132,24 @@ public class UciteljController {
   }
 
   @RequestMapping(value = "/ucitelji", method = RequestMethod.POST)
-  public ResponseEntity<Void> addUciteljByKorisnikEmai(@RequestBody UciteljDTO uciteljDTO,
-  OAuth2AuthenticationToken authentication) {
+  public ResponseEntity<Void> addUciteljByKorisnikEmai(
+    @RequestBody UciteljDTO uciteljDTO,
+    OAuth2AuthenticationToken authentication
+  ) {
     try {
       Ucitelj ucitelj = new Ucitelj();
       ucitelj.setGodineIskustva(uciteljDTO.getGodineIskustva());
       ucitelj.setKvalifikacija(uciteljDTO.getKvalifikacija());
       ucitelj.setStilPoducavanja(uciteljDTO.getStilPoducavanja());
       ucitelj.setSatnica(uciteljDTO.getSatnica());
-      Map<String, Object> attributes = authentication.getPrincipal().getAttributes();
+      Map<String, Object> attributes = authentication
+        .getPrincipal()
+        .getAttributes();
       String email = (String) attributes.get("email");
       uciteljService.addUciteljByKorisnikEmail(ucitelj, email);
       for (String lan : uciteljDTO.getJezici()) {
         Jezik jezik = jezikService.getJezikByName(lan);
-        ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik );
+        // ucitelj_jeziciService.addUcitelj_jezici(ucitelj, jezik );
       }
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
@@ -161,7 +158,6 @@ public class UciteljController {
     return ResponseEntity.ok().build();
   }
 
-  
   @RequestMapping(value = "/ucitelji/{id}", method = RequestMethod.PUT)
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> updateUciteljById(
@@ -170,7 +166,6 @@ public class UciteljController {
   ) {
     try {
       uciteljService.updateUciteljById(id, ucitelj);
-      
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
