@@ -98,7 +98,7 @@ public class OcjenaController {
     if (
       lekcijaService
         .getLekcijeByUcenikId(ucenik.getId())
-        .contains(lekcijaService.getLekcijeByUciteljId(idUcitelja))
+        .contains(lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(idUcitelja))
     ) try {
       ocjena.setUcenik(ucenik);
       ocjena.setUcitelj(uciteljService.getUciteljById(idUcitelja));

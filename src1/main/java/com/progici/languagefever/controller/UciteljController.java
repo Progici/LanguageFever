@@ -5,7 +5,7 @@ import com.progici.languagefever.model.dto.UciteljDTO;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljService;
-import com.progici.languagefever.service.Ucitelj_jeziciService;
+import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.model.Jezik;
 import java.util.Map;
 import java.util.List;
@@ -32,7 +32,7 @@ public class UciteljController {
   private UciteljService uciteljService;
 
   @Autowired
-  private Ucitelj_jeziciService ucitelj_jeziciService;
+  private UciteljJeziciService ucitelj_jeziciService;
 
   @Autowired
   private JezikService jezikService;

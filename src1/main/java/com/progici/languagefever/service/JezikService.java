@@ -1,7 +1,6 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Jezik;
-import com.progici.languagefever.model.enums.Jezici;
 import com.progici.languagefever.repository.JeziciRepository;
 import java.util.ArrayList;
 import java.util.List;

@@ -31,10 +31,8 @@ public class JeziciController {
         return jezikService.getSviJezici();
     }
 
-    @RequestMapping(
-        value = "/jezici",
-        method = RequestMethod.POST
-    )
+    @RequestMapping(value = "/jezici",method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> addJByKorisnikId(
         @RequestBody String jezikName
     ) {

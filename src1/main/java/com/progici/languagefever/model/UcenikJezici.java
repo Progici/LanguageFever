@@ -1,5 +1,6 @@
 package com.progici.languagefever.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,10 +18,12 @@ public class UcenikJezici {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "ucenik_id")
+    @Column(nullable = false)
     private Ucenik ucenik;
 
     @ManyToOne
     @JoinColumn(name = "jezik_id")
+    @Column(nullable = false)
     private Jezik jezik;
 
     public UcenikJezici() {}
