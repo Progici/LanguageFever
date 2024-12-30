@@ -1,6 +1,5 @@
 package com.progici.languagefever.controller;
 
-import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.service.LekcijaService;
@@ -19,13 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 public class OcjenaController {
-
-  @Autowired
-  private KorisnikController korisnikController;
 
   @Autowired
   private OcjenaService ocjenaService;
@@ -38,9 +32,6 @@ public class OcjenaController {
 
   @Autowired
   private LekcijaService lekcijaService;
-
-  @Autowired
-  private UciteljController uciteljController;
 
   @Autowired
   private UcenikController ucenikController;
@@ -68,6 +59,23 @@ public class OcjenaController {
       .stream()
       .filter(ocjena -> ocjena.getUcitelj().getId().equals(idUcitelja))
       .collect(Collectors.toList());
+  }
+
+  @GetMapping("/ucitelji/{id}/ocjene")
+  public List<Ocjena> getOcjeneByUciteljId(@PathVariable Long id) {
+    return ocjenaService.getOcjeneByUciteljId(id);
+  }
+
+  @GetMapping("/ucitelji/{id}/ocjenebroj")
+  public Long getOcjeneBrojByUciteljId(@PathVariable Long id) {
+    return (long) ocjenaService.getOcjeneByUciteljId(id).size();
+  }
+
+  @GetMapping("/ucitelji/{id}/ocjeneaverage")
+  public double getProsjecnaOcjenaByUciteljId(@PathVariable Long id) {
+    List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(id);
+
+    return ocjene.stream().mapToInt(Ocjena::getOcjena).average().orElse(0.0);
   }
 
   @SuppressWarnings("unlikely-arg-type")
@@ -156,12 +164,6 @@ public class OcjenaController {
     } catch (Exception e) {
       return null;
     }
-  }
-
-  @GetMapping("/ucitelji/{id}/ocjene")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ocjena> getOcjeneByUciteljId(@PathVariable Long id) {
-    return ocjenaService.getOcjeneByUciteljId(id);
   }
 
   @GetMapping("/ucenici/{id}/ocjene")
