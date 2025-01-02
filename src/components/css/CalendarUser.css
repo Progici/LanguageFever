@@ -1,17 +1,52 @@
-/* Centriranje kalendara */
 .calendar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Visina ekrana */
-    background-color: #f5f5f5; /* Pozadinska boja za bolji kontrast */
-  }
-  
-  .react-calendar {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background: white;
-    padding: 10px;
-  }
-  
+  display: flex;
+  justify-content: center; /* Centriranje horizontalno */
+  align-items: center;     /* Centriranje vertikalno */
+  height: 100vh;          /* Puni visinu ekrana */
+  padding-top: 55px;     /* Gornja margina od 20px */
+}
+
+.fc {
+  max-width: 1000px;        /* Maksimalna širina kalendara */
+  width: 85%;               /* Širina kalendara će biti 85% širine prozora */
+  max-height: 900px;        /* Povećana maksimalna visina kalendara */
+  height: 85%; 
+}
+
+/* Stiliziranje broja dana u kalendaru */
+.fc-daygrid-day-number {
+  text-transform: uppercase;  /* Stavite brojeve dana u velika slova */
+  color: black;  /* Promijenite boju broja dana (koristite željenu boju) */
+  font-weight: bold;  /* Opcionalno: učinite tekst podebljanim */
+  text-decoration: none;
+}
+
+/* Stiliziranje cijele ćelije dana */
+.fc-daygrid-day {
+  cursor: pointer;  /* Osigurava da se može kliknuti na dan */
+}
+
+/* Stiliziranje dana u tjednu u zaglavlju */
+.fc-col-header-cell {
+  text-transform: uppercase;  /* Stavite imena dana u velika slova */
+}
+
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number{
+  color: red;
+}
+
+
+
+
+/*za lekcije, idk*/
+a.Completed {
+  background-color: rgb(250, 76, 76);
+}
+
+a.Open {
+  background-color: green;
+}
+
+a.Progress {
+  background-color: orange;
+}

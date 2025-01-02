@@ -41,7 +41,6 @@ function App() {
     <>
       <Router>
         <HeaderMain active={active}></HeaderMain>
-
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<LoginUser />}></Route>
@@ -51,10 +50,7 @@ function App() {
           <Route path="/studentInfo" element={<StudentInfo />}></Route>
           <Route path="/editUser" element={<Profile />}></Route>
           <Route path="/faqs" element={<Faqs />}></Route>
-          <Route
-            path="/calendar"
-            element={<CalendarUser></CalendarUser>}
-          ></Route>
+          <Route path="/calendar" element={<CalendarUser />}></Route>
         </Routes>
       </Router>
     </>
