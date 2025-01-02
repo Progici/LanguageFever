@@ -1,5 +1,6 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
@@ -100,6 +101,37 @@ public class Sortiranje {
                        .collect(Collectors.toList());
     }
     
+    // Sortiranje ocjena po ocjeni
+    public static void sortByOcjena(List<Ocjena> ocjene) {
+        Collections.sort(ocjene, new Comparator<Ocjena>() {
+            @Override
+            public int compare(Ocjena o1, Ocjena o2) {
+                return o2.getOcjena().compareTo(o1.getOcjena());
+            }
+        });
+    }
+
+    // Filtriranje svi ocjena sa ocjenom vecom od x
+    public static List<Ocjena> filterByOcjena(List<Ocjena> ocjene, int threshold) {
+        return ocjene.stream()
+                     .filter(ocjena -> ocjena.getOcjena() > threshold)
+                     .collect(Collectors.toList());
+    }
+
+    // Filtriranje svi ocjena sa ocjenom manjom od x
+    public static List<Ocjena> filterByOcjenaManje(List<Ocjena> ocjene, int threshold) {
+        return ocjene.stream()
+                     .filter(ocjena -> ocjena.getOcjena() < threshold)
+                     .collect(Collectors.toList());
+    }
+
+    // Filtriranje svi ocjena sa ocjenom izmedju min i max
+    public static List<Ocjena> filterByOcjenaRange(List<Ocjena> ocjene, int minOcjena, int maxOcjena) {
+        return ocjene.stream()
+                     .filter(ocjena -> ocjena.getOcjena() >= minOcjena && ocjena.getOcjena() <= maxOcjena)
+                     .collect(Collectors.toList());
+    }
+    //
 
 
 }
