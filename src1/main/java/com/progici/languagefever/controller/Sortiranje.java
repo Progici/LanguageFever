@@ -1,5 +1,6 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.enums.Kvalifikacija;
@@ -131,7 +132,29 @@ public class Sortiranje {
                      .filter(ocjena -> ocjena.getOcjena() >= minOcjena && ocjena.getOcjena() <= maxOcjena)
                      .collect(Collectors.toList());
     }
-    //
+
+    
+    // Sortiranje jezika po abecednom redu
+    public static void sortByName(List<Jezik> jezici) {
+        Collections.sort(jezici, new Comparator<Jezik>() {
+            @Override
+            public int compare(Jezik j1, Jezik j2) {
+                return j1.getName().compareTo(j2.getName());
+            }
+        });
+    }
+
+   // Sortiranje jezika po obrnutom abecednom redu
+   public static void sortByNameReverse(List<Jezik> jezici) {
+    Collections.sort(jezici, new Comparator<Jezik>() {
+        @Override
+        public int compare(Jezik j1, Jezik j2) {
+            return j2.getName().compareTo(j1.getName());
+        }
+    });
+
+}
+//
 
 
 }
