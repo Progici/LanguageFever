@@ -171,7 +171,7 @@
   .hero-section {
       flex-direction: column;
       padding: 30px 20px;
-      border: dashed rgba(255, 255, 255, 0.638) 3px;
+      
   }
 
   .home-picture-div {

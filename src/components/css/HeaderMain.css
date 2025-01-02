@@ -1,255 +1,139 @@
-
+/* Globalne postavke */
 .header {
-    padding: 15px 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9999;
-    background: #fff;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    height: 80px;
-  }
+  padding: 15px 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9999;
+  background: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .search-container {
-    width: max-content;
-    display: flex;
-    align-items: center;
-    padding: 5dpx;
-    border-radius: 30px;
-    background-color: #f6f6f6;
-    transition: box-shadow 0.25s;
-    box-shadow: 0 0 2px rgba(0,0,0,0.75);
-  }
-  .search-container:focus-within {
-    box-shadow: 0 0 2px rgba(16, 16, 226, 0.74);
-  }
+.hamburger-container{
+  position: relative;
+}
 
-  .hamburger-icon {
-    display: none;
-  }
+/* Hamburger meni */
+.hamburger-menu {
+  display: block; /* Po defaultu sakrij */
+  padding-top: 10px;
+  padding-bottom: 6px;
+  position: absolute;
+  top: 150%; 
+  right: -200%; 
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 150px; 
+  border-radius: 7px;
+}
 
-  .search-input {
-    font-size: 16px;
-    margin-left: 10px;
-    outline: none;
-    border: none;
-    background: transparent;
-    width: 250px;
-  }
-  .icon-button {
-    background-color:transparent;
-    border-radius: 30px;
-    border: none;
-  }
-  .search-input::placeholder, .icon-button { color: #7b7676;}
-  
-  
-  .profile-container {
-    position: relative;
-    display: inline-block;
-    margin-left: 20px;
-  }
- 
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%; 
-    right: 0; 
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px 0;
-    z-index: 1;
-    width: 150px; 
-  }
-  
+.hamburger-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-  .profile-container:hover .dropdown-menu {
-    display: block;
-  }
-  
- 
-  .dropdown-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .dropdown-menu ul li {
-    padding: 10px;
-    text-align: center;
-    color: black;
-  }
+.hamburger-menu ul li {
+  padding: 10px;
+  text-align: center;
+  color: black;
+}
 
-  #option:hover {
-    background-color: #f0f0f0; 
-  }
-  
-  #logout {
-    color: white;          
-    background-color:rgba(16, 16, 226, 0.74); 
-    border: none;          
-    padding: 10px 20px;     
-    border-radius: 4px;     
-    cursor: pointer;       
-    font-size: 14px;        
-  }
-  
-  #navigation .nav-link:hover  {
-    color: rgba(16, 16, 226, 0.74);
+/* Stil za hamburger ikonu */
+.hamburger-icon {
+  display: block; 
+  cursor: pointer;
+  padding-right: 0.2rem;
+}
+
+/* Stil za desktop navigaciju */
+.navbar-links {
+  display: flex; /* Navigacija vidljiva na većim ekranima */
+  gap: 20px;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  padding: 10px;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #007bff;
+}
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
 }
 
 #profile-pic {
-    border: none;
+  border: none; 
+  outline: none;  
 }
 
-.btn-login{
-  background-color: rgba(16, 16, 226, 0.74);
-  border: none;
-  margin-left: 20px;
-}
-.btn-login:hover{
-  background-color: rgba(120, 120, 216, 0.845);
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; 
+  right: 0; 
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 150px; 
 }
 
+.profile-container:hover .dropdown-menu {
+  display: block;
+}
 
-/* Stilovi za manje ekrane (do 768px) */
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+  text-align: center;
+  color: black;
+}
+
+#logout {
+  color: white;          
+  background-color: rgba(16, 16, 226, 0.74); 
+  border: none;          
+  padding: 10px 20px;     
+  border-radius: 4px;     
+  cursor: pointer;       
+  font-size: 14px;        
+}
+
+/* Responzivnost za manje ekrane */
 @media (max-width: 768px) {
-  Container{
-    padding: auto;
-  }
-  .header {
-    padding: 10px 0;
-    height: auto;
-    display: flex;
-  }
-
-  .navigation{
-    display: none;
-  }
-
-  .navigation.show {
-    align-items: center;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 72px; 
-    left: 100px;
-    width: 5%;
-    background: white;
-    padding: 10px 100px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-  }
-
-  /* Stil za hamburger ikonu */
-  .hamburger-icon {
-    display: block;
-    cursor: pointer;
-    padding-right: 1rem;
-  }
   
 
-  .nav-link {
-    margin-bottom: 10px;
+  .hamburger-icon {
+      display: block; /* Prikaži hamburger ikonu */
   }
 
-  .d-flex align-items-center{
-    align-items: end;
-  }
-
-  .search-container {
-    width: 40%;
-    margin-top: 10px;
-  }
-
-  .search-input {
-    width: 70%;
+  .hamburger-menu {
+      display: block; 
+      right: 10%
   }
 
   .profile-container {
-    margin-left: 0;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .dropdown-menu {
-    width: 100%;
-  }
-
-  .d-flex {
-    flex-direction: row;
-    align-items: end;
-    gap: 1rem;
-  }
-
-  .btn-login {
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
-    margin-left: 0px;
-  }
-}
-
-/* Stilovi za srednje ekrane (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .header {
-    padding: 15px 10px;
-  }
-
-  #navigation {
-    gap: 20px;
-  }
-
-  .search-container {
-    width: 200px;
-  }
-
-  .profile-container {
-    margin-left: 10px;
-  }
-
-  .btn-login {
-    padding: 8px 16px;
-  }
-
-  hamburger-icon {
-    display: none;
-  }
-
-  .navigation {
-    display: flex;
-  }
-}
-
-
-/* Stilovi za veće ekrane (1024px i više) */
-@media (min-width: 1024px) {
-  .header {
-    padding: 15px 20px;
-  }
-
-  #navigation {
-    gap: 30px;
-  }
-
-  .search-container {
-    width: 250px;
-  }
-
-  .btn-login {
-    padding: 10px 20px;
-  }
-
-  hamburger-icon {
-    display: none;
-  }
-
-  .navigation {
-    display: flex;
+      margin-left: auto; 
   }
 }
