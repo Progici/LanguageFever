@@ -92,6 +92,17 @@ public class LekcijaController {
     return lekcijaService.getLekcijeByUcenikId(ucenik.getId());
   }
 
+  @GetMapping("/mojelekcije/ucenik/prihvacenizahtjevi")
+  public List<Lekcija> getLekcijeUcenikPrihvaceneLekcije(
+    OAuth2AuthenticationToken authentication
+  ) {
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+
+    return lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
+      ucenik.getId()
+    );
+  }
+
   @PostMapping("/dodajlekciju")
   public ResponseEntity<Void> addLekcijaUcitelj(
     OAuth2AuthenticationToken authentication,

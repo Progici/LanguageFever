@@ -24,6 +24,18 @@ public class LekcijaService {
     return sveLekcije;
   }
 
+  public List<Lekcija> getLekcijeByUcenikIdAndByStatusAccepted(Long id) {
+    List<Lekcija> sveLekcije = new ArrayList<>();
+    lekcijaRepository
+      .findByUcenikId(id)
+      .forEach(e -> {
+        if (e.getStatus() == Status.ACCEPTED) {
+          sveLekcije.add(e);
+        }
+      });
+    return sveLekcije;
+  }
+
   public List<Lekcija> getLekcijeByUciteljIdAndByStatusPending(Long id) {
     List<Lekcija> sveLekcije = new ArrayList<>();
     lekcijaRepository
