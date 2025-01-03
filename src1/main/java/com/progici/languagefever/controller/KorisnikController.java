@@ -76,6 +76,9 @@ public class KorisnikController {
 
     if (ucenik == null) ucenikDTO = null; else ucenikDTO =
       new UcenikDTO(
+        ucenik.getId(),
+        korisnik.getName(),
+        korisnik.getPicture(),
         ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
         ucenik.getRazina(),
         ucenik.getStilUcenja(),
@@ -87,6 +90,9 @@ public class KorisnikController {
 
     if (ucitelj == null) uciteljDTO = null; else uciteljDTO =
       new UciteljDTO(
+        ucitelj.getId(),
+        korisnik.getName(),
+        korisnik.getPicture(),
         uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
         ucitelj.getGodineIskustva(),
         ucitelj.getKvalifikacija(),
@@ -96,8 +102,8 @@ public class KorisnikController {
 
     List<Object> lista = new ArrayList<>();
     lista.add(korisnik);
-    lista.add(ucenikDTO);
     lista.add(uciteljDTO);
+    lista.add(ucenikDTO);
     return lista;
   }
 
@@ -159,6 +165,9 @@ public class KorisnikController {
 
       if (ucenik == null) ucenikDTO = null; else ucenikDTO =
         new UcenikDTO(
+          ucenik.getId(),
+          korisnik.getName(),
+          korisnik.getPicture(),
           ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
           ucenik.getRazina(),
           ucenik.getStilUcenja(),
@@ -170,6 +179,9 @@ public class KorisnikController {
 
       if (ucitelj == null) uciteljDTO = null; else uciteljDTO =
         new UciteljDTO(
+          ucitelj.getId(),
+          korisnik.getName(),
+          korisnik.getPicture(),
           uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
           ucitelj.getGodineIskustva(),
           ucitelj.getKvalifikacija(),
@@ -179,8 +191,8 @@ public class KorisnikController {
 
       List<Object> lista = new ArrayList<>();
       lista.add(korisnik);
-      lista.add(ucenikDTO);
       lista.add(uciteljDTO);
+      lista.add(ucenikDTO);
       listaListi.add(lista);
     }
 

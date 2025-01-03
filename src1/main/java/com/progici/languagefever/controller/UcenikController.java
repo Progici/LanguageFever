@@ -7,6 +7,7 @@ import com.progici.languagefever.service.KorisnikService;
 import com.progici.languagefever.service.UcenikJeziciService;
 import com.progici.languagefever.service.UcenikService;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,9 @@ public class UcenikController {
     );
 
     return new UcenikDTO(
+      ucenik.getId(),
+      korisnik.getName(),
+      korisnik.getPicture(),
       ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
       ucenik.getRazina(),
       ucenik.getStilUcenja(),
@@ -77,8 +81,8 @@ public class UcenikController {
         new Ucenik(
           korisnik,
           ucenikDTO.getRazina(),
-          ucenikDTO.getstilUcenja(),
-          ucenikDTO.getciljevi()
+          ucenikDTO.getStilUcenja(),
+          ucenikDTO.getCiljevi()
         )
       );
     } else {
@@ -87,8 +91,8 @@ public class UcenikController {
         new Ucenik(
           korisnik,
           ucenikDTO.getRazina(),
-          ucenikDTO.getstilUcenja(),
-          ucenikDTO.getciljevi()
+          ucenikDTO.getStilUcenja(),
+          ucenikDTO.getCiljevi()
         )
       );
     }
@@ -113,22 +117,22 @@ public class UcenikController {
 
   @GetMapping("/ucenici")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public Map<Korisnik, UcenikDTO> getSviUcenici() {
+  public List<UcenikDTO> getSviUcenici() {
     return ucenikService
       .getSviUcenici()
       .stream()
-      .collect(
-        Collectors.toMap(
-          Ucenik::getKorisnik,
-          ucenik ->
-            new UcenikDTO(
-              ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
-              ucenik.getRazina(),
-              ucenik.getStilUcenja(),
-              ucenik.getCiljevi()
-            )
+      .map(ucenik ->
+        new UcenikDTO(
+          ucenik.getId(),
+          ucenik.getKorisnik().getName(),
+          ucenik.getKorisnik().getPicture(),
+          ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
+          ucenik.getRazina(),
+          ucenik.getStilUcenja(),
+          ucenik.getCiljevi()
         )
-      );
+      )
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/ucenici/{idKorisnika}")
@@ -152,6 +156,9 @@ public class UcenikController {
     }
 
     UcenikDTO ucenikDTO = new UcenikDTO(
+      ucenik.getId(),
+      korisnik.getName(),
+      korisnik.getPicture(),
       ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
       ucenik.getRazina(),
       ucenik.getStilUcenja(),
@@ -188,8 +195,8 @@ public class UcenikController {
         new Ucenik(
           korisnik,
           ucenikDTO.getRazina(),
-          ucenikDTO.getstilUcenja(),
-          ucenikDTO.getciljevi()
+          ucenikDTO.getStilUcenja(),
+          ucenikDTO.getCiljevi()
         )
       );
     } else {
@@ -198,8 +205,8 @@ public class UcenikController {
         new Ucenik(
           korisnik,
           ucenikDTO.getRazina(),
-          ucenikDTO.getstilUcenja(),
-          ucenikDTO.getciljevi()
+          ucenikDTO.getStilUcenja(),
+          ucenikDTO.getCiljevi()
         )
       );
     }

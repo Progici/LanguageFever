@@ -6,6 +6,9 @@ import java.util.List;
 
 public class UciteljDTO {
 
+  private Long id;
+  private String name;
+  private String picture;
   private List<String> jezici;
   private Integer godineIskustva;
   private Kvalifikacija kvalifikacija;
@@ -13,17 +16,31 @@ public class UciteljDTO {
   private Float satnica;
 
   public UciteljDTO(
+    Long id,
+    String name,
+    String picture,
     List<String> jezici,
     Integer godineIskustva,
     Kvalifikacija kvalifikacija,
     Stil stilPoducavanja,
     Float satnica
   ) {
+    this.id = id;
+    this.name = name;
+    this.picture = picture;
     this.jezici = jezici;
     this.godineIskustva = godineIskustva;
     this.kvalifikacija = kvalifikacija;
     this.stilPoducavanja = stilPoducavanja;
     this.satnica = satnica;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public List<String> getJezici() {
@@ -66,20 +83,19 @@ public class UciteljDTO {
     this.satnica = satnica;
   }
 
-  @Override
-  public String toString() {
-    return (
-      "UciteljDTO [jezici=" +
-      jezici +
-      ", godineIskustva=" +
-      godineIskustva +
-      ", kvalifikacija=" +
-      kvalifikacija +
-      ", stilPoducavanja=" +
-      stilPoducavanja +
-      ", satnica=" +
-      satnica +
-      "]"
-    );
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getPicture() {
+    return picture;
+  }
+
+  public void setPicture(String picture) {
+    this.picture = picture;
   }
 }

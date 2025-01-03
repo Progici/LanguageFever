@@ -61,6 +61,9 @@ public class UciteljController {
     );
 
     return new UciteljDTO(
+      ucitelj.getId(),
+      korisnik.getName(),
+      korisnik.getPicture(),
       uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
       ucitelj.getGodineIskustva(),
       ucitelj.getKvalifikacija(),
@@ -80,23 +83,23 @@ public class UciteljController {
   }
 
   @GetMapping("/ucitelji")
-  public Map<Korisnik, UciteljDTO> getSviUcitelji() {
+  public List<UciteljDTO> getSviUcitelji() {
     return uciteljService
       .getSviUcitelji()
       .stream()
-      .collect(
-        Collectors.toMap(
-          Ucitelj::getKorisnik,
-          ucitelj ->
-            new UciteljDTO(
-              uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-              ucitelj.getGodineIskustva(),
-              ucitelj.getKvalifikacija(),
-              ucitelj.getStilPoducavanja(),
-              ucitelj.getSatnica()
-            )
+      .map(ucitelj ->
+        new UciteljDTO(
+          ucitelj.getId(),
+          ucitelj.getKorisnik().getName(),
+          ucitelj.getKorisnik().getPicture(),
+          uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+          ucitelj.getGodineIskustva(),
+          ucitelj.getKvalifikacija(),
+          ucitelj.getStilPoducavanja(),
+          ucitelj.getSatnica()
         )
-      );
+      )
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/ucitelji/{idKorisnika}")
@@ -119,6 +122,9 @@ public class UciteljController {
     }
 
     UciteljDTO uciteljDTO = new UciteljDTO(
+      ucitelj.getId(),
+      korisnik.getName(),
+      korisnik.getPicture(),
       uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
       ucitelj.getGodineIskustva(),
       ucitelj.getKvalifikacija(),
