@@ -22,7 +22,7 @@
 
 .template {
     padding: 20px;
-    width: 40%;
+    width: 80%;
     border-radius: 10px;
     background-color: white;
     margin-bottom: 0.5rem;
@@ -50,28 +50,6 @@
     border-radius: 4px;
     outline: none;
 }
-
-.floating-label label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    background-color: white;
-    padding: 0 5px;
-    color: #888;
-    font-size: 1rem;
-    transition: 0.2s;
-    pointer-events: none;
-}
-
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
-    top: -2px;
-    left: 8px;
-    font-size: 0.8rem;
-    color: #888;
-}
-
 
 .form-control {
     padding-right: 3rem;
@@ -105,3 +83,12 @@
     align-items: center;
     justify-content: center;
 }
+
+.no-resize {
+    resize: none;
+}
+
+.Toastify__toast-container {
+    z-index: 9999;
+  }
+  

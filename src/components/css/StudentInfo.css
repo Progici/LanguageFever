@@ -4,14 +4,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 100%;
     height: auto;
 }
 
 
 .template {
     padding: 20px;
-    width: 40%;
+    width: 70%;
     border-radius: 10px;
     background-color: white;
     margin-bottom: 0.5rem;
@@ -19,6 +19,7 @@
 
 #text {
     text-align: center;
+    margin-bottom: 10px;
 }
 
 #option {
@@ -27,7 +28,7 @@
 
 .floating-label {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 
 }
 
@@ -49,25 +50,6 @@
     border-radius: 4px; 
     outline: none; 
 }
-.floating-label label {
-    position: absolute;
-    top: -2px;
-    left: 8px;
-    color: #888;
-    font-size: 1rem;
-    background-color: white;
-    padding: 0 5px;
-    pointer-events: none; 
-}
-
-.floating-label input:focus + label,
-.floating-label input:not(:placeholder-shown) + label {
-    top: -2px;
-    left: 8px;
-    font-size: 1rem;  
-    color: #888;
-}
-
 
 .form-control {
     padding-right: 3rem;
@@ -78,3 +60,19 @@
     gap: 10px;
 }
 
+.no-resize {
+    resize: none;
+}
+
+@media (max-width: 768px) {
+
+    .template {
+        width: 90%;
+    }
+
+}
+
+.Toastify__toast-container {
+    z-index: 9999;
+  }
+  

@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Profile.css";
 import StudentInfo from "./StudentInfo";
 import TeacherInfo from "./TeacherInfo";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Profile() {
   // Držimo aktivnu tablicu (1 = Učenik, 2 = Učitelj)
@@ -16,7 +18,7 @@ function Profile() {
   return (
     <div className="d-flex align-items-center justify-content-center profile-content-container">
       {/* Glavni kontejner za profil sa centriranim sadržajem */}
-      <div className="col-6 tab p-5 grid-layout profile-form-container">
+      <div className="tab profile-form-container">
         <ul className="d-flex tabs">
           <li
             className={`flex-fill ${activeTab === 1 ? "active-tab" : ""}`} // Aktivira tab "Učenik" ako je activeTab 1

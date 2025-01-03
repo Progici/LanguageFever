@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [active, setActive] = useState(false);
@@ -22,7 +23,7 @@ function App() {
       try {
         const response = await fetch(ApiConfig.API_URL + "/active", {
           method: "GET",
-          credentials: "include",
+          //credentials: "include"
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -30,6 +31,7 @@ function App() {
         const data = await response.json();
         console.log(data);
         setActive(data);
+        console.log("Fetch pokušaj")
       } catch (error) {
         console.error("Error fetching status:", error);
       }
@@ -41,6 +43,7 @@ function App() {
     <>
       <Router>
         <HeaderMain active={active}></HeaderMain>
+        <ToastContainer/>
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
