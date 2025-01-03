@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/StudentInfo.css";
 import { ApiConfig } from "../../config/api.config";
-import Select from 'react-select'; 
-import TextareaAutosize from 'react-textarea-autosize';
+import Select from "react-select";
+import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
 function StudentInfo() {
@@ -23,35 +23,39 @@ function StudentInfo() {
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/jezici", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setLanguageOptions(data));
+      .then((response) => response.json())
+      .then((data) => setLanguageOptions(data));
   }, []);
 
   // Fetch podaci za razine
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/razine", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setLevelOptions(data));
+      .then((response) => response.json())
+      .then((data) => setLevelOptions(data));
   }, []);
 
   // Fetch podaci za stilove učenja
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/stilovi", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setTeachingStyles(data));
+      .then((response) => response.json())
+      .then((data) => setTeachingStyles(data));
   }, []);
 
   // Dohvat podataka o trenutnom učeniku
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/trenutniucenik", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => {
+      .then((response) => {
         if (response.status === 404) {
           setCurrentStudent(null); // Ako nema podataka, postavite na null
           return;
@@ -60,18 +64,17 @@ function StudentInfo() {
         console.log("Fetch pokušaj");
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         if (data) {
           setCurrentStudent(data); // Postavite podatke o trenutnom učeniku
           setLanguage(data.jezici || []);
           setLevel(data.razina || "");
           setStyle(data.stilUcenja || "");
           setGoals(data.ciljevi || "");
-          console.log("Evo došli podaci.")
+          console.log("Evo došli podaci.");
         }
-
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching current student data:", error);
         setCurrentStudent(null);
       });
@@ -79,17 +82,12 @@ function StudentInfo() {
 
   // Funkcija za provjeru jesu li svi podaci uneseni
   const isFormValid = () => {
-    return (
-      language.length > 0 && 
-      level && 
-      style && 
-      goals
-    );
+    return language.length > 0 && level && style && goals;
   };
 
   // Funkcija za promjenu odabranih jezika
   const handleLanguageChange = (selectedOptions) => {
-    setLanguage(selectedOptions.map(option => option.value));
+    setLanguage(selectedOptions.map((option) => option.value));
   };
 
   // Funkcija za promjenu razine znanja
@@ -115,28 +113,24 @@ function StudentInfo() {
 
     const requestOptions = {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
-    
     try {
-      console.log("Zapeo sam zapeo sam")
       const response = await fetch(
         ApiConfig.API_URL + "/azurirajucenika",
         requestOptions
       );
-      console.log("Nikako da dođem tu")
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
-      console.log("Pokušaj:", result.message)
-      toast.success(result.message, {
+      toast.success("Podaci o učeniku su uspješno ažurirani", {
         position: "bottom-right",
-        autoClose: 3000,  // 3 sekunde
+        autoClose: 3000, // 3 sekunde
         hideProgressBar: true,
-        closeOnClick: true
+        closeOnClick: true,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -144,21 +138,21 @@ function StudentInfo() {
   }
 
   // Opcije jezika za React Select
-  const languageSelectOptions = languageOptions.map(lang => ({
+  const languageSelectOptions = languageOptions.map((lang) => ({
     value: lang,
     label: lang,
   }));
 
   // Opcije razina za React Select
-  const levelSelectOptions = levelOptions.map(level => ({
+  const levelSelectOptions = levelOptions.map((level) => ({
     value: level,
     label: level,
   }));
 
   // Opcije stilova za React Select
-  const styleSelectOptions = teachingStyles.map(style => ({
+  const styleSelectOptions = teachingStyles.map((style) => ({
     value: style,
-    label: style.replace(/_/g, ' '),
+    label: style.replace(/_/g, " "),
   }));
 
   return (
@@ -174,7 +168,9 @@ function StudentInfo() {
                 isMulti
                 name="languages"
                 options={languageSelectOptions}
-                value={languageSelectOptions.filter(option => language.includes(option.value))}
+                value={languageSelectOptions.filter((option) =>
+                  language.includes(option.value)
+                )}
                 onChange={handleLanguageChange}
                 placeholder="Izaberite jezike"
               />
@@ -185,7 +181,9 @@ function StudentInfo() {
               <Select
                 name="style"
                 options={styleSelectOptions}
-                value={styleSelectOptions.find(option => option.value === style)}
+                value={styleSelectOptions.find(
+                  (option) => option.value === style
+                )}
                 onChange={handleStyleChange}
                 placeholder="Izaberite stil učenja"
               />
@@ -196,7 +194,9 @@ function StudentInfo() {
               <Select
                 name="level"
                 options={levelSelectOptions}
-                value={levelSelectOptions.find(option => option.value === level)}
+                value={levelSelectOptions.find(
+                  (option) => option.value === level
+                )}
                 onChange={handleLevelChange}
                 placeholder="Izaberite razinu znanja"
               />
@@ -218,8 +218,6 @@ function StudentInfo() {
 
           <br />
 
-
-
           <div className="btns">
             <Link to="/">
               <button className="btn">Natrag</button>
@@ -232,11 +230,9 @@ function StudentInfo() {
             >
               Spremi
             </button>
-            
           </div>
           <br />
         </form>
-
       </div>
     </>
   );

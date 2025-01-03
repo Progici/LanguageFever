@@ -4,6 +4,7 @@ import Login from "./components/jsx/Login";
 import Home from "./components/jsx/Home";
 import TeacherInfo from "./components/jsx/TeacherInfo";
 import StudentInfo from "./components/jsx/StudentInfo";
+import TeacherProfile from "./components/jsx/TeacherProfile";
 import HeaderMain from "./components/jsx/HeaderMain";
 import Profile from "./components/jsx/Profile";
 import CalendarUser from "./components/jsx/CalendarUser";
@@ -14,6 +15,7 @@ import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
 import { ToastContainer } from "react-toastify";
+import TeacherCard from "./components/jsx/TeacherCard";
 
 function App() {
   const [active, setActive] = useState(false);
@@ -23,7 +25,7 @@ function App() {
       try {
         const response = await fetch(ApiConfig.API_URL + "/active", {
           method: "GET",
-          //credentials: "include"
+          credentials: "include",
         });
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -31,7 +33,6 @@ function App() {
         const data = await response.json();
         console.log(data);
         setActive(data);
-        console.log("Fetch pokušaj")
       } catch (error) {
         console.error("Error fetching status:", error);
       }
@@ -43,7 +44,7 @@ function App() {
     <>
       <Router>
         <HeaderMain active={active}></HeaderMain>
-        <ToastContainer/>
+        <ToastContainer />
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
@@ -51,6 +52,7 @@ function App() {
           <Route path="/logout" element={<Login />}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
           <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
+          <Route path="/teachers/:id" element={<TeacherProfile />}></Route>
           <Route path="/studentInfo" element={<StudentInfo />}></Route>
           <Route path="/editUser" element={<Profile />}></Route>
           <Route path="/faqs" element={<Faqs />}></Route>

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/TeacherInfo.css";
 import { ApiConfig } from "../../config/api.config";
-import Select from 'react-select'; 
-import TextareaAutosize from 'react-textarea-autosize';
+import Select from "react-select";
+import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
 function TeacherInfo() {
@@ -24,43 +24,47 @@ function TeacherInfo() {
   // Fetch podaci za jezike
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/jezici", {
-      method: "GET"
+      method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setLanguageOptions(data));
+      .then((response) => response.json())
+      .then((data) => setLanguageOptions(data));
   }, []);
 
   // Fetch podaci za kvalifikacije
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/kvalifikacije", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setQualificationOptions(data));
+      .then((response) => response.json())
+      .then((data) => setQualificationOptions(data));
   }, []);
 
   // Fetch podaci za stilove podučavanja
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/stilovi", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => response.json())
-      .then(data => setTeachingStyles(data));
+      .then((response) => response.json())
+      .then((data) => setTeachingStyles(data));
   }, []);
 
   // Dohvat podataka o trenutnom učitelju
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/trenutniucitelj", {
       method: "GET",
+      credentials: "include",
     })
-      .then(response => {
+      .then((response) => {
         if (response.status === 404) {
           setCurrentTeacher(null); // Ako nema podataka, postavite na null
           return;
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         if (data) {
           setCurrentTeacher(data); // Postavite podatke o trenutnom učitelju
           setLanguage(data.jezici || []);
@@ -70,7 +74,7 @@ function TeacherInfo() {
           setHourlyRate(data.satnica || "");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching current teacher data:", error);
         setCurrentTeacher(null);
       });
@@ -78,15 +82,17 @@ function TeacherInfo() {
 
   // Funkcija za provjeru jesu li svi podaci uneseni
   const isFormValid = () => {
-    const isYearsValid = Number.isInteger(parseInt(years)) && parseInt(years) > 0;
-    const isHourlyRateValid = Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
+    const isYearsValid =
+      Number.isInteger(parseInt(years)) && parseInt(years) > 0;
+    const isHourlyRateValid =
+      Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
 
     return (
-      language.length > 0 && 
-      years && 
-      qualifications && 
-      style && 
-      hourlyRate && 
+      language.length > 0 &&
+      years &&
+      qualifications &&
+      style &&
+      hourlyRate &&
       isYearsValid &&
       isHourlyRateValid
     );
@@ -94,7 +100,7 @@ function TeacherInfo() {
 
   // Funkcija za promjenu odabranih jezika
   const handleLanguageChange = (selectedOptions) => {
-    setLanguage(selectedOptions.map(option => option.value)); // Ažuriraj stanje s nizom odabranih jezika
+    setLanguage(selectedOptions.map((option) => option.value)); // Ažuriraj stanje s nizom odabranih jezika
   };
 
   // Funkcija za promjenu kvalifikacija
@@ -124,22 +130,24 @@ function TeacherInfo() {
 
     const requestOptions = {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
     try {
-      const response = await fetch(ApiConfig.API_URL + "/azurirajucitelja", requestOptions);
+      const response = await fetch(
+        ApiConfig.API_URL + "/azurirajucitelja",
+        requestOptions
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
-      console.log("Success:", result);      
-      toast.success(result.message, {
+      toast.success("Podaci o učitelju su uspješno ažurirani", {
         position: "bottom-right",
-        autoClose: 3000,  // 3 sekunde
+        autoClose: 3000, // 3 sekunde
         hideProgressBar: true,
-        closeOnClick: true
+        closeOnClick: true,
       });
     } catch (error) {
       console.error("Error:", error);
@@ -147,21 +155,23 @@ function TeacherInfo() {
   }
 
   // Opcije jezika za React Select
-  const languageSelectOptions = languageOptions.map(lang => ({
+  const languageSelectOptions = languageOptions.map((lang) => ({
     value: lang,
     label: lang,
   }));
 
   // Opcije kvalifikacija za React Select
-  const qualificationSelectOptions = qualificationOptions.map(qualification => ({
-    value: qualification,
-    label: qualification.replace(/_/g, ' '),
-  }));
+  const qualificationSelectOptions = qualificationOptions.map(
+    (qualification) => ({
+      value: qualification,
+      label: qualification.replace(/_/g, " "),
+    })
+  );
 
   // Opcije stilova za React Select
-  const styleSelectOptions = teachingStyles.map(style => ({
+  const styleSelectOptions = teachingStyles.map((style) => ({
     value: style,
-    label: style.replace(/_/g, ' '),
+    label: style.replace(/_/g, " "),
   }));
 
   return (
@@ -176,7 +186,9 @@ function TeacherInfo() {
               isMulti
               name="languages"
               options={languageSelectOptions}
-              value={languageSelectOptions.filter(option => language.includes(option.value))}
+              value={languageSelectOptions.filter((option) =>
+                language.includes(option.value)
+              )}
               onChange={handleLanguageChange}
               placeholder="Izaberite jezike"
             />
@@ -187,7 +199,9 @@ function TeacherInfo() {
             <Select
               name="style"
               options={styleSelectOptions}
-              value={styleSelectOptions.find(option => option.value === style)}
+              value={styleSelectOptions.find(
+                (option) => option.value === style
+              )}
               onChange={handleStyleChange}
               placeholder="Izaberite stil podučavanja"
             />
@@ -198,7 +212,9 @@ function TeacherInfo() {
             <Select
               name="kvalifikacije"
               options={qualificationSelectOptions}
-              value={qualificationSelectOptions.find(option => option.value === qualifications)}
+              value={qualificationSelectOptions.find(
+                (option) => option.value === qualifications
+              )}
               onChange={handleQualificationsChange}
               placeholder="Izaberite kvalifikacije"
             />
@@ -241,7 +257,7 @@ function TeacherInfo() {
           <button
             className="btn btn-primary"
             type="submit"
-            disabled={!isFormValid()} 
+            disabled={!isFormValid()}
           >
             Spremi
           </button>

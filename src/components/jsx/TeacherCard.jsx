@@ -14,11 +14,11 @@ const TeacherCard = ({ teacher }) => {
   return (
     <div className="teacher-card">
       <img
-        src={teacher.korisnik.picture} // Slika učitelja
-        alt={teacher.korisnik.name}
+        src={teacher.picture} // Slika učitelja
+        alt={teacher.name}
         className={showDetails ? "small-img" : "large-img"} // Ako su detalji prikazani, slika je manja, inače je veća
       />
-      <h3>{teacher.korisnik.name}</h3> {/* Ime učitelja */}
+      <h3>{teacher.name}</h3> {/* Ime učitelja */}
       {/* Prikazujemo kratke ili duže detalje o učitelju na temelju stanja */}
       {!showDetails ? (
         <div className="short-details">
@@ -30,9 +30,10 @@ const TeacherCard = ({ teacher }) => {
         </div>
       ) : (
         <div className="long-details">
-           {/* improvizirano */}
+          {/* improvizirano */}
           {/* <p>Jezici: {teacher.jezici.join(", ")}</p>{" "} */}
           {/* Prikazujemo jezike učitelja */}
+          {<p>Jezici: {teacher.jezici.join(", ")}</p>}
           <p>Iskustvo: {teacher.godineIskustva} godina</p>{" "}
           {/* Prikazujemo godine iskustva učitelja */}
           <p>Kvalifikacije: {teacher.kvalifikacija}</p>{" "}
