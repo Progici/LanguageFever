@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import DatePicker from "../forms/datePicker";
+import DatePicker from "../forms/DatePicker";
 import SubmitButton from "../forms/submitButton";
 import "./LessonsModal.css";
 const style = {
