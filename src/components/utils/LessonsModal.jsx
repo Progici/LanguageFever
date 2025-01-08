@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DatePicker from "../forms/DatePicker";
-import SubmitButton from "../forms/submitButton";
+import SubmitButton from "../forms/SubmitButton";
 import "./LessonsModal.css";
 const style = {
   position: "absolute",
