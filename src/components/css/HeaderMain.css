@@ -14,6 +14,13 @@
   justify-content: space-between;
 }
 
+.navigation {
+  display: flex; /* Postavlja linkove u jedan red */
+  align-items: center; /* Vertikalno poravnanje s brandom */
+  margin-right: auto; /* Gura navigaciju desno */
+  gap: 15px; /* Razmak između linkova */
+}
+
 .hamburger-container{
   position: relative;
 }
@@ -21,17 +28,12 @@
 /* Hamburger meni */
 .hamburger-menu {
   display: block; /* Po defaultu sakrij */
-  padding-top: 10px;
-  padding-bottom: 6px;
   position: absolute;
-  top: 150%; 
-  right: -200%; 
+  top: 200%; 
+  right: 100%;
   background-color: white;
-  border: 1px solid #ddd;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  width: 150px; 
-  border-radius: 7px;
+  width: 300px; 
 }
 
 .hamburger-menu ul {
@@ -41,37 +43,33 @@
 }
 
 .hamburger-menu ul li {
-  padding: 10px;
+  
   text-align: center;
   color: black;
 }
 
 /* Stil za hamburger ikonu */
 .hamburger-icon {
-  display: block; 
+  display: none; 
   cursor: pointer;
   padding-right: 0.2rem;
 }
 
-/* Stil za desktop navigaciju */
-.navbar-links {
-  display: flex; /* Navigacija vidljiva na većim ekranima */
-  gap: 20px;
-}
-
-.navbar-links a {
-  text-decoration: none;
-  color: black;
-  font-size: 16px;
-  padding: 10px;
-  transition: color 0.3s ease;
+.btn-login{
+  color: white;          
+  background-color: rgba(16, 16, 226, 0.74); 
+  border: none;          
+  padding: 10px 20px;     
+  border-radius: 4px;     
+  cursor: pointer;       
+  font-size: 14px;  
 }
 
 .navbar-links a:hover {
   color: #007bff;
 }
 
-.profile-container {
+.profile-container1 {
   position: relative;
   display: inline-block;
   margin-left: auto;
@@ -87,15 +85,21 @@
   position: absolute;
   top: 100%; 
   right: 0; 
-  background-color: white;
-  border: 1px solid #ddd;
+  border: none;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  padding-top: 0;
+  padding-bottom: 0;
   width: 150px; 
+  border-radius: 0;
 }
 
-.profile-container:hover .dropdown-menu {
+.profile-container1:hover .dropdown-menu {
   display: block;
+}
+
+.hamburger-menu #profile-pic{
+  border-top: 1px solid antiquewhite;
+  background-color: rgba(39, 53, 204, 0.582);
 }
 
 .dropdown-menu ul {
@@ -104,26 +108,50 @@
   margin: 0;
 }
 
-.dropdown-menu ul li {
-  padding: 10px;
-  text-align: center;
-  color: black;
+.hambi-user-icon{
+  color:white;
 }
 
-#logout {
+#logout{
   color: white;          
-  background-color: rgba(16, 16, 226, 0.74); 
+  background-color: rgba(39, 53, 204, 0.582); 
   border: none;          
   padding: 10px 20px;     
-  border-radius: 4px;     
+  border-radius: 0;     
   cursor: pointer;       
-  font-size: 14px;        
+  font-size: 18px;
+  width: 100%;
+}
+
+#logout:hover{
+  background-color: rgba(72, 85, 224, 0.582);
+}
+
+#logout2:hover{
+  background-color: rgba(72, 85, 224, 0.582);
+}
+
+#logout2 {
+  color: white;          
+  background-color: rgba(39, 53, 204, 0.582); 
+  border: none;
+  padding: 10px 20px;     
+  text-align: right;
+  border-radius: 0;
+  cursor: pointer;       
+  font-size: 25px;     
+  width: 100%;   
 }
 
 /* Responzivnost za manje ekrane */
 @media (max-width: 768px) {
+  .navigation{
+    display: none;
+  }
   
-
+  .btn-login{
+    display: none;
+  }
   .hamburger-icon {
       display: block; /* Prikaži hamburger ikonu */
   }
@@ -133,7 +161,7 @@
       right: 10%
   }
 
-  .profile-container {
-      margin-left: auto; 
+  .profile-container1 {
+      display: none; 
   }
 }
