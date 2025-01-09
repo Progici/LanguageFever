@@ -1,18 +1,11 @@
 package com.progici.languagefever.controller;
 
-import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.model.Lekcija;
-import com.progici.languagefever.model.Ucenik;
-import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.dto.UciteljDTO;
-import com.progici.languagefever.service.KorisnikService;
-import com.progici.languagefever.service.LekcijaService;
-import com.progici.languagefever.service.UciteljJeziciService;
-import com.progici.languagefever.service.UciteljService;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +15,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.UciteljDTO;
+import com.progici.languagefever.model.enums.Kvalifikacija;
+import com.progici.languagefever.model.enums.Stil;
+import com.progici.languagefever.service.KorisnikService;
+import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.UciteljJeziciService;
+import com.progici.languagefever.service.UciteljService;
 
 @RestController
 public class UciteljController {
@@ -42,6 +48,75 @@ public class UciteljController {
 
   @Autowired
   private KorisnikController korisnikController;
+
+
+  @GetMapping("/ucitelji/filter")
+public List<UciteljDTO> filterAndSortUcitelji(
+    @RequestParam(required = false) Float minPrice,
+    @RequestParam(required = false) Float maxPrice,
+    @RequestParam(required = false) Integer minExperience,
+    @RequestParam(required = false) Kvalifikacija kvalifikacija,
+    @RequestParam(required = false) Stil stil,
+    @RequestParam(required = false) String sortBy,
+    @RequestParam(required = false) String sortOrder
+) {
+    List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+
+    // Filtering
+    if (minPrice != null) {
+        ucitelji = ucitelji.stream()
+            .filter(ucitelj -> ucitelj.getSatnica() >= minPrice)
+            .collect(Collectors.toList());
+    }
+    if (maxPrice != null) {
+        ucitelji = ucitelji.stream()
+            .filter(ucitelj -> ucitelj.getSatnica() <= maxPrice)
+            .collect(Collectors.toList());
+    }
+    if (minExperience != null) {
+        ucitelji = ucitelji.stream()
+            .filter(ucitelj -> ucitelj.getGodineIskustva() >= minExperience)
+            .collect(Collectors.toList());
+    }
+    if (kvalifikacija != null) {
+        ucitelji = ucitelji.stream()
+            .filter(ucitelj -> ucitelj.getKvalifikacija() == kvalifikacija)
+            .collect(Collectors.toList());
+    }
+    if (stil != null) {
+        ucitelji = ucitelji.stream()
+            .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+            .collect(Collectors.toList());
+    }
+
+    // Sorting
+    if (sortBy != null) {
+        Comparator<Ucitelj> comparator = null;
+        if (sortBy.equals("experience")) {
+            comparator = Comparator.comparing(Ucitelj::getGodineIskustva);
+        } else if (sortBy.equals("price")) {
+            comparator = Comparator.comparing(Ucitelj::getSatnica);
+        }
+
+        if (comparator != null) {
+            if (sortOrder != null && sortOrder.equals("desc")) {
+                comparator = comparator.reversed();
+            }
+            ucitelji.sort(comparator);
+        }
+    }
+
+    // Convert to DTO
+    return ucitelji.stream()
+        .map(ucitelj -> new UciteljDTO(
+            uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+            ucitelj.getGodineIskustva(),
+            ucitelj.getKvalifikacija(),
+            ucitelj.getStilPoducavanja(),
+            ucitelj.getSatnica()
+        ))
+        .collect(Collectors.toList());
+}
 
   //
   //  USER ENDPOINTS
