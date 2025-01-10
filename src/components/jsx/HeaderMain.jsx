@@ -15,47 +15,24 @@ function HeaderMain({ active }) {
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
 
-  /*nadodani kod
-  const [userType, setUserType] = useState(null); // 'ucitelj', 'ucenik' ili null
+  const [data, setData] = useState(null); // Initial state as null
 
   useEffect(() => {
-    //je li ucitelj
-    fetch(ApiConfig.API_URL + "/trenutniucitelj", {
+    // Fetch current user to check if they are a teacher
+    fetch(ApiConfig.API_URL + "/trenutnikorisnik", {
       method: "GET",
-      credentials: "include",
+      credentials: "include", // Include cookies for authentication
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Not a teacher");
-        }
+      .then((response) => response.json()) // Parse the response as JSON
+      .then((data) => {
+        console.log("User data:", data); // Log user data to check if they are a teacher
+        setData(data); // Update state with fetched data
       })
-      .then(() => {
-        setUserType("ucitelj"); // Ako je uspješno, korisnik je učitelj
-      })
-      .catch(() => {
-        // Ako nije učitelj, proveri da li je učenik
-        fetch(ApiConfig.API_URL + "/trenutniucenik", {
-          method: "GET",
-          credentials: "include",
-        })
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error("Not a student");
-            }
-          })
-          .then(() => {
-            setUserType("ucenik"); // Ako je uspješno, korisnik je učenik
-          })
-          .catch(() => {
-            setUserType("null"); // Ako nije ni učitelj ni učenik
-          });
+      .catch((error) => {
+        console.error("Error fetching user data:", error); // Log any errors
       });
   }, []);
-  */
+
   // Efekt za zatvaranje hamburger izbornika
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -88,17 +65,17 @@ function HeaderMain({ active }) {
           <Nav.Link as={Link} to="/newRequests">
             Zahtjevi
           </Nav.Link>
-          {/* Link koji vodi do stranice s lekcijama */}
           <Nav.Link as={Link} to="/faqs">
             FAQs
           </Nav.Link>
         </Nav>
 
         {/* Profilna ikona za prijavljenog korisnika */}
-        {active ? (
+        {active && data ? (
           <div className="profile-container1">
             <button id="profile-pic">
-              <Avatar alt="K" src=""></Avatar>
+              <Avatar alt="K" src={data.picture || ""} />{" "}
+              {/* Check if data.picture exists */}
             </button>
             <div className="dropdown-menu">
               <ul>
@@ -128,11 +105,8 @@ function HeaderMain({ active }) {
           </div>
         ) : (
           <div className="login-button">
-            {/* Div za korisnike koji nisu prijavljeni */}
             <Link to="/login">
-              {/* Link za prijavu */}
               <Button className="btn-login">Log In</Button>
-              {/* Gumb za prijavu */}
             </Link>
           </div>
         )}
@@ -183,7 +157,7 @@ function HeaderMain({ active }) {
                   </Link>
                 </li>
 
-                {!active && ( // Log In gumb samo ako korisnik nije prijavljen
+                {!active && (
                   <li className="d-grid">
                     <Link to="/login" className="link-underline-opacity-0">
                       <button className="btn btn-primary" id="logout2">
@@ -192,42 +166,39 @@ function HeaderMain({ active }) {
                     </Link>
                   </li>
                 )}
-                {active && ( // profil gumb samo ako korisnik je prijavljen
-                  <li className="d-grid">
-                    <button
-                      id="profile-pic"
-                      style={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                      <Avatar alt="K" src=""></Avatar>
-                    </button>
-                  </li>
-                )}
-                {active && (
-                  <li className="d-grid">
-                    <Link to="/editUser" className="link-underline-opacity-0">
-                      <button className="btn btn-primary" id="logout2">
-                        Uredi profil
+
+                {active && data && (
+                  <>
+                    <li className="d-grid">
+                      <button
+                        id="profile-pic"
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                      >
+                        <Avatar alt="K" src={data.picture || ""}></Avatar>
                       </button>
-                    </Link>
-                  </li>
-                )}
-                {active && (
-                  <li className="d-grid">
-                    <Link to="/calendar">
-                      <button className="btn btn-primary" id="logout2">
-                        Kalendar
-                      </button>
-                    </Link>
-                  </li>
-                )}
-                {active && (
-                  <li className="d-grid">
-                    <Link to="/logout">
-                      <button className="btn btn-primary" id="logout2">
-                        Log Out
-                      </button>
-                    </Link>
-                  </li>
+                    </li>
+                    <li className="d-grid">
+                      <Link to="/editUser" className="link-underline-opacity-0">
+                        <button className="btn btn-primary" id="logout2">
+                          Uredi profil
+                        </button>
+                      </Link>
+                    </li>
+                    <li className="d-grid">
+                      <Link to="/calendar">
+                        <button className="btn btn-primary" id="logout2">
+                          Kalendar
+                        </button>
+                      </Link>
+                    </li>
+                    <li className="d-grid">
+                      <Link to="/logout">
+                        <button className="btn btn-primary" id="logout2">
+                          Log Out
+                        </button>
+                      </Link>
+                    </li>
+                  </>
                 )}
               </ul>
             </div>
