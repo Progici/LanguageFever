@@ -5,15 +5,21 @@ import com.progici.languagefever.model.Lekcija;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.dto.UciteljDTO;
+import com.progici.languagefever.model.enums.Kvalifikacija;
+import com.progici.languagefever.model.enums.Stil;
 import com.progici.languagefever.service.KorisnikService;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,6 +43,9 @@ public class UciteljController {
 
   @Autowired
   private LekcijaService lekcijaService;
+
+  @Autowired
+  private OcjenaController ocjenaController;
 
   @Autowired
   private UciteljJeziciService uciteljJeziciService;
@@ -100,7 +110,7 @@ public class UciteljController {
         ucitelji
           .stream()
           .filter(ucitelj ->
-            ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId()) >=
+            ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()) >=
             minAverageOcjena
           )
           .collect(Collectors.toList());
@@ -110,7 +120,7 @@ public class UciteljController {
         ucitelji
           .stream()
           .filter(ucitelj ->
-            ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size() >=
+            ocjenaController.getOcjeneByUciteljId(ucitelj.getId()).size() >=
             minCountOcjena
           )
           .collect(Collectors.toList());
@@ -126,12 +136,12 @@ public class UciteljController {
       } else if (sortBy.equals("averageOcjena")) {
         comparator =
           Comparator.comparingDouble(ucitelj ->
-            ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId())
+            ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId())
           );
       } else if (sortBy.equals("countOcjena")) {
         comparator =
           Comparator.comparingInt(ucitelj ->
-            ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size()
+            ocjenaController.getOcjeneByUciteljId(ucitelj.getId()).size()
           );
       }
 
@@ -153,6 +163,9 @@ public class UciteljController {
       .stream()
       .map(ucitelj ->
         new UciteljDTO(
+          ucitelj.getKorisnik().getId(),
+          ucitelj.getKorisnik().getName(),
+          ucitelj.getKorisnik().getPicture(),
           uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
           ucitelj.getGodineIskustva(),
           ucitelj.getKvalifikacija(),
