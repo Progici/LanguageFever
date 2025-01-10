@@ -6,6 +6,14 @@ import Modal from "@mui/material/Modal";
 import DatePicker from "../forms/DatePicker";
 import SubmitButton from "../forms/SubmitButton";
 import "./LessonsModal.css";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { useState, useEffect } from "react";
+import dayjs from "dayjs";
+import { ApiConfig } from "../../config/api.config";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -23,6 +31,7 @@ export default function LessonsModal({
   onClose,
   selectedDate,
   formData,
+  handleChange,
 }) {
   const formatDate = (date) => {
     if (!date) return "No date selected";
@@ -30,30 +39,74 @@ export default function LessonsModal({
     return new Intl.DateTimeFormat("hr-HR", options).format(new Date(date));
   };
 
+  /*dodavanje lekcija*/
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const title = "Lekcija";
+    const StartDate = dayjs(formData.start["$d"]).format("DD-MM-YYYY HH:mm");
+    const EndDate = dayjs(formData.end["$d"]).format("DD-MM-YYYY HH:mm");
+
+    const data = {
+      //id?
+      timestampPocetka: StartDate,
+      timestampZavrsetka: EndDate,
+      status: "AVAILABLE",
+    };
+
+    fetch(ApiConfig.API_URL + "/dodajlekciju", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log("Lesson successfully added:", res);
+        // Reset forme ili neka druga akcija
+      })
+      .catch((error) => {
+        console.error("Error adding lesson:", error);
+      });
+  };
+
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={onClose}>
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Odabrali ste {formatDate(selectedDate)}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            <form>
-              <Box sx={{ marginBottom: "20px" }}>
-                <DatePicker label={"Datum početka"} name={"start"} />
-              </Box>
-              <Box sx={{ marginBottom: "20px" }}>
-                <DatePicker label={"Datum završetka"} name={"end"} />
-              </Box>
-              <Box id="button" sx={{ marginBottom: "20px" }}>
-                <SubmitButton label={"Spremi"} type={"submit"} />
-              </Box>
-            </form>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="hr">
+              <form onSubmit={handleSubmit}>
+                <Box sx={{ marginBottom: "20px" }}>
+                  <DateTimePicker
+                    label={"Datum i vrijeme početka"}
+                    value={formData.start}
+                    onChange={handleChange}
+                    name={"start"}
+                  />
+                </Box>
+                <Box sx={{ marginBottom: "20px" }}>
+                  <DateTimePicker
+                    label={"Datum i vrijeme završetka"}
+                    value={formData.end}
+                    onChange={handleChange}
+                    name={"end"}
+                  />
+                </Box>
+
+                <Box id="button" sx={{ marginBottom: "20px" }}>
+                  <SubmitButton label={"Spremi"} type={"submit"} />
+                </Box>
+              </form>
+            </LocalizationProvider>
           </Typography>
         </Box>
       </Modal>

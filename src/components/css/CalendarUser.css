@@ -39,14 +39,27 @@
 
 
 /*za lekcije, idk*/
-a.Completed {
-  background-color: rgb(250, 76, 76);
+.event-available {
+  background-color: blue  !important;
+  color: white !important;
 }
 
-a.Open {
-  background-color: green;
+.event-pending {
+  background-color: orange !important;
+  color: white !important;
 }
 
-a.Progress {
-  background-color: orange;
+.event-denied {
+  background-color: red !important;
+  color: white !important;
+}
+
+.event-accepted {
+  background-color: green !important;
+  color: white !important;
+}
+
+.event-finished {
+  background-color: gray !important;
+  color: white !important;
 }

@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
+import NewReqTeacher from "./components/jsx/NewReqTeacher";
+import RateTeachers from "./components/forms/RateTeachers";
 
 function App() {
   const [active, setActive] = useState(false);
@@ -40,7 +42,7 @@ function App() {
   return (
     <>
       <Router>
-        <HeaderMain active={active}></HeaderMain>
+        <HeaderMain active={true}></HeaderMain>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<LoginUser />}></Route>
@@ -51,6 +53,8 @@ function App() {
           <Route path="/editUser" element={<Profile />}></Route>
           <Route path="/faqs" element={<Faqs />}></Route>
           <Route path="/calendar" element={<CalendarUser />}></Route>
+          <Route path="/newRequests" element={<NewReqTeacher />}></Route>
+          <Route path="/rateTeachers" element={<RateTeachers />}></Route>
         </Routes>
       </Router>
     </>
