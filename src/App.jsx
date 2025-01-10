@@ -42,7 +42,7 @@ function App() {
   return (
     <>
       <Router>
-        <HeaderMain active={true}></HeaderMain>
+        <HeaderMain active={active}></HeaderMain>
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<LoginUser />}></Route>

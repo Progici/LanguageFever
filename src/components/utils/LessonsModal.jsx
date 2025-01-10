@@ -33,27 +33,28 @@ export default function LessonsModal({
   formData,
   handleChange,
 }) {
+  // Format date for display in the modal
   const formatDate = (date) => {
     if (!date) return "No date selected";
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
     return new Intl.DateTimeFormat("hr-HR", options).format(new Date(date));
   };
 
-  /*dodavanje lekcija*/
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const title = "Lekcija";
-    const StartDate = dayjs(formData.start["$d"]).format("DD-MM-YYYY HH:mm");
-    const EndDate = dayjs(formData.end["$d"]).format("DD-MM-YYYY HH:mm");
+    const StartDate = formData.start.toISOString(); // Get ISO format of start date
+    const EndDate = formData.end.toISOString(); // Get ISO format of end date
+
+    console.log("Submitting lesson:", StartDate, EndDate);
 
     const data = {
-      //id?
-      timestampPocetka: StartDate,
-      timestampZavrsetka: EndDate,
-      status: "AVAILABLE",
+      timestampPocetka: StartDate, // Pass ISO string for API
+      timestampZavrsetka: EndDate, // Pass ISO string for API
     };
 
+    // API request to save the lesson
     fetch(ApiConfig.API_URL + "/dodajlekciju", {
       method: "POST",
       credentials: "include",
@@ -68,7 +69,7 @@ export default function LessonsModal({
       })
       .then((res) => {
         console.log("Lesson successfully added:", res);
-        // Reset forme ili neka druga akcija
+        onClose(); // Close the modal after successful submission
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);

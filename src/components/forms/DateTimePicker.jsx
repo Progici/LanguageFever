@@ -7,15 +7,16 @@ import dayjs from "dayjs";
 
 export default function BasicDateTimePicker({ label, value, name, onChange }) {
   const handleDateChange = (newDate) => {
-    onChange({ target: { name: name, value: dayjs(newDate) } });
+    // Ensure newDate is properly handled as a Dayjs object
+    onChange({ target: { name: name, value: newDate } });
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="hr">
       <DemoContainer components={["DateTimePicker"]}>
         <DateTimePicker
-          value={value}
-          onChange={handleDateChange}
+          value={dayjs(value)} // Convert value to a Dayjs object if it's not already one
+          onChange={handleDateChange} // Ensure onChange updates the parent state
           name={name}
           label={label}
         />

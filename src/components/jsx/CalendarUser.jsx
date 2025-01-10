@@ -13,58 +13,58 @@ function CalendarUser() {
     end: "",
   });
 
-  const handleChange = (name, value) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  // const handleChange = (name, value) => {
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
   /*hardkodiranje - izbrisati kasnije*/
-  useEffect(() => {
-    const hardcodedLessons = [
-      {
-        id: 1,
-        timestampPocetka: "2025-01-01 12:00:00",
-        timestampZavrsetka: "2025-01-01 13:00:00",
-        status: "AVAILABLE",
-      },
-      {
-        id: 2,
-        timestampPocetka: "2025-01-02 13:00:00",
-        timestampZavrsetka: "2025-01-03 15:00:00",
-        status: "PENDING",
-      },
-      {
-        id: 3,
-        timestampPocetka: "2025-01-04",
-        timestampZavrsetka: "2025-01-05",
-        status: "DENIED",
-      },
-      {
-        id: 4,
-        timestampPocetka: "2025-01-06 09:00:00",
-        timestampZavrsetka: "2025-01-06 10:00:00",
-        status: "ACCEPTED",
-      },
-      {
-        id: 5,
-        timestampPocetka: "2025-01-07 10:00:00",
-        timestampZavrsetka: "2025-01-07 11:00:00",
-        status: "FINISHED",
-      },
-    ];
+  // useEffect(() => {
+  //   const hardcodedLessons = [
+  //     {
+  //       id: 1,
+  //       timestampPocetka: "2025-01-01 12:00:00",
+  //       timestampZavrsetka: "2025-01-01 13:00:00",
+  //       status: "AVAILABLE",
+  //     },
+  //     {
+  //       id: 2,
+  //       timestampPocetka: "2025-01-02 13:00:00",
+  //       timestampZavrsetka: "2025-01-03 15:00:00",
+  //       status: "PENDING",
+  //     },
+  //     {
+  //       id: 3,
+  //       timestampPocetka: "2025-01-04",
+  //       timestampZavrsetka: "2025-01-05",
+  //       status: "DENIED",
+  //     },
+  //     {
+  //       id: 4,
+  //       timestampPocetka: "2025-01-06 10:00:00",
+  //       timestampZavrsetka: "2025-01-06 10:00:00",
+  //       status: "ACCEPTED",
+  //     },
+  //     {
+  //       id: 5,
+  //       timestampPocetka: "2025-01-07 10:00:00",
+  //       timestampZavrsetka: "2025-01-07 11:00:00",
+  //       status: "FINISHED",
+  //     },
+  //   ];
 
-    // Mapiranje podataka u format koji FullCalendar očekuje
-    const mappedLessons = hardcodedLessons.map((lesson) => ({
-      title: `Lekcija ${lesson.id}`,
-      start: lesson.timestampPocetka.replace(" ", "T"), // formatiranje u ISO 8601
-      end: lesson.timestampZavrsetka.replace(" ", "T"), // formatiranje u ISO 8601
-      className: getEventClassName(lesson.status),
-    }));
+  // Mapiranje podataka u format koji FullCalendar očekuje
+  //   const mappedLessons = hardcodedLessons.map((lesson) => ({
+  //     title: `Lekcija ${lesson.id}`,
+  //     start: lesson.timestampPocetka.replace(" ", "T"), // formatiranje u ISO 8601
+  //     end: lesson.timestampZavrsetka.replace(" ", "T"), // formatiranje u ISO 8601
+  //     className: getEventClassName(lesson.status),
+  //   }));
 
-    console.log("Mapped lessons for FullCalendar:", mappedLessons);
-    setLessons(mappedLessons);
-  }, []);
+  //   console.log("Mapped lessons for FullCalendar:", mappedLessons);
+  //   setLessons(mappedLessons);
+  // }, []);
 
   const getEventClassName = (status) => {
     switch (status) {
@@ -90,15 +90,20 @@ function CalendarUser() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("Fetched data:", data);
+
+        // Use map instead of forEach to return a new array
         const mappedLessons = data.map((lesson) => ({
-          title: `Lekcija ${lessons.id}`,
-          start: lesson.timestampPocetka.replace(" ", "T"),
-          end: lesson.timestampZavrsetka.replace(" ", "T"),
+          title: `Lekcija ${lesson.id}`,
+          start: lesson.timestampPocetka,
+          end: lesson.timestampZavrsetka,
           className: getEventClassName(lesson.status),
         }));
+
         console.log("Mapped lessons for FullCalendar:", mappedLessons);
         setLessons(mappedLessons);
-      });
+      })
+      .catch((error) => console.error("Error fetching lessons:", error));
   }, []);
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -126,7 +131,6 @@ function CalendarUser() {
         onClose={handleClose}
         selectedDate={selectedDate}
         formData={formData}
-        handleChange={handleChange}
       ></LessonsModal>
       <CalendarComponent onDateClick={handleOpen} lessons={lessons} />
     </>
