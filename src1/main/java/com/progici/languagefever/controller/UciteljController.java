@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -50,73 +53,82 @@ public class UciteljController {
   private KorisnikController korisnikController;
 
 
-  @GetMapping("/ucitelji/filter")
-public List<UciteljDTO> filterAndSortUcitelji(
-    @RequestParam(required = false) Float minPrice,
-    @RequestParam(required = false) Float maxPrice,
-    @RequestParam(required = false) Integer minExperience,
-    @RequestParam(required = false) Kvalifikacija kvalifikacija,
-    @RequestParam(required = false) Stil stil,
-    @RequestParam(required = false) String sortBy,
-    @RequestParam(required = false) String sortOrder
-) {
-    List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+   @GetMapping("/ucitelji/filter")
+  public Page<UciteljDTO> filterAndSortUcitelji(
+      @RequestParam(required = false) Float minPrice,
+      @RequestParam(required = false) Float maxPrice,
+      @RequestParam(required = false) Integer minExperience,
+      @RequestParam(required = false) Kvalifikacija kvalifikacija,
+      @RequestParam(required = false) Stil stil,
+      @RequestParam(required = false) String sortBy,
+      @RequestParam(required = false) String sortOrder,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size
+  ) {
+      List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
 
-    // Filtering
-    if (minPrice != null) {
-        ucitelji = ucitelji.stream()
-            .filter(ucitelj -> ucitelj.getSatnica() >= minPrice)
-            .collect(Collectors.toList());
-    }
-    if (maxPrice != null) {
-        ucitelji = ucitelji.stream()
-            .filter(ucitelj -> ucitelj.getSatnica() <= maxPrice)
-            .collect(Collectors.toList());
-    }
-    if (minExperience != null) {
-        ucitelji = ucitelji.stream()
-            .filter(ucitelj -> ucitelj.getGodineIskustva() >= minExperience)
-            .collect(Collectors.toList());
-    }
-    if (kvalifikacija != null) {
-        ucitelji = ucitelji.stream()
-            .filter(ucitelj -> ucitelj.getKvalifikacija() == kvalifikacija)
-            .collect(Collectors.toList());
-    }
-    if (stil != null) {
-        ucitelji = ucitelji.stream()
-            .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
-            .collect(Collectors.toList());
-    }
+      // Filtering
+      if (minPrice != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ucitelj.getSatnica() >= minPrice)
+              .collect(Collectors.toList());
+      }
+      if (maxPrice != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ucitelj.getSatnica() <= maxPrice)
+              .collect(Collectors.toList());
+      }
+      if (minExperience != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ucitelj.getGodineIskustva() >= minExperience)
+              .collect(Collectors.toList());
+      }
+      if (kvalifikacija != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ucitelj.getKvalifikacija() == kvalifikacija)
+              .collect(Collectors.toList());
+      }
+      if (stil != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+              .collect(Collectors.toList());
+      }
 
-    // Sorting
-    if (sortBy != null) {
-        Comparator<Ucitelj> comparator = null;
-        if (sortBy.equals("experience")) {
-            comparator = Comparator.comparing(Ucitelj::getGodineIskustva);
-        } else if (sortBy.equals("price")) {
-            comparator = Comparator.comparing(Ucitelj::getSatnica);
-        }
+      // Sorting
+      if (sortBy != null) {
+          Comparator<Ucitelj> comparator = null;
+          if (sortBy.equals("experience")) {
+              comparator = Comparator.comparing(Ucitelj::getGodineIskustva);
+          } else if (sortBy.equals("price")) {
+              comparator = Comparator.comparing(Ucitelj::getSatnica);
+          }
 
-        if (comparator != null) {
-            if (sortOrder != null && sortOrder.equals("desc")) {
-                comparator = comparator.reversed();
-            }
-            ucitelji.sort(comparator);
-        }
-    }
+          if (comparator != null) {
+              if (sortOrder != null && sortOrder.equals("desc")) {
+                  comparator = comparator.reversed();
+              }
+              ucitelji.sort(comparator);
+          }
+      }
 
-    // Convert to DTO
-    return ucitelji.stream()
-        .map(ucitelj -> new UciteljDTO(
-            uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-            ucitelj.getGodineIskustva(),
-            ucitelj.getKvalifikacija(),
-            ucitelj.getStilPoducavanja(),
-            ucitelj.getSatnica()
-        ))
-        .collect(Collectors.toList());
-}
+      // Pagination
+      int start = Math.min(page * size, ucitelji.size());
+      int end = Math.min((page + 1) * size, ucitelji.size());
+      List<Ucitelj> paginatedList = ucitelji.subList(start, end);
+
+      // Convert to DTO
+      List<UciteljDTO> uciteljDTOs = paginatedList.stream()
+          .map(ucitelj -> new UciteljDTO(
+              uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+              ucitelj.getGodineIskustva(),
+              ucitelj.getKvalifikacija(),
+              ucitelj.getStilPoducavanja(),
+              ucitelj.getSatnica()
+          ))
+          .collect(Collectors.toList());
+
+      return new PageImpl<>(uciteljDTOs, PageRequest.of(page, size), ucitelji.size());
+  }
 
   //
   //  USER ENDPOINTS
