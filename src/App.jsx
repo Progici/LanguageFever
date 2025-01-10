@@ -4,6 +4,7 @@ import Login from "./components/jsx/Login";
 import Home from "./components/jsx/Home";
 import TeacherInfo from "./components/jsx/TeacherInfo";
 import StudentInfo from "./components/jsx/StudentInfo";
+import TeacherProfile from "./components/jsx/TeacherProfile";
 import HeaderMain from "./components/jsx/HeaderMain";
 import Profile from "./components/jsx/Profile";
 import CalendarUser from "./components/jsx/CalendarUser";
@@ -13,6 +14,8 @@ import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
+import { ToastContainer } from "react-toastify";
+import TeacherCard from "./components/jsx/TeacherCard";
 import NewReqTeacher from "./components/jsx/NewReqTeacher";
 import RateTeachers from "./components/forms/RateTeachers";
 
@@ -43,12 +46,15 @@ function App() {
     <>
       <Router>
         <HeaderMain active={active}></HeaderMain>
+        <ToastContainer />
+
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/login" element={<LoginUser />}></Route>
           <Route path="/logout" element={<Login />}></Route>
           <Route path="/teachers" element={<TeachersPage />}></Route>
           <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
+          <Route path="/teachers/:id" element={<TeacherProfile />}></Route>
           <Route path="/studentInfo" element={<StudentInfo />}></Route>
           <Route path="/editUser" element={<Profile />}></Route>
           <Route path="/faqs" element={<Faqs />}></Route>

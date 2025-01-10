@@ -4,11 +4,13 @@ import "../css/LoginUser.css";
 function LoginUser() {
   return (
     <>
-      <div class="login">
-        <div class="grid-container">
-          <div class="item login-text">Prijava putem OAuth 2.0</div>
-          <div class="item instructions">Izaberite jedan od načina prijave</div>
-          <div class="item options">
+      <div className="login">
+        <div className="grid-container">
+          <div className="item login-text">Prijava putem OAuth 2.0</div>
+          <div className="item instructions">
+            Izaberite jedan od načina prijave
+          </div>
+          <div className="item options">
             <a
               href={`${ApiConfig.API_URL}/oauth2/authorization/github`}
               id="option"
