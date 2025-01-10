@@ -43,6 +43,132 @@ public class UciteljController {
   @Autowired
   private KorisnikController korisnikController;
 
+  @GetMapping("/ucitelji/filter")
+  public Page<UciteljDTO> filterAndSortUcitelji(
+    @RequestParam(required = false) Float minPrice,
+    @RequestParam(required = false) Float maxPrice,
+    @RequestParam(required = false) Integer minExperience,
+    @RequestParam(required = false) Kvalifikacija kvalifikacija,
+    @RequestParam(required = false) Stil stil,
+    @RequestParam(required = false) Double minAverageOcjena,
+    @RequestParam(required = false) Integer minCountOcjena,
+    @RequestParam(required = false) String sortBy,
+    @RequestParam(required = false) String sortOrder,
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "12") int size
+  ) {
+    List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+
+    // Filtering
+    if (minPrice != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> ucitelj.getSatnica() >= minPrice)
+          .collect(Collectors.toList());
+    }
+    if (maxPrice != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> ucitelj.getSatnica() <= maxPrice)
+          .collect(Collectors.toList());
+    }
+    if (minExperience != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> ucitelj.getGodineIskustva() >= minExperience)
+          .collect(Collectors.toList());
+    }
+    if (kvalifikacija != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> ucitelj.getKvalifikacija() == kvalifikacija)
+          .collect(Collectors.toList());
+    }
+    if (stil != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+          .collect(Collectors.toList());
+    }
+    if (minAverageOcjena != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj ->
+            ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId()) >=
+            minAverageOcjena
+          )
+          .collect(Collectors.toList());
+    }
+    if (minCountOcjena != null) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj ->
+            ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size() >=
+            minCountOcjena
+          )
+          .collect(Collectors.toList());
+    }
+
+    // Sorting
+    if (sortBy != null) {
+      Comparator<Ucitelj> comparator = null;
+      if (sortBy.equals("experience")) {
+        comparator = Comparator.comparing(Ucitelj::getGodineIskustva);
+      } else if (sortBy.equals("price")) {
+        comparator = Comparator.comparing(Ucitelj::getSatnica);
+      } else if (sortBy.equals("averageOcjena")) {
+        comparator =
+          Comparator.comparingDouble(ucitelj ->
+            ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId())
+          );
+      } else if (sortBy.equals("countOcjena")) {
+        comparator =
+          Comparator.comparingInt(ucitelj ->
+            ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size()
+          );
+      }
+
+      if (comparator != null) {
+        if (sortOrder != null && sortOrder.equals("desc")) {
+          comparator = comparator.reversed();
+        }
+        ucitelji.sort(comparator);
+      }
+    }
+
+    // Pagination
+    int start = Math.min(page * size, ucitelji.size());
+    int end = Math.min((page + 1) * size, ucitelji.size());
+    List<Ucitelj> paginatedList = ucitelji.subList(start, end);
+
+    // Convert to DTO
+    List<UciteljDTO> uciteljDTOs = paginatedList
+      .stream()
+      .map(ucitelj ->
+        new UciteljDTO(
+          uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+          ucitelj.getGodineIskustva(),
+          ucitelj.getKvalifikacija(),
+          ucitelj.getStilPoducavanja(),
+          ucitelj.getSatnica()
+        )
+      )
+      .collect(Collectors.toList());
+
+    return new PageImpl<>(
+      uciteljDTOs,
+      PageRequest.of(page, size),
+      ucitelji.size()
+    );
+  }
+
   //
   //  USER ENDPOINTS
   //
