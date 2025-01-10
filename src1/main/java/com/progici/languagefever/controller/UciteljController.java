@@ -31,6 +31,7 @@ import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
 import com.progici.languagefever.service.KorisnikService;
 import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.OcjenaService;
 import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
 
@@ -52,18 +53,22 @@ public class UciteljController {
   @Autowired
   private KorisnikController korisnikController;
 
+    @Autowired
+  private OcjenaService ocjenaService;
 
-   @GetMapping("/ucitelji/filter")
+  @GetMapping("/ucitelji/filter")
   public Page<UciteljDTO> filterAndSortUcitelji(
       @RequestParam(required = false) Float minPrice,
       @RequestParam(required = false) Float maxPrice,
       @RequestParam(required = false) Integer minExperience,
       @RequestParam(required = false) Kvalifikacija kvalifikacija,
       @RequestParam(required = false) Stil stil,
+      @RequestParam(required = false) Double minAverageOcjena,
+      @RequestParam(required = false) Integer minCountOcjena,
       @RequestParam(required = false) String sortBy,
       @RequestParam(required = false) String sortOrder,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int size
+      @RequestParam(defaultValue = "12") int size
   ) {
       List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
 
@@ -93,6 +98,16 @@ public class UciteljController {
               .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
               .collect(Collectors.toList());
       }
+      if (minAverageOcjena != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId()) >= minAverageOcjena)
+              .collect(Collectors.toList());
+      }
+      if (minCountOcjena != null) {
+          ucitelji = ucitelji.stream()
+              .filter(ucitelj -> ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size() >= minCountOcjena)
+              .collect(Collectors.toList());
+      }
 
       // Sorting
       if (sortBy != null) {
@@ -101,6 +116,10 @@ public class UciteljController {
               comparator = Comparator.comparing(Ucitelj::getGodineIskustva);
           } else if (sortBy.equals("price")) {
               comparator = Comparator.comparing(Ucitelj::getSatnica);
+          } else if (sortBy.equals("averageOcjena")) {
+              comparator = Comparator.comparingDouble(ucitelj -> ocjenaService.getProsjecnaOcjenaByUciteljId(ucitelj.getId()));
+          } else if (sortBy.equals("countOcjena")) {
+              comparator = Comparator.comparingInt(ucitelj -> ocjenaService.getOcjeneByUciteljId(ucitelj.getId()).size());
           }
 
           if (comparator != null) {

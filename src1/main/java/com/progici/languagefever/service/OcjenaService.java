@@ -1,10 +1,12 @@
 package com.progici.languagefever.service;
 
-import com.progici.languagefever.model.Ocjena;
-import com.progici.languagefever.repository.OcjenaRepository;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.progici.languagefever.model.Ocjena;
+import com.progici.languagefever.repository.OcjenaRepository;
 
 public class OcjenaService {
 
@@ -50,5 +52,10 @@ public class OcjenaService {
 
   public void deleteOcjenaAll() {
     ocjenaRepository.deleteAll();
+  }
+   // New method to calculate average rating for a given teacher
+   public double getProsjecnaOcjenaByUciteljId(Long uciteljId) {
+    List<Ocjena> ocjene = getOcjeneByUciteljId(uciteljId);
+    return ocjene.stream().mapToInt(Ocjena::getOcjena).average().orElse(0.0);
   }
 }
