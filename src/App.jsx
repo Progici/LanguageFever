@@ -1,26 +1,43 @@
+import { useContext, useEffect } from "react";
+import { AppContext, AppProvider } from "./AppContext"; // Ensure correct imports
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Login from "./components/jsx/Login";
+import Logout from "./components/jsx/Logout";
 import Home from "./components/jsx/Home";
-import TeacherInfo from "./components/jsx/TeacherInfo";
-import StudentInfo from "./components/jsx/StudentInfo";
 import TeacherProfile from "./components/jsx/TeacherProfile";
 import HeaderMain from "./components/jsx/HeaderMain";
 import Profile from "./components/jsx/Profile";
 import CalendarUser from "./components/jsx/CalendarUser";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TeachersPage from "./components/jsx/TeachersPage";
-import { useEffect, useState } from "react";
 import { ApiConfig } from "./config/api.config";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
 import { ToastContainer } from "react-toastify";
-import TeacherCard from "./components/jsx/TeacherCard";
 import NewReqTeacher from "./components/jsx/NewReqTeacher";
 import RateTeachers from "./components/forms/RateTeachers";
 
-function App() {
-  const [active, setActive] = useState(false);
+// RequireSelection component that checks the 'selected' value
+function RequireSelection({ children }) {
+  const { currentStudent, currentTeacher, active } = useContext(AppContext);
+
+  // Redirect to /edit-user if no selection is made
+  if (currentStudent === null && currentTeacher === null && active) {
+    return <Navigate to="/edit-user" replace />;
+  }
+
+  // Render children if selection exists
+  return children;
+}
+
+function AppContent() {
+  const { setActive, currentStudent, currentTeacher, currentUser, selected } =
+    useContext(AppContext); // Use context inside AppContent
 
   useEffect(() => {
     const fetchActivityStatus = async () => {
@@ -33,37 +50,81 @@ function App() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
+        console.log("-----------");
+        console.log("Active: " + data);
+        console.log("CurrentUser:");
+        console.log(currentUser);
+        console.log("CurrentStudent:");
+        console.log(currentStudent);
+        console.log("CurrentTeacher:");
+        console.log(currentTeacher);
+        if (selected === 1) console.log("Selected: Student");
+        else console.log("Selected: Teacher");
+        console.log("-----------");
         setActive(data);
       } catch (error) {
         console.error("Error fetching status:", error);
       }
     };
     fetchActivityStatus();
-  }, []);
+  }, [setActive]);
 
   return (
     <>
-      <Router>
-        <HeaderMain active={active}></HeaderMain>
-        <ToastContainer />
+      <HeaderMain />
+      <ToastContainer />
 
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<LoginUser />}></Route>
-          <Route path="/logout" element={<Login />}></Route>
-          <Route path="/teachers" element={<TeachersPage />}></Route>
-          <Route path="/teacherInfo" element={<TeacherInfo />}></Route>
-          <Route path="/teachers/:id" element={<TeacherProfile />}></Route>
-          <Route path="/studentInfo" element={<StudentInfo />}></Route>
-          <Route path="/editUser" element={<Profile />}></Route>
-          <Route path="/faqs" element={<Faqs />}></Route>
-          <Route path="/calendar" element={<CalendarUser />}></Route>
-          <Route path="/newRequests" element={<NewReqTeacher />}></Route>
-          <Route path="/rateTeachers" element={<RateTeachers />}></Route>
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginUser />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/teachers" element={<TeachersPage />} />
+        <Route
+          path="/teachers/:id"
+          element={
+            <RequireSelection>
+              <TeacherProfile />
+            </RequireSelection>
+          }
+        />
+        <Route path="/edit-user" element={<Profile />} />
+        <Route path="/faqs" element={<Faqs />} />
+        <Route
+          path="/calendar"
+          element={
+            <RequireSelection>
+              <CalendarUser />
+            </RequireSelection>
+          }
+        />
+        <Route
+          path="/new-requests"
+          element={
+            <RequireSelection>
+              <NewReqTeacher />
+            </RequireSelection>
+          }
+        />
+        <Route
+          path="/rate-teachers"
+          element={
+            <RequireSelection>
+              <RateTeachers />
+            </RequireSelection>
+          }
+        />
+      </Routes>
     </>
+  );
+}
+
+function App() {
+  return (
+    <AppProvider>
+      <Router>
+        <AppContent /> {/* Separate content into a child component */}
+      </Router>
+    </AppProvider>
   );
 }
 

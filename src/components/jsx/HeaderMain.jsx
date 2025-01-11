@@ -1,21 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react"; // Added useContext
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Hamburger from "hamburger-react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { FaUserCircle, FaBars } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import "../css/HeaderMain.css";
 import Avatar from "@mui/material/Avatar";
 import { ApiConfig } from "../../config/api.config";
+import { AppContext } from "../../AppContext";
 
-function HeaderMain({ active }) {
+function HeaderMain() {
+  const { active, currentUser, setCurrentUser } = useContext(AppContext); // Using context
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
-
-  const [data, setData] = useState(null); // Initial state as null
 
   useEffect(() => {
     // Fetch current user to check if they are a teacher
@@ -25,15 +24,14 @@ function HeaderMain({ active }) {
     })
       .then((response) => response.json()) // Parse the response as JSON
       .then((data) => {
-        console.log("User data:", data); // Log user data to check if they are a teacher
-        setData(data); // Update state with fetched data
+        setCurrentUser(data); // Update state with fetched data
       })
       .catch((error) => {
         console.error("Error fetching user data:", error); // Log any errors
       });
   }, []);
 
-  // Efekt za zatvaranje hamburger izbornika
+  // Effect for closing hamburger menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -62,7 +60,7 @@ function HeaderMain({ active }) {
           <Nav.Link as={Link} to="/lessons">
             Lekcije
           </Nav.Link>
-          <Nav.Link as={Link} to="/newRequests">
+          <Nav.Link as={Link} to="/new-requests">
             Zahtjevi
           </Nav.Link>
           <Nav.Link as={Link} to="/faqs">
@@ -70,17 +68,17 @@ function HeaderMain({ active }) {
           </Nav.Link>
         </Nav>
 
-        {/* Profilna ikona za prijavljenog korisnika */}
-        {active && data ? (
+        {/* Profile icon for logged-in user */}
+        {active && currentUser ? (
           <div className="profile-container1">
             <button id="profile-pic">
-              <Avatar alt="K" src={data.picture || ""} />{" "}
+              <Avatar alt="K" src={currentUser.picture || ""} />{" "}
               {/* Check if data.picture exists */}
             </button>
             <div className="dropdown-menu">
               <ul>
                 <li className="d-grid">
-                  <Link to="/editUser" className="link-underline-opacity-0">
+                  <Link to="/edit-user" className="link-underline-opacity-0">
                     <button className="btn btn-primary" id="logout">
                       Uredi profil
                     </button>
@@ -111,7 +109,7 @@ function HeaderMain({ active }) {
           </div>
         )}
 
-        {/* Hamburger ikona za navigaciju */}
+        {/* Hamburger icon for navigation */}
         <div className="hamburger-container" ref={menuRef}>
           <div
             className="hamburger-icon"
@@ -143,7 +141,7 @@ function HeaderMain({ active }) {
                   </Link>
                 </li>
                 <li className="d-grid">
-                  <Link to="/newRequests">
+                  <Link to="/new-requests">
                     <button className="btn btn-primary" id="logout2">
                       Zahtjevi
                     </button>
@@ -167,18 +165,24 @@ function HeaderMain({ active }) {
                   </li>
                 )}
 
-                {active && data && (
+                {active && currentUser && (
                   <>
                     <li className="d-grid">
                       <button
                         id="profile-pic"
                         style={{ display: "flex", justifyContent: "flex-end" }}
                       >
-                        <Avatar alt="K" src={data.picture || ""}></Avatar>
+                        <Avatar
+                          alt="K"
+                          src={currentUser.picture || ""}
+                        ></Avatar>
                       </button>
                     </li>
                     <li className="d-grid">
-                      <Link to="/editUser" className="link-underline-opacity-0">
+                      <Link
+                        to="/edit-user"
+                        className="link-underline-opacity-0"
+                      >
                         <button className="btn btn-primary" id="logout2">
                           Uredi profil
                         </button>

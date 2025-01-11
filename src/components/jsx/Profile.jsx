@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef, useContext } from "react"; // Added useContext
+import { AppContext } from "../../AppContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Profile.css";
 import StudentInfo from "./StudentInfo";
 import TeacherInfo from "./TeacherInfo";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Profile() {
+  const { selected, setSelected } = useContext(AppContext);
   // Držimo aktivnu tablicu (1 = Učenik, 2 = Učitelj)
-  const [activeTab, setActiveTab] = useState(1); // Početno stanje je aktivan "Učenik" tab (1)
 
   // Funkcija koja omogućava prebacivanje između tabova
   function toggleTab(tab) {
-    setActiveTab(tab); // Ažurira stanje na temelju tab-a koji je kliknut
+    setSelected(tab); // Ažurira stanje na temelju tab-a koji je kliknut
   }
 
   return (
@@ -21,13 +22,13 @@ function Profile() {
       <div className="tab profile-form-container">
         <ul className="d-flex tabs">
           <li
-            className={`flex-fill ${activeTab === 1 ? "active-tab" : ""}`} // Aktivira tab "Učenik" ako je activeTab 1
+            className={`flex-fill ${selected === 1 ? "active-tab" : ""}`} // Aktivira tab "Učenik" ako je activeTab 1
             onClick={() => toggleTab(1)} // Poziva toggleTab funkciju sa tab-om 1 (Učenik)
           >
             Učenik
           </li>
           <li
-            className={`flex-fill ${activeTab === 2 ? "active-tab" : ""}`} // Aktivira tab "Učitelj" ako je activeTab 2
+            className={`flex-fill ${selected === 2 ? "active-tab" : ""}`} // Aktivira tab "Učitelj" ako je activeTab 2
             onClick={() => toggleTab(2)} // Poziva toggleTab funkciju sa tab-om 2 (Učitelj)
           >
             Učitelj
@@ -36,14 +37,14 @@ function Profile() {
         {/* Prikazuje sadržaj ovisno o aktivnom tabu */}
         <div
           className={
-            activeTab === 1 ? "show-content content-area" : "content" // Ako je activeTab 1, prikazuje sadržaj za Učenika
+            selected === 1 ? "show-content content-area" : "content" // Ako je activeTab 1, prikazuje sadržaj za Učenika
           }
         >
           <StudentInfo /> {/* Prikazuje komponentu za informacije o učeniku */}
         </div>
         <div
           className={
-            activeTab === 2 ? "show-content content-area" : "content" // Ako je activeTab 2, prikazuje sadržaj za Učitelja
+            selected === 2 ? "show-content content-area" : "content" // Ako je activeTab 2, prikazuje sadržaj za Učitelja
           }
         >
           <TeacherInfo /> {/* Prikazuje komponentu za informacije o učitelju */}

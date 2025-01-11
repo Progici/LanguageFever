@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../AppContext";
 import { Link } from "react-router-dom";
 import "../css/TeacherInfo.css";
 import { ApiConfig } from "../../config/api.config";
@@ -19,7 +20,7 @@ function TeacherInfo() {
   const [teachingStyles, setTeachingStyles] = useState([]);
 
   // Stanje za trenutnog učitelja
-  const [currentTeacher, setCurrentTeacher] = useState(null); // Početno stanje je null
+  const { currentTeacher, setCurrentTeacher } = useContext(AppContext); // Početno stanje je null
 
   // Fetch podaci za jezike
   useEffect(() => {

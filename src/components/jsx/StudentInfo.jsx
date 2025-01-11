@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../AppContext";
 import { Link } from "react-router-dom";
 import "../css/StudentInfo.css";
 import { ApiConfig } from "../../config/api.config";
@@ -17,7 +18,7 @@ function StudentInfo() {
   const [languageOptions, setLanguageOptions] = useState([]);
 
   // Dodavanje stanja za trenutnog učenika
-  const [currentStudent, setCurrentStudent] = useState(null); // Početno stanje je null
+  const { setCurrentStudent } = useContext(AppContext);
 
   // Fetch podaci za jezike
   useEffect(() => {
