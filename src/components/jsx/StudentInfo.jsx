@@ -8,17 +8,24 @@ import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "react-toastify";
 
 function StudentInfo() {
-  const [language, setLanguage] = useState([]); // Koristimo niz za višestruki odabir jezika
-  const [level, setLevel] = useState(""); // Razina znanja
-  const [style, setStyle] = useState(""); // Stil učenja
-  const [goals, setGoals] = useState(""); // Ciljevi
-
+  const [language, setLanguage] = useState([]);
+  const [level, setLevel] = useState("");
+  const [style, setStyle] = useState("");
+  const [goals, setGoals] = useState("");
   const [levelOptions, setLevelOptions] = useState([]);
   const [teachingStyles, setTeachingStyles] = useState([]);
   const [languageOptions, setLanguageOptions] = useState([]);
 
   // Dodavanje stanja za trenutnog učenika
-  const { setCurrentStudent } = useContext(AppContext);
+  const { currentStudent, setCurrentStudent, setSelected } =
+    useContext(AppContext);
+
+  useEffect(() => {
+    setLanguage(currentStudent?.jezici || []);
+    setLevel(currentStudent?.razina || "");
+    setStyle(currentStudent?.stilUcenja || "");
+    setGoals(currentStudent?.ciljevi || "");
+  }, []);
 
   // Fetch podaci za jezike
   useEffect(() => {
@@ -48,37 +55,6 @@ function StudentInfo() {
     })
       .then((response) => response.json())
       .then((data) => setTeachingStyles(data));
-  }, []);
-
-  // Dohvat podataka o trenutnom učeniku
-  useEffect(() => {
-    fetch(ApiConfig.API_URL + "/trenutniucenik", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.status === 404) {
-          setCurrentStudent(null); // Ako nema podataka, postavite na null
-          return;
-        }
-
-        console.log("Fetch pokušaj");
-        return response.json();
-      })
-      .then((data) => {
-        if (data) {
-          setCurrentStudent(data); // Postavite podatke o trenutnom učeniku
-          setLanguage(data.jezici || []);
-          setLevel(data.razina || "");
-          setStyle(data.stilUcenja || "");
-          setGoals(data.ciljevi || "");
-          console.log("Evo došli podaci.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching current student data:", error);
-        setCurrentStudent(null);
-      });
   }, []);
 
   // Funkcija za provjeru jesu li svi podaci uneseni
@@ -127,6 +103,8 @@ function StudentInfo() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      setCurrentStudent(data);
+      setSelected(1);
       toast.success("Podaci o učeniku su uspješno ažurirani", {
         position: "bottom-right",
         autoClose: 3000, // 3 sekunde

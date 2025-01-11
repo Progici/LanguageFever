@@ -20,7 +20,16 @@ function TeacherInfo() {
   const [teachingStyles, setTeachingStyles] = useState([]);
 
   // Stanje za trenutnog učitelja
-  const { currentTeacher, setCurrentTeacher } = useContext(AppContext); // Početno stanje je null
+  const { currentTeacher, setCurrentTeacher, setSelected } =
+    useContext(AppContext);
+
+  useEffect(() => {
+    setLanguage(currentTeacher?.jezici || []);
+    setYears(currentTeacher?.godineIskustva || "");
+    setQualifications(currentTeacher?.kvalifikacija || "");
+    setStyle(currentTeacher?.stilPoducavanja || "");
+    setHourlyRate(currentTeacher?.satnica || "");
+  }, []);
 
   // Fetch podaci za jezike
   useEffect(() => {
@@ -50,35 +59,6 @@ function TeacherInfo() {
     })
       .then((response) => response.json())
       .then((data) => setTeachingStyles(data));
-  }, []);
-
-  // Dohvat podataka o trenutnom učitelju
-  useEffect(() => {
-    fetch(ApiConfig.API_URL + "/trenutniucitelj", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.status === 404) {
-          setCurrentTeacher(null); // Ako nema podataka, postavite na null
-          return;
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data) {
-          setCurrentTeacher(data); // Postavite podatke o trenutnom učitelju
-          setLanguage(data.jezici || []);
-          setYears(data.godineIskustva || "");
-          setQualifications(data.kvalifikacija || "");
-          setStyle(data.stilPoducavanja || "");
-          setHourlyRate(data.satnica || "");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching current teacher data:", error);
-        setCurrentTeacher(null);
-      });
   }, []);
 
   // Funkcija za provjeru jesu li svi podaci uneseni
@@ -144,6 +124,8 @@ function TeacherInfo() {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+      setCurrentTeacher(data);
+      setSelected(2);
       toast.success("Podaci o učitelju su uspješno ažurirani", {
         position: "bottom-right",
         autoClose: 3000, // 3 sekunde

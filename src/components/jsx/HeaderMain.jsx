@@ -7,29 +7,13 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import "../css/HeaderMain.css";
 import Avatar from "@mui/material/Avatar";
-import { ApiConfig } from "../../config/api.config";
 import { AppContext } from "../../AppContext";
 
 function HeaderMain() {
-  const { active, currentUser, setCurrentUser } = useContext(AppContext); // Using context
+  const { active, currentUser } = useContext(AppContext); // Using context
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
-
-  useEffect(() => {
-    // Fetch current user to check if they are a teacher
-    fetch(ApiConfig.API_URL + "/trenutnikorisnik", {
-      method: "GET",
-      credentials: "include", // Include cookies for authentication
-    })
-      .then((response) => response.json()) // Parse the response as JSON
-      .then((data) => {
-        setCurrentUser(data); // Update state with fetched data
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error); // Log any errors
-      });
-  }, []);
 
   // Effect for closing hamburger menu
   useEffect(() => {

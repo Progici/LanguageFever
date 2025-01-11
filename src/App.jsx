@@ -24,11 +24,12 @@ import RateTeachers from "./components/forms/RateTeachers";
 
 // RequireSelection component that checks the 'selected' value
 function RequireSelection({ children }) {
-  const { currentStudent, currentTeacher, active } = useContext(AppContext);
+  const { active, selected } = useContext(AppContext);
 
-  // Redirect to /edit-user if no selection is made
-  if (currentStudent === null && currentTeacher === null && active) {
-    return <Navigate to="/edit-user" replace />;
+  console.log(selected);
+
+  if (selected === 0 && active) {
+    return <Profile />;
   }
 
   // Render children if selection exists
@@ -36,8 +37,29 @@ function RequireSelection({ children }) {
 }
 
 function AppContent() {
-  const { setActive, currentStudent, currentTeacher, currentUser, selected } =
-    useContext(AppContext); // Use context inside AppContent
+  const {
+    setActive,
+    setSelected,
+    setCurrentStudent,
+    setCurrentTeacher,
+    setCurrentUser,
+    active,
+    selected,
+    currentStudent,
+    currentTeacher,
+  } = useContext(AppContext); // Use context inside AppContent
+
+  useEffect(() => {
+    console.log("Active: " + active);
+    console.log("Selected:", selected);
+    console.log("CurrentStudent:", currentStudent);
+    console.log("CurrentTeacher:", currentTeacher);
+    if (selected === 1)
+      console.log("%c Selected: Student ", "background: #222; color: #bada55");
+    else if (selected === 2)
+      console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
+    else console.log("%c Selected: NONE", "background: #222; color: #bada55");
+  }, [active, selected, currentStudent, currentTeacher]);
 
   useEffect(() => {
     const fetchActivityStatus = async () => {
@@ -50,17 +72,6 @@ function AppContent() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log("-----------");
-        console.log("Active: " + data);
-        console.log("CurrentUser:");
-        console.log(currentUser);
-        console.log("CurrentStudent:");
-        console.log(currentStudent);
-        console.log("CurrentTeacher:");
-        console.log(currentTeacher);
-        if (selected === 1) console.log("Selected: Student");
-        else console.log("Selected: Teacher");
-        console.log("-----------");
         setActive(data);
       } catch (error) {
         console.error("Error fetching status:", error);
@@ -68,6 +79,76 @@ function AppContent() {
     };
     fetchActivityStatus();
   }, [setActive]);
+
+  useEffect(() => {
+    // Fetch both current student and current teacher
+    const fetchUserData = async () => {
+      try {
+        // Fetch student data
+        const studentResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucenik",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (studentResponse.ok) {
+          const studentData = await studentResponse.json();
+          setCurrentStudent(studentData);
+          setSelected(1); // Student found, set as selected
+        } else {
+          setCurrentStudent("");
+          // If student fetch fails, set as null
+        }
+
+        // Fetch teacher data only if student fetch fails
+        const teacherResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucitelj",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (teacherResponse.ok) {
+          const teacherData = await teacherResponse.json();
+          setCurrentTeacher(teacherData);
+          setSelected(2); // Teacher found, set as selected
+        } else {
+          setCurrentTeacher("");
+          // If teacher fetch fails, set as null
+        }
+      } catch (error) {
+        setCurrentStudent("");
+        setCurrentTeacher("");
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [setCurrentStudent, setCurrentTeacher, setSelected]);
+
+  useEffect(() => {
+    const fetchActivityStatus = async () => {
+      try {
+        const response = await fetch(ApiConfig.API_URL + "/trenutnikorisnik", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          setCurrentUser("");
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setCurrentUser(data);
+      } catch (error) {
+        setCurrentUser("");
+        console.error("Error fetching status:", error);
+      }
+    };
+    fetchActivityStatus();
+  }, [setCurrentUser]);
 
   return (
     <>
@@ -87,7 +168,14 @@ function AppContent() {
             </RequireSelection>
           }
         />
-        <Route path="/edit-user" element={<Profile />} />
+        <Route
+          path="/edit-user"
+          element={
+            <RequireSelection>
+              <Profile />
+            </RequireSelection>
+          }
+        />
         <Route path="/faqs" element={<Faqs />} />
         <Route
           path="/calendar"

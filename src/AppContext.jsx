@@ -5,44 +5,23 @@ export const AppContext = createContext();
 
 // Create a provider component
 export const AppProvider = ({ children }) => {
-  // Initialize state from localStorage if available, else use default values
-  const [active, setActive] = useState(() => {
-    const savedActive = localStorage.getItem("active");
-    return savedActive ? JSON.parse(savedActive) : false;
-  });
-
-  const [selected, setSelected] = useState(() => {
-    const savedSelected = localStorage.getItem("selected");
-    return savedSelected ? JSON.parse(savedSelected) : 1; // Default to 1
-  });
+  const [active, setActive] = useState(false);
+  const [selected, setSelected] = useState(0);
 
   const [currentTeacher, setCurrentTeacher] = useState(() => {
     const savedTeacher = localStorage.getItem("currentTeacher");
-    return savedTeacher ? JSON.parse(savedTeacher) : null;
+    return savedTeacher ? JSON.parse(savedTeacher) : "";
   });
 
   const [currentStudent, setCurrentStudent] = useState(() => {
     const savedStudent = localStorage.getItem("currentStudent");
-    return savedStudent ? JSON.parse(savedStudent) : null;
+    return savedStudent ? JSON.parse(savedStudent) : "";
   });
 
   const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = localStorage.getItem("currentUser");
-    return savedUser ? JSON.parse(savedUser) : null;
+    return savedUser ? JSON.parse(savedUser) : "";
   });
-
-  // Use useEffect to save state to localStorage whenever the state changes
-  useEffect(() => {
-    if (active !== null) {
-      localStorage.setItem("active", JSON.stringify(active));
-    }
-  }, [active]);
-
-  useEffect(() => {
-    if (selected !== null) {
-      localStorage.setItem("selected", JSON.stringify(selected));
-    }
-  }, [selected]);
 
   useEffect(() => {
     if (currentTeacher !== null) {
