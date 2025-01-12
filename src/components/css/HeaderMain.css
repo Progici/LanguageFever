@@ -69,7 +69,8 @@
 
 .profile-container1 {
   position: relative;
-  display: inline-block;
+  display: flex; /* Aktivira flexbox */
+  align-items: center; /* Vertikalno centriranje */
   margin-left: auto;
 }
 
@@ -77,6 +78,7 @@
   background-color: inherit;
   border: none;
   outline: none;
+  margin-right: 10px; /* Razmak između slike i teksta */
 }
 
 .dropdown-menu {

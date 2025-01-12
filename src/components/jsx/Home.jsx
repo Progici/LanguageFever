@@ -1,6 +1,7 @@
 import teacherPhoto from "../../assets/images/teacherphoto.jpg";
 import homeImage from "../../assets/images/homeimage.png";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 import "../css/Home.css";
 
 function Home() {
@@ -8,6 +9,7 @@ function Home() {
     <>
       <div className="home">
         <div className="home-section">
+          <p>Dobrodošli, !</p>
           <section className="hero-section">
             <div className="home-picture-div">
               <img src={homeImage} className="home-picture" />

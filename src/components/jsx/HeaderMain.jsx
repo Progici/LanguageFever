@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import { AppContext } from "../../AppContext";
 
 function HeaderMain() {
-  const { active, currentUser } = useContext(AppContext); // Using context
+  const { active, currentUser, selected } = useContext(AppContext); // Using context
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
@@ -59,6 +59,11 @@ function HeaderMain() {
               <Avatar alt="K" src={currentUser.picture || ""} />{" "}
               {/* Check if data.picture exists */}
             </button>
+            <div>
+              {selected === 1 && "Učenik"}
+              {selected === 2 && "Učitelj"}
+              {selected === 0 && ""}
+            </div>
             <div className="dropdown-menu">
               <ul>
                 <li className="d-grid">
@@ -161,6 +166,11 @@ function HeaderMain() {
                           src={currentUser.picture || ""}
                         ></Avatar>
                       </button>
+                      <div style={{ marginLeft: "20px" }}>
+                        {selected === 1 && "Učenik"}
+                        {selected === 2 && "Učitelj"}
+                        {selected === 0 && ""}
+                      </div>
                     </li>
                     <li className="d-grid">
                       <Link
