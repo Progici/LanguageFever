@@ -1,0 +1,10 @@
+
+  
+.teacher-info img {
+    width: 150px; /* Definiraj širinu slike učitelja */
+    height: 150px; /* Definiraj visinu slike učitelja */
+    border-radius: 50%; /* Zaokruži sliku */
+    object-fit: cover; /* Slika će se prilagoditi unutar kvadratnog okvira */
+}
+  
+  

@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DatePicker from "../forms/DatePicker";
 import SubmitButton from "../forms/SubmitButton";
-import "./LessonsModal.css";
+import "../css/LessonsModal.css";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -70,6 +70,7 @@ export default function LessonsModal({
       .then((res) => {
         console.log("Lesson successfully added:", res);
         onClose(); // Close the modal after successful submission
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);
