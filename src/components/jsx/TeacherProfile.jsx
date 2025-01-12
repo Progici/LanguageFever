@@ -8,62 +8,58 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import CalendarDynamicTeacher from "./CalendarDynamicTeacher";
 import RateTeachers from "../forms/RateTeachers";
+import { useParams } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
 
 const TeacherProfile = () => {
-  const [teacher, setTeacher] = useState([]); // Početno stanje: prazna lista učitelja
-  const [idKorisnika, setIdKorisnika] = useState(null);
+  const { id } = useParams();
+  const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
 
-  // Funkcija za dohvat trenutnog korisnika
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await fetch(ApiConfig.API_URL + "/trenutnikorisnik", {
-        method: "GET",
-        credentials: "include",
-      });
+  // useEffect(() => {
+  //   console.log("teacher");
+  //   console.log(teacher);
+  // }, [teacher]);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch current user");
-      }
-
-      const data = await response.json();
-      console.log("Fetched current user:", data);
-
-      setIdKorisnika(data.id); // Postavljanje ID korisnika u stanje
-    } catch (error) {
-      console.error("Error fetching current user:", error);
-    }
-  };
-
-  // Dohvat trenutnog korisnika kada se komponenta učita
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []); // Samo jednom kada komponenta prvi put učita
-
-  // useEffect - dohvat podataka prilikom učitavanja komponente
+  // Fetch teacher data when the component mounts or when the `id` changes
   useEffect(() => {
     const fetchTeacher = async () => {
       try {
-        // Pokretanje fetch zahtjeva za dohvat podataka sa servera
-        const response = await fetch(
-          ApiConfig.API_URL + `/ucitelji/${idKorisnika}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+        // Send request to fetch teacher details based on the id
+        const response = await fetch(ApiConfig.API_URL + `/ucitelji/${id}`, {
+          method: "GET",
+          credentials: "include",
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setTeacher(data); // Spremamo učitelja u stanje
+
+        setTeacher(data); // Update state with fetched teacher data
       } catch (error) {
-        console.error("Error fetching teachers:", error);
+        console.error("Error fetching teacher data:", error);
       }
     };
-    fetchTeacher(); // Pozivanje funkcije za dohvat podataka
-  }, []);
 
-  console.log(teacher);
+    // Only fetch teacher data when the `id` changes
+    if (id) {
+      fetchTeacher();
+    }
+  }, [id]); // Dependency on `id` to refetch data when the URL changes
+
+  if (!teacher) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress /> {/* Display loading circle */}
+      </div>
+    ); // Show loading circle while teacher data is being fetched
+  }
 
   return (
     <>
@@ -73,31 +69,29 @@ const TeacherProfile = () => {
           <Container
             maxWidth="md"
             sx={{
-              backgroundColor: "#f5f5f5", // Opcionalno, dodajte pozadinsku boju
-              padding: 4, // Unutrašnji razmak (padding)
-              borderRadius: 2, // Zaobljeni rubovi
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Blagi efekt sjene
-              height: "auto", // Visina će se prilagoditi sadržaju
+              backgroundColor: "#f5f5f5",
+              padding: 4,
+              borderRadius: 2,
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              height: "auto",
             }}
           >
             <Box id="item" sx={{ height: "auto" }}>
-              {teacher.map((t) => (
-                <Box key={t.id} className="teacher-box">
-                  <div className="teacher-info">
-                    <img src={t.picture} alt={t.name} />
-                    <div className="teacher-details">
-                      <p>Ime: {t.ime}</p>
-                      <p>Jezici: {t.jezici.join(", ")}</p>
-                      <p>Iskustvo: {t.godineIskustva} godina</p>
-                      <p>Kvalifikacije: {t.kvalifikacija}</p>
-                      <p>Satnica: {t.satnica} eura</p>
-                      <p>Stil podučavanja: {t.stilPoducavanja}</p>
-                      {/* dinamicka ocjena! */}
-                      <p>Ocjena: 0</p>
-                    </div>
+              <Box key={teacher.id} className="teacher-box">
+                <div className="teacher-info">
+                  <img src={teacher.picture} alt={teacher.name} />
+                  <div className="teacher-details">
+                    <p>Ime: {teacher.name}</p>
+                    <p>Jezici: {teacher.jezici?.join(", ")}</p>
+                    <p>Iskustvo: {teacher.godineIskustva} godina</p>
+                    <p>Kvalifikacije: {teacher.kvalifikacija}</p>
+                    <p>Satnica: {teacher.satnica} eura</p>
+                    <p>Stil podučavanja: {teacher.stilPoducavanja}</p>
+                    {/* Placeholder for dynamic rating */}
+                    <p>Ocjena: 0</p>
                   </div>
-                </Box>
-              ))}
+                </div>
+              </Box>
             </Box>
           </Container>
         </React.Fragment>
@@ -105,32 +99,32 @@ const TeacherProfile = () => {
         <Container
           maxWidth="md"
           sx={{
-            backgroundColor: "#f5f5f5", // Opcionalno, dodajte pozadinsku boju
-            padding: 4, // Unutrašnji razmak (padding)
-            borderRadius: 2, // Zaobljeni rubovi
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Blagi efekt sjene
-            height: "auto", // Visina će se prilagoditi sadržaju
+            backgroundColor: "#f5f5f5",
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            height: "auto",
           }}
         >
           <div id="item" className="teacher-calendar">
             <h2 style={{ textAlign: "center" }}>
               Kalendar dostupnosti lekcija
             </h2>
-            <CalendarDynamicTeacher idKorisnika={idKorisnika} />
+            <CalendarDynamicTeacher id={id} />
           </div>
         </Container>
-        {/* treba se dinamicki mijenjat ovisno o tome je li poducavan od njega */}
+
         <Container
           maxWidth="md"
           sx={{
-            backgroundColor: "#f5f5f5", // Opcionalno, dodajte pozadinsku boju
-            padding: 4, // Unutrašnji razmak (padding)
-            borderRadius: 2, // Zaobljeni rubovi
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Blagi efekt sjene
-            height: "auto", // Visina će se prilagoditi sadržaju
+            backgroundColor: "#f5f5f5",
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            height: "auto",
           }}
         >
-          <RateTeachers teacher={teacher}></RateTeachers>
+          <RateTeachers teacher={teacher} id={id} />
         </Container>
       </div>
     </>

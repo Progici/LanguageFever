@@ -6,7 +6,6 @@ import multiMonthPlugin from "@fullcalendar/multimonth";
 import interactionPlugin from "@fullcalendar/interaction";
 import momentPlugin from "@fullcalendar/moment";
 import hrLocale from "@fullcalendar/core/locales/hr";
-import dayjs from "dayjs";
 import "../css/CalendarUser.css";
 
 function CalendarComponent({ lessons, onDateClick }) {

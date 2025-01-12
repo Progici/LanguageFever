@@ -1,18 +1,15 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import DatePicker from "../forms/DatePicker";
 import SubmitButton from "../forms/SubmitButton";
 import "../css/LessonsModal.css";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { useState, useEffect } from "react";
-import dayjs from "dayjs";
 import { ApiConfig } from "../../config/api.config";
+import "dayjs/locale/hr";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -28,7 +25,7 @@ const style = {
 
 export default function LessonsModal({
   open,
-  onClose,
+  handleClose,
   selectedDate,
   formData,
   handleChange,
@@ -44,14 +41,9 @@ export default function LessonsModal({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const StartDate = formData.start.toISOString(); // Get ISO format of start date
-    const EndDate = formData.end.toISOString(); // Get ISO format of end date
-
-    console.log("Submitting lesson:", StartDate, EndDate);
-
     const data = {
-      timestampPocetka: StartDate, // Pass ISO string for API
-      timestampZavrsetka: EndDate, // Pass ISO string for API
+      timestampPocetka: formData.start, // Pass ISO string for API
+      timestampZavrsetka: formData.end, // Pass ISO string for API
     };
 
     // API request to save the lesson
@@ -69,7 +61,7 @@ export default function LessonsModal({
       })
       .then((res) => {
         console.log("Lesson successfully added:", res);
-        onClose(); // Close the modal after successful submission
+        handleClose(); // Close the modal after successful submission
         window.location.reload();
       })
       .catch((error) => {
@@ -79,37 +71,37 @@ export default function LessonsModal({
 
   return (
     <div>
-      <Modal open={open} onClose={onClose}>
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Odabrali ste {formatDate(selectedDate)}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {/* Use a div instead of Typography to avoid <p> wrapping */}
+          <div id="modal-modal-description" style={{ marginTop: "16px" }}>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="hr">
               <form onSubmit={handleSubmit}>
                 <Box sx={{ marginBottom: "20px" }}>
                   <DateTimePicker
                     label={"Datum i vrijeme početka"}
-                    value={formData.start}
-                    onChange={handleChange}
+                    value={formData.start ? dayjs(formData.start) : null}
+                    onChange={(newValue) => handleChange("start", newValue)}
                     name={"start"}
                   />
                 </Box>
                 <Box sx={{ marginBottom: "20px" }}>
                   <DateTimePicker
                     label={"Datum i vrijeme završetka"}
-                    value={formData.end}
-                    onChange={handleChange}
+                    value={formData.end ? dayjs(formData.end) : null}
+                    onChange={(newValue) => handleChange("end", newValue)}
                     name={"end"}
                   />
                 </Box>
-
                 <Box id="button" sx={{ marginBottom: "20px" }}>
                   <SubmitButton label={"Spremi"} type={"submit"} />
                 </Box>
               </form>
             </LocalizationProvider>
-          </Typography>
+          </div>
         </Box>
       </Modal>
     </div>

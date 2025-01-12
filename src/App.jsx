@@ -21,12 +21,12 @@ import LoginUser from "./components/jsx/LoginUser";
 import { ToastContainer } from "react-toastify";
 import NewReqTeacher from "./components/jsx/NewReqTeacher";
 import RateTeachers from "./components/forms/RateTeachers";
+import dayjs from "dayjs";
+import "dayjs/locale/hr";
 
 // RequireSelection component that checks the 'selected' value
 function RequireSelection({ children }) {
   const { active, selected } = useContext(AppContext);
-
-  console.log(selected);
 
   if (selected === 0 && active) {
     return <Profile />;
@@ -37,6 +37,8 @@ function RequireSelection({ children }) {
 }
 
 function AppContent() {
+  dayjs.locale("hr");
+
   const {
     setActive,
     setSelected,
@@ -45,13 +47,14 @@ function AppContent() {
     setCurrentUser,
     active,
     selected,
+    currentUser,
     currentStudent,
     currentTeacher,
   } = useContext(AppContext); // Use context inside AppContent
 
   useEffect(() => {
     console.log("Active: " + active);
-    console.log("Selected:", selected);
+    console.log("CurrentUser:", currentUser);
     console.log("CurrentStudent:", currentStudent);
     console.log("CurrentTeacher:", currentTeacher);
     if (selected === 1)
@@ -59,7 +62,7 @@ function AppContent() {
     else if (selected === 2)
       console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
     else console.log("%c Selected: NONE", "background: #222; color: #bada55");
-  }, [active, selected, currentStudent, currentTeacher]);
+  }, [active, selected, currentUser, currentStudent, currentTeacher]);
 
   useEffect(() => {
     const fetchActivityStatus = async () => {

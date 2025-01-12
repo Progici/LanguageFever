@@ -1,12 +1,12 @@
-import LessonsModal from "../utils/LessonsModal";
 import { useState, useEffect } from "react";
 import "../css/CalendarUser.css";
 import { ApiConfig } from "../../config/api.config";
 import CalendarComponent from "./CalendarComponent";
-import dayjs from "dayjs";
 
-function CalendarDynamicTeacher({ idKorisnika }) {
+function CalendarDynamicTeacher({ id }) {
   const [lessons, setLessons] = useState();
+
+  function handleOpen() {}
 
   const getEventClassName = (status) => {
     switch (status) {
@@ -25,15 +25,20 @@ function CalendarDynamicTeacher({ idKorisnika }) {
     }
   };
 
+  // useEffect(() => {
+  //   console.log("id");
+  //   console.log(id);
+  //   console.log("lessons");
+  //   console.log(lessons);
+  // }, [lessons]);
+
   useEffect(() => {
-    fetch(ApiConfig.API_URL + `/ucitelji/${idKorisnika}/lekcije`, {
+    fetch(ApiConfig.API_URL + `/ucitelji/${id}/lekcije`, {
       method: "GET",
       credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched data:", data);
-
         // Use map instead of forEach to return a new array
         const mappedLessons = data.map((lesson) => ({
           title: "Lekcija",
@@ -42,22 +47,10 @@ function CalendarDynamicTeacher({ idKorisnika }) {
           className: getEventClassName(lesson.status),
         }));
 
-        console.log("Mapped lessons for FullCalendar:", mappedLessons);
         setLessons(mappedLessons);
       })
       .catch((error) => console.error("Error fetching lessons:", error));
   }, []);
-
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [open, setOpen] = useState(false);
-  const handleOpen = (date) => {
-    setSelectedDate(date);
-    setOpen(true);
-    setFormData({
-      start: dayjs(date),
-      end: dayjs(date),
-    });
-  };
 
   return (
     <>

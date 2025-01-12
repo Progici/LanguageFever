@@ -7,12 +7,23 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import HoverRating from "./hoverRating";
 import CommentForm from "./CommentForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ApiConfig } from "../../config/api.config";
 
-export default function rateTeacher({ teacher }) {
+export default function rateTeacher({ teacher, id }) {
   const [rating, setRating] = useState(null); // Stanje za pohranu ocjene
   const [comment, setComment] = useState(""); // Stanje za pohranu komentara
-  const teacherId = teacher.id;
+
+  useEffect(() => {
+    console.log("id");
+    console.log(id);
+    console.log("teacher");
+    console.log(teacher);
+    console.log("rating");
+    console.log(rating);
+    console.log("comment");
+    console.log(comment);
+  }, [teacher, comment, rating]);
 
   // Funkcija za slanje podataka
   const handleSubmit = (e) => {
@@ -26,7 +37,7 @@ export default function rateTeacher({ teacher }) {
       };
 
       // Pošaljite POST zahtjev na backend
-      fetch(`/mojeocjene/${teacherId}`, {
+      fetch(ApiConfig.API_URL + `/ucitelji/${id}/ocjene`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -34,7 +45,6 @@ export default function rateTeacher({ teacher }) {
         },
         body: JSON.stringify(data),
       })
-        .then((response) => response.json())
         .then((result) => {
           console.log("Ocjena uspješno dodana:", result);
         })
@@ -74,10 +84,10 @@ export default function rateTeacher({ teacher }) {
           gutterBottom
           sx={{ textAlign: "center", color: "text.secondary", fontSize: 14 }}
         >
-          Ocjenite učitelja
+          Ocijenite učitelja
         </Typography>
         <Typography variant="h5" component="div">
-          {teacher.ime}
+          {teacher.name}
         </Typography>
         <Box>
           <HoverRating rating={rating} setRating={setRating} />
