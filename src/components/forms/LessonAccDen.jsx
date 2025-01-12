@@ -2,6 +2,7 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { ApiConfig } from "../../config/api.config";
+import { useEffect } from "react";
 
 export default function LessonAccDen({ lessonId }) {
   const handleRequest = async (action) => {
@@ -24,12 +25,18 @@ export default function LessonAccDen({ lessonId }) {
       if (!response.ok) {
         throw new Error(`Error during ${action}ing the lesson`);
       }
-      alert(`Lekcija ${action === "accept" ? "prihvaćena" : "odbijena"}!`);
+
+      window.location.reload();
     } catch (error) {
       console.error(`Error during ${action}ing the lesson:`, error);
       alert("Došlo je do pogreške.");
     }
   };
+
+  useEffect(() => {
+    console.log("lessonId");
+    console.log(lessonId);
+  }, [lessonId]);
 
   return (
     <Stack direction="row" spacing={2}>

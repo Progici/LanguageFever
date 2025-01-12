@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { ApiConfig } from "../../config/api.config";
 
 function handleLogout() {
-  localStorage.removeItem("currentTeacher");
-  localStorage.removeItem("currentStudent");
-  localStorage.removeItem("currentUser");
+  localStorage.removeItem("selected");
 }
 
 function Login() {

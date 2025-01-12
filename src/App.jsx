@@ -56,17 +56,17 @@ function AppContent() {
     currentTeacher,
   } = useContext(AppContext); // Use context inside AppContent
 
-  // useEffect(() => {
-  //   console.log("Active: " + active);
-  //   console.log("CurrentUser:", currentUser);
-  //   console.log("CurrentStudent:", currentStudent);
-  //   console.log("CurrentTeacher:", currentTeacher);
-  //   if (selected === 1)
-  //     console.log("%c Selected: Student ", "background: #222; color: #bada55");
-  //   else if (selected === 2)
-  //     console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
-  //   else console.log("%c Selected: NONE", "background: #222; color: #bada55");
-  // }, [active, selected, currentUser, currentStudent, currentTeacher]);
+  useEffect(() => {
+    console.log("Active: " + active);
+    console.log("CurrentUser:", currentUser);
+    console.log("CurrentStudent:", currentStudent);
+    console.log("CurrentTeacher:", currentTeacher);
+    if (selected === 1)
+      console.log("%c Selected: Student ", "background: #222; color: #bada55");
+    else if (selected === 2)
+      console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
+    else console.log("%c Selected: NONE", "background: #222; color: #bada55");
+  }, [active, selected, currentUser, currentStudent, currentTeacher]);
 
   useEffect(() => {
     const fetchActivityStatus = async () => {

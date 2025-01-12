@@ -8,7 +8,7 @@ import momentPlugin from "@fullcalendar/moment";
 import hrLocale from "@fullcalendar/core/locales/hr";
 import "../css/CalendarUser.css";
 
-function CalendarComponent({ lessons, onDateClick }) {
+function CalendarComponent({ lessons, onDateClick, onEventClick }) {
   return (
     <div className="calendar-container">
       <FullCalendar
@@ -30,6 +30,7 @@ function CalendarComponent({ lessons, onDateClick }) {
         }}
         firstDay={1}
         dateClick={(info) => onDateClick(info.dateStr)}
+        eventClick={(info) => onEventClick(info.dateStr)}
       />
     </div>
   );

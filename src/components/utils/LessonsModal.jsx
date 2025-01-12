@@ -42,8 +42,8 @@ export default function LessonsModal({
     e.preventDefault();
 
     const data = {
-      timestampPocetka: formData.start, // Pass ISO string for API
-      timestampZavrsetka: formData.end, // Pass ISO string for API
+      timestampPocetka: formData.start,
+      timestampZavrsetka: formData.end,
     };
 
     // API request to save the lesson
@@ -57,7 +57,6 @@ export default function LessonsModal({
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
       })
       .then((res) => {
         console.log("Lesson successfully added:", res);

@@ -1,4 +1,5 @@
 import LessonsModal from "../utils/LessonsModal";
+import ReservationModal from "../utils/ReservationModal";
 import { useState, useEffect, useContext } from "react";
 import "../css/CalendarUser.css";
 import { ApiConfig } from "../../config/api.config";
@@ -16,6 +17,15 @@ function CalendarUser() {
   });
   const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
+
+  function handleEvent(date) {
+    setSelectedDate(date);
+    setOpen(true);
+    console.log("brao");
+  }
+  function handleNothing() {
+    console.log("UCITELJ SI NEMRES");
+  }
 
   function handleOpen(date) {
     setSelectedDate(date);
@@ -59,6 +69,11 @@ function CalendarUser() {
   }
 
   useEffect(() => {
+    console.log("lessons");
+    console.log(lessons);
+  }, [lessons]);
+
+  useEffect(() => {
     const fetchLessons = async () => {
       let endpoint = null;
       if (selected === 1) {
@@ -69,7 +84,6 @@ function CalendarUser() {
         endpoint = "/mojelekcije/ucitelj"; // Endpoint for teachers
       } else {
         console.warn("Selected value is not valid. Skipping fetch.");
-        setLessons([]); // Set empty lessons
         return;
       }
       try {
@@ -83,12 +97,11 @@ function CalendarUser() {
         }
 
         const data = await response.json();
-        console.log("Fetched data:", data);
 
         // Map lessons
         const mappedLessons = data.map((lesson) => ({
-          ucenikName: lesson?.ucenik?.korisnik?.name,
-          ucenikEmail: lesson?.ucenik?.korisnik?.email,
+          ucenikName: lesson.ucenikName,
+          uciteljName: lesson.uciteljName,
           id: lesson.id,
           title: "Lekcija",
           start: lesson.timestampPocetka,
@@ -97,7 +110,6 @@ function CalendarUser() {
         }));
 
         setLessons(mappedLessons);
-        console.log("Mapped data:", mappedLessons);
       } catch (error) {
         console.error("Error fetching lessons:", error);
       }
@@ -109,15 +121,35 @@ function CalendarUser() {
   return (
     <>
       {selected === 2 && (
-        <LessonsModal
-          open={open}
-          handleClose={handleClose}
-          selectedDate={selectedDate}
-          formData={formData}
-          handleChange={handleChange}
-        />
+        <>
+          <LessonsModal
+            open={open}
+            handleClose={handleClose}
+            selectedDate={selectedDate}
+            formData={formData}
+            handleChange={handleChange}
+          />
+          <CalendarComponent
+            onEventClick={handleNothing}
+            onDateClick={handleOpen}
+            lessons={lessons}
+          />
+        </>
       )}
-      <CalendarComponent onDateClick={handleOpen} lessons={lessons} />
+      {selected === 1 && (
+        <>
+          <ReservationModal
+            open={open}
+            selectedDate={selectedDate}
+            handleClose={handleClose}
+          />
+          <CalendarComponent
+            onEventClick={handleEvent}
+            onDateClick={handleNothing}
+            lessons={lessons}
+          />
+        </>
+      )}
     </>
   );
 }
