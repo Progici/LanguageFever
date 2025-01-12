@@ -11,10 +11,8 @@ import com.progici.languagefever.service.KorisnikService;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,6 +50,284 @@ public class UciteljController {
 
   @Autowired
   private KorisnikController korisnikController;
+
+  public Ucitelj getCurrentUcitelj(OAuth2AuthenticationToken authentication) {
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
+
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
+
+    if (ucitelj == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Ucitelj not found"
+    );
+
+    return ucitelj;
+  }
+
+  public Ucitelj getUciteljById(Long id) {
+    Ucitelj ucitelj;
+    try {
+      ucitelj = uciteljService.getUciteljById(id);
+    } catch (Exception e) {
+      ucitelj = null;
+    }
+
+    if (ucitelj == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Ucitelj not found"
+    );
+
+    return ucitelj;
+  }
+
+  public List<Ucenik> getPoducavaniUceniciByUciteljId(@PathVariable Long id) {
+    return lekcijaService.getUceniciByUciteljIdAndByLekcijaStatusFinished(id);
+  }
+
+  public Long getPoducavaniUceniciBrojByUciteljId(@PathVariable Long id) {
+    return (long) getPoducavaniUceniciByUciteljId(id).size();
+  }
+
+  public List<Lekcija> getDovrseneLekcijeByUciteljId(@PathVariable Long id) {
+    return lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(id);
+  }
+
+  public Long getDovrseneLekcijeBrojByUciteljId(@PathVariable Long id) {
+    return (long) getDovrseneLekcijeByUciteljId(id).size();
+  }
+
+  //
+  //  USER ENDPOINTS
+  //
+
+  @GetMapping("/trenutniucitelj")
+  public UciteljDTO getCurrentUciteljDTO(
+    OAuth2AuthenticationToken authentication
+  ) {
+    Ucitelj ucitelj = getCurrentUcitelj(authentication);
+
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    System.out.println(ucitelj.getKorisnik().getId());
+    System.out.println(ucitelj.getKorisnik().getName());
+    System.out.println(ucitelj.getKorisnik().getPicture());
+    System.out.println(
+      uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId())
+    );
+    System.out.println(ucitelj.getGodineIskustva());
+    System.out.println(ucitelj.getKvalifikacija());
+    System.out.println(ucitelj.getStilPoducavanja());
+    System.out.println(ucitelj.getSatnica());
+    System.out.println(
+      ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId())
+    );
+    System.out.println(getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()));
+    System.out.println(getDovrseneLekcijeBrojByUciteljId(ucitelj.getId()));
+
+    return new UciteljDTO(
+      ucitelj.getKorisnik().getId(),
+      ucitelj.getKorisnik().getName(),
+      ucitelj.getKorisnik().getPicture(),
+      uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+      ucitelj.getGodineIskustva(),
+      ucitelj.getKvalifikacija(),
+      ucitelj.getStilPoducavanja(),
+      ucitelj.getSatnica(),
+      ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()),
+      getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
+      getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
+    );
+  }
+
+  @GetMapping("/ucitelji")
+  public List<UciteljDTO> getSviUcitelji() {
+    return uciteljService
+      .getSviUcitelji()
+      .stream()
+      .map(ucitelj ->
+        new UciteljDTO(
+          ucitelj.getKorisnik().getId(),
+          ucitelj.getKorisnik().getName(),
+          ucitelj.getKorisnik().getPicture(),
+          uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+          ucitelj.getGodineIskustva(),
+          ucitelj.getKvalifikacija(),
+          ucitelj.getStilPoducavanja(),
+          ucitelj.getSatnica(),
+          ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()),
+          getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
+          getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
+        )
+      )
+      .collect(Collectors.toList());
+  }
+
+  @GetMapping("/ucitelji/{idKorisnika}")
+  public UciteljDTO getUciteljByKorisnikId(@PathVariable Long idKorisnika) {
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
+
+    if (ucitelj == null) {
+      throw new ResponseStatusException(
+        HttpStatus.NOT_FOUND,
+        "Ucitelj not found"
+      );
+    }
+
+    return new UciteljDTO(
+      ucitelj.getKorisnik().getId(),
+      ucitelj.getKorisnik().getName(),
+      ucitelj.getKorisnik().getPicture(),
+      uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+      ucitelj.getGodineIskustva(),
+      ucitelj.getKvalifikacija(),
+      ucitelj.getStilPoducavanja(),
+      ucitelj.getSatnica(),
+      ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()),
+      getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
+      getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
+    );
+  }
+
+  @PostMapping("/azurirajucitelja")
+  public void updateCurrentUciteljDTO(
+    OAuth2AuthenticationToken authentication,
+    @RequestBody UciteljDTO uciteljDTO
+  ) {
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
+
+    Ucitelj trenutniUcitelj = uciteljService.getUciteljByKorisnikId(
+      korisnik.getId()
+    );
+
+    if (trenutniUcitelj == null) {
+      uciteljService.addUcitelj(
+        new Ucitelj(
+          korisnik,
+          uciteljDTO.getGodineIskustva(),
+          uciteljDTO.getKvalifikacija(),
+          uciteljDTO.getStilPoducavanja(),
+          uciteljDTO.getSatnica()
+        )
+      );
+    } else {
+      uciteljService.updateUciteljByKorisnikId(
+        korisnik.getId(),
+        new Ucitelj(
+          korisnik,
+          uciteljDTO.getGodineIskustva(),
+          uciteljDTO.getKvalifikacija(),
+          uciteljDTO.getStilPoducavanja(),
+          uciteljDTO.getSatnica()
+        )
+      );
+    }
+
+    //update jezika ucitelja
+    uciteljJeziciService.addJeziciToUcitelj(
+      uciteljDTO.getJezici(),
+      uciteljService.getUciteljByKorisnikId(korisnik.getId())
+    );
+  }
+
+  @DeleteMapping("/izbrisiucitelja")
+  public void deleteCurrentUcitelj(OAuth2AuthenticationToken authentication) {
+    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
+
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
+
+    if (ucitelj == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Ucitelj not found"
+    );
+
+    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
+    uciteljService.deleteUciteljById(ucitelj.getId());
+  }
+
+  //
+  //  ADMIN ENDPOINTS
+  //
+
+  // @GetMapping("/ucitelji/{idKorisnika}/poducavaniucenici")
+  // @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+  // @GetMapping("/ucitelji/{idKorisnika}/dovrsenelekcije")
+  // @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+  @PostMapping("/ucitelji/{idKorisnika}")
+  public void updateUciteljByKorisnikId(
+    @PathVariable Long idKorisnika,
+    @RequestBody UciteljDTO uciteljDTO
+  ) {
+    Korisnik korisnik;
+    try {
+      korisnik = korisnikService.getKorisnikById(idKorisnika);
+    } catch (Exception e) {
+      korisnik = null;
+    }
+
+    if (korisnik == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Korisnik not found"
+    );
+
+    Ucitelj trenutniUcitelj = uciteljService.getUciteljByKorisnikId(
+      korisnik.getId()
+    );
+
+    if (trenutniUcitelj == null) {
+      uciteljService.addUcitelj(
+        new Ucitelj(
+          korisnik,
+          uciteljDTO.getGodineIskustva(),
+          uciteljDTO.getKvalifikacija(),
+          uciteljDTO.getStilPoducavanja(),
+          uciteljDTO.getSatnica()
+        )
+      );
+    } else {
+      uciteljService.updateUciteljByKorisnikId(
+        korisnik.getId(),
+        new Ucitelj(
+          korisnik,
+          uciteljDTO.getGodineIskustva(),
+          uciteljDTO.getKvalifikacija(),
+          uciteljDTO.getStilPoducavanja(),
+          uciteljDTO.getSatnica()
+        )
+      );
+    }
+
+    //update jezika ucitelja
+    uciteljJeziciService.addJeziciToUcitelj(
+      uciteljDTO.getJezici(),
+      uciteljService.getUciteljByKorisnikId(korisnik.getId())
+    );
+  }
+
+  @DeleteMapping("/ucitelji/{idKorisnika}")
+  public void deleteUcenikByKorisnikId(@PathVariable Long idKorisnika) {
+    Korisnik korisnik;
+    try {
+      korisnik = korisnikService.getKorisnikById(idKorisnika);
+    } catch (Exception e) {
+      korisnik = null;
+    }
+
+    if (korisnik == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Korisnik not found"
+    );
+
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
+
+    if (ucitelj == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Ucitelj not found"
+    );
+
+    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
+    uciteljService.deleteUciteljById(ucitelj.getId());
+  }
 
   @GetMapping("/ucitelji/filter")
   public Page<UciteljDTO> filterAndSortUcitelji(
@@ -170,7 +446,10 @@ public class UciteljController {
           ucitelj.getGodineIskustva(),
           ucitelj.getKvalifikacija(),
           ucitelj.getStilPoducavanja(),
-          ucitelj.getSatnica()
+          ucitelj.getSatnica(),
+          ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()),
+          getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
+          getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
         )
       )
       .collect(Collectors.toList());
@@ -180,304 +459,5 @@ public class UciteljController {
       PageRequest.of(page, size),
       ucitelji.size()
     );
-  }
-
-  //
-  //  USER ENDPOINTS
-  //
-
-  @GetMapping("/trenutniucitelj")
-  public UciteljDTO getCurrentUciteljDTO(
-    OAuth2AuthenticationToken authentication
-  ) {
-    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    return new UciteljDTO(
-      ucitelj.getId(),
-      korisnik.getName(),
-      korisnik.getPicture(),
-      uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-      ucitelj.getGodineIskustva(),
-      ucitelj.getKvalifikacija(),
-      ucitelj.getStilPoducavanja(),
-      ucitelj.getSatnica()
-    );
-  }
-
-  @GetMapping("/ucitelji/{idKorisnika}/poducavaniucenicibroj")
-  public Long getPoducavaniUceniciBrojUcitelj(@PathVariable Long idKorisnika) {
-    return (long) getPoducavaniUceniciUcitelj(idKorisnika).size();
-  }
-
-  @GetMapping("/ucitelji/{idKorisnika}/dovrsenelekcijebroj")
-  public Long getDovrseneLekcijeBrojUcitelj(@PathVariable Long idKorisnika) {
-    return (long) getDovrseneLekcijeUcitelj(idKorisnika).size();
-  }
-
-  @GetMapping("/ucitelji")
-  public List<UciteljDTO> getSviUcitelji() {
-    return uciteljService
-      .getSviUcitelji()
-      .stream()
-      .map(ucitelj ->
-        new UciteljDTO(
-          ucitelj.getId(),
-          ucitelj.getKorisnik().getName(),
-          ucitelj.getKorisnik().getPicture(),
-          uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-          ucitelj.getGodineIskustva(),
-          ucitelj.getKvalifikacija(),
-          ucitelj.getStilPoducavanja(),
-          ucitelj.getSatnica()
-        )
-      )
-      .collect(Collectors.toList());
-  }
-
-  @GetMapping("/ucitelji/{idKorisnika}")
-  public Map<Korisnik, UciteljDTO> getUcenikByKorisnikId(
-    @PathVariable Long idKorisnika
-  ) {
-    Korisnik korisnik;
-    try {
-      korisnik = korisnikService.getKorisnikById(idKorisnika);
-    } catch (Exception e) {
-      korisnik = null;
-    }
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
-
-    if (korisnik == null || ucitelj == null) {
-      throw new ResponseStatusException(
-        HttpStatus.NOT_FOUND,
-        "Korisnik or Ucitelj not found"
-      );
-    }
-
-    UciteljDTO uciteljDTO = new UciteljDTO(
-      ucitelj.getId(),
-      korisnik.getName(),
-      korisnik.getPicture(),
-      uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-      ucitelj.getGodineIskustva(),
-      ucitelj.getKvalifikacija(),
-      ucitelj.getStilPoducavanja(),
-      ucitelj.getSatnica()
-    );
-
-    return Collections.singletonMap(korisnik, uciteljDTO);
-  }
-
-  @PostMapping("/azurirajucitelja")
-  public void updateCurrentUciteljDTO(
-    OAuth2AuthenticationToken authentication,
-    @RequestBody UciteljDTO uciteljDTO
-  ) {
-    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
-
-    Ucitelj trenutniUcitelj = uciteljService.getUciteljByKorisnikId(
-      korisnik.getId()
-    );
-
-    if (trenutniUcitelj == null) {
-      uciteljService.addUcitelj(
-        new Ucitelj(
-          korisnik,
-          uciteljDTO.getGodineIskustva(),
-          uciteljDTO.getKvalifikacija(),
-          uciteljDTO.getStilPoducavanja(),
-          uciteljDTO.getSatnica()
-        )
-      );
-    } else {
-      uciteljService.updateUciteljByKorisnikId(
-        korisnik.getId(),
-        new Ucitelj(
-          korisnik,
-          uciteljDTO.getGodineIskustva(),
-          uciteljDTO.getKvalifikacija(),
-          uciteljDTO.getStilPoducavanja(),
-          uciteljDTO.getSatnica()
-        )
-      );
-    }
-
-    //update jezika ucitelja
-    uciteljJeziciService.addJeziciToUcitelj(
-      uciteljDTO.getJezici(),
-      uciteljService.getUciteljByKorisnikId(korisnik.getId())
-    );
-  }
-
-  @DeleteMapping("/izbrisiucitelja")
-  public void deleteCurrentUcitelj(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
-    uciteljService.deleteUciteljById(ucitelj.getId());
-  }
-
-  //
-  //  ADMIN ENDPOINTS
-  //
-
-  @GetMapping("/ucitelji/{idKorisnika}/poducavaniucenici")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Ucenik> getPoducavaniUceniciUcitelj(
-    @PathVariable Long idKorisnika
-  ) {
-    Korisnik korisnik;
-    try {
-      korisnik = korisnikService.getKorisnikById(idKorisnika);
-    } catch (Exception e) {
-      korisnik = null;
-    }
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    List<Ucenik> listaPoducavanihUcenika = lekcijaService.getUceniciByUciteljIdAndByLekcijaStatusFinished(
-      ucitelj.getId()
-    );
-    return listaPoducavanihUcenika;
-  }
-
-  @GetMapping("/ucitelji/{idKorisnika}/dovrsenelekcije")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Lekcija> getDovrseneLekcijeUcitelj(
-    @PathVariable Long idKorisnika
-  ) {
-    Korisnik korisnik;
-    try {
-      korisnik = korisnikService.getKorisnikById(idKorisnika);
-    } catch (Exception e) {
-      korisnik = null;
-    }
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    List<Lekcija> listaDovrsenihLekcija = lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(
-      ucitelj.getId()
-    );
-    return listaDovrsenihLekcija;
-  }
-
-  @PostMapping("/ucitelji/{idKorisnika}")
-  public void updateUciteljByKorisnikId(
-    @PathVariable Long idKorisnika,
-    @RequestBody UciteljDTO uciteljDTO
-  ) {
-    Korisnik korisnik;
-    try {
-      korisnik = korisnikService.getKorisnikById(idKorisnika);
-    } catch (Exception e) {
-      korisnik = null;
-    }
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    Ucitelj trenutniUcitelj = uciteljService.getUciteljByKorisnikId(
-      korisnik.getId()
-    );
-
-    if (trenutniUcitelj == null) {
-      uciteljService.addUcitelj(
-        new Ucitelj(
-          korisnik,
-          uciteljDTO.getGodineIskustva(),
-          uciteljDTO.getKvalifikacija(),
-          uciteljDTO.getStilPoducavanja(),
-          uciteljDTO.getSatnica()
-        )
-      );
-    } else {
-      uciteljService.updateUciteljByKorisnikId(
-        korisnik.getId(),
-        new Ucitelj(
-          korisnik,
-          uciteljDTO.getGodineIskustva(),
-          uciteljDTO.getKvalifikacija(),
-          uciteljDTO.getStilPoducavanja(),
-          uciteljDTO.getSatnica()
-        )
-      );
-    }
-
-    //update jezika ucitelja
-    uciteljJeziciService.addJeziciToUcitelj(
-      uciteljDTO.getJezici(),
-      uciteljService.getUciteljByKorisnikId(korisnik.getId())
-    );
-  }
-
-  @DeleteMapping("/ucitelji/{idKorisnika}")
-  public void deleteUcenikByKorisnikId(@PathVariable Long idKorisnika) {
-    Korisnik korisnik;
-    try {
-      korisnik = korisnikService.getKorisnikById(idKorisnika);
-    } catch (Exception e) {
-      korisnik = null;
-    }
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
-    uciteljService.deleteUciteljById(ucitelj.getId());
-  }
-
-  public Ucitelj getCurrentUcitelj(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-
-    if (ucitelj == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Ucitelj not found"
-    );
-
-    return ucitelj;
   }
 }

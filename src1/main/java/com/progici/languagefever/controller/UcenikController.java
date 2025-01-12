@@ -123,7 +123,7 @@ public class UcenikController {
       .stream()
       .map(ucenik ->
         new UcenikDTO(
-          ucenik.getId(),
+          ucenik.getKorisnik().getId(),
           ucenik.getKorisnik().getName(),
           ucenik.getKorisnik().getPicture(),
           ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),

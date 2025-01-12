@@ -41,12 +41,6 @@ public class KorisnikController {
   @Autowired
   private UciteljService uciteljService;
 
-  @Autowired
-  private UciteljJeziciService uciteljJeziciService;
-
-  @Autowired
-  private UcenikJeziciService ucenikJeziciService;
-
   //
   //  USER ENDPOINTS
   //
@@ -63,48 +57,6 @@ public class KorisnikController {
     );
 
     return korisnik;
-  }
-
-  @GetMapping("/trenutnikorisniklista")
-  public List<Object> getCurrentUserObjects(
-    OAuth2AuthenticationToken authentication
-  ) {
-    Korisnik korisnik = getCurrentUser(authentication);
-
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    UcenikDTO ucenikDTO;
-
-    if (ucenik == null) ucenikDTO = null; else ucenikDTO =
-      new UcenikDTO(
-        ucenik.getId(),
-        korisnik.getName(),
-        korisnik.getPicture(),
-        ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
-        ucenik.getRazina(),
-        ucenik.getStilUcenja(),
-        ucenik.getCiljevi()
-      );
-
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    UciteljDTO uciteljDTO;
-
-    if (ucitelj == null) uciteljDTO = null; else uciteljDTO =
-      new UciteljDTO(
-        ucitelj.getId(),
-        korisnik.getName(),
-        korisnik.getPicture(),
-        uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-        ucitelj.getGodineIskustva(),
-        ucitelj.getKvalifikacija(),
-        ucitelj.getStilPoducavanja(),
-        ucitelj.getSatnica()
-      );
-
-    List<Object> lista = new ArrayList<>();
-    lista.add(korisnik);
-    lista.add(uciteljDTO);
-    lista.add(ucenikDTO);
-    return lista;
   }
 
   @PostMapping("/azurirajkorisnika")
@@ -151,52 +103,6 @@ public class KorisnikController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<Korisnik> getSviKorisnici() {
     return korisnikService.getSviKorisnici();
-  }
-
-  @GetMapping("/korisnicilista")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<List<Object>> getSviKorisniciLista() {
-    List<List<Object>> listaListi = new ArrayList<>();
-    List<Korisnik> korisnici = getSviKorisnici();
-
-    for (Korisnik korisnik : korisnici) {
-      Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-      UcenikDTO ucenikDTO;
-
-      if (ucenik == null) ucenikDTO = null; else ucenikDTO =
-        new UcenikDTO(
-          ucenik.getId(),
-          korisnik.getName(),
-          korisnik.getPicture(),
-          ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId()),
-          ucenik.getRazina(),
-          ucenik.getStilUcenja(),
-          ucenik.getCiljevi()
-        );
-
-      Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-      UciteljDTO uciteljDTO;
-
-      if (ucitelj == null) uciteljDTO = null; else uciteljDTO =
-        new UciteljDTO(
-          ucitelj.getId(),
-          korisnik.getName(),
-          korisnik.getPicture(),
-          uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
-          ucitelj.getGodineIskustva(),
-          ucitelj.getKvalifikacija(),
-          ucitelj.getStilPoducavanja(),
-          ucitelj.getSatnica()
-        );
-
-      List<Object> lista = new ArrayList<>();
-      lista.add(korisnik);
-      lista.add(uciteljDTO);
-      lista.add(ucenikDTO);
-      listaListi.add(lista);
-    }
-
-    return listaListi;
   }
 
   @GetMapping("/korisnici/{id}")

@@ -26,14 +26,13 @@ public class SecurityConfig {
   @Value("${frontend.url}")
   private String frontendUrl;
 
-
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
       .csrf(AbstractHttpConfigurer::disable)
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> {
-        auth.requestMatchers("/", "/ucitelji", "/active").permitAll();
+        auth.requestMatchers("/", "/ucitelji/**", "/active").permitAll();
         auth.anyRequest().authenticated();
       })
       .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))

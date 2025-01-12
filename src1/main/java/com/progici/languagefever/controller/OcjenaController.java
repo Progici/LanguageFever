@@ -2,6 +2,8 @@ package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.OcjenaDTO;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.OcjenaService;
 import com.progici.languagefever.service.UcenikService;
@@ -63,41 +65,98 @@ public class OcjenaController {
       .collect(Collectors.toList());
   }
 
-  @GetMapping("/ucitelji/{id}/ocjene")
-  public List<Ocjena> getOcjeneByUciteljId(@PathVariable Long id) {
-    return ocjenaService.getOcjeneByUciteljId(id);
+  @GetMapping("/ucitelji/{idKorisnika}/ocjenebroj")
+  public Long getOcjeneBrojByUciteljKorisnikId(@PathVariable Long idKorisnika) {
+    return (long) ocjenaService
+      .getOcjeneByUciteljId(
+        uciteljService.getUciteljByKorisnikId(idKorisnika).getId()
+      )
+      .size();
   }
 
-  @GetMapping("/ucitelji/{id}/ocjenebroj")
-  public Long getOcjeneBrojByUciteljId(@PathVariable Long id) {
-    return (long) ocjenaService.getOcjeneByUciteljId(id).size();
-  }
+  // @GetMapping("/ucitelji/{idKorisnika}/ocjenebroj")
 
-  @GetMapping("/ucitelji/{id}/ocjeneaverage")
-  public double getProsjecnaOcjenaByUciteljId(@PathVariable Long id) {
+  // @GetMapping("/ucitelji/{idKorisnika}/ocjeneaverage")
+
+  public Double getProsjecnaOcjenaByUciteljId(@PathVariable Long id) {
     List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(id);
 
     return ocjene.stream().mapToInt(Ocjena::getOcjena).average().orElse(0.0);
   }
 
-  @SuppressWarnings("unlikely-arg-type")
-  @PostMapping("/mojeocjene/{idUcitelja}")
+  // @SuppressWarnings("unlikely-arg-type")
+  // @PostMapping("/ucitelji/{idKorisnika}/ocjene")
+  // public ResponseEntity<Void> addMojaOcjena(
+  //   OAuth2AuthenticationToken authentication,
+  //   @RequestBody Ocjena ocjena,
+  //   @PathVariable Long idKorisnika
+  // ) {
+  //   Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+  //   Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
+  //   try {
+  //     if (
+  //       lekcijaService
+  //         .getLekcijeByUcenikId(ucenik.getId())
+  //         .contains(lekcijaService.getLekcijeByUciteljId(ucitelj.getId()))
+  //     ) {
+  //       ocjena.setUcenik(ucenik);
+  //       ocjena.setUcitelj(ucitelj);
+  //       ocjenaService.addOcjena(ocjena);
+  //     } else return ResponseEntity.badRequest().build();
+  //   } catch (Exception e) {
+  //     return ResponseEntity.badRequest().build();
+  //   }
+
+  //   return ResponseEntity.ok().build();
+  // }
+
+  @GetMapping("/ucitelji/{idKorisnika}/ocjene")
+  public List<OcjenaDTO> getOcjeneByKorisnikId(@PathVariable Long idKorisnika) {
+    List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(
+      uciteljService.getUciteljByKorisnikId(idKorisnika).getId()
+    );
+
+    return ocjene
+      .stream()
+      .map(ocjena -> {
+        return new OcjenaDTO(
+          ocjena.getOcjena(),
+          ocjena.getKomentar(),
+          ocjena.getUcenik().getKorisnik().getName(),
+          ocjena.getUcitelj().getKorisnik().getName()
+        );
+      })
+      .collect(Collectors.toList()); // Collect the list of mapped DTOs
+  }
+
+  public List<OcjenaDTO> getOcjeneByUciteljId(@PathVariable Long id) {
+    List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(id);
+
+    return ocjene
+      .stream()
+      .map(ocjena -> {
+        return new OcjenaDTO(
+          ocjena.getOcjena(),
+          ocjena.getKomentar(),
+          ocjena.getUcenik().getKorisnik().getName(),
+          ocjena.getUcitelj().getKorisnik().getName()
+        );
+      })
+      .collect(Collectors.toList()); // Collect the list of mapped DTOs
+  }
+
+  @PostMapping("/ucitelji/{idKorisnika}/ocjene")
   public ResponseEntity<Void> addMojaOcjena(
     OAuth2AuthenticationToken authentication,
     @RequestBody Ocjena ocjena,
-    @PathVariable Long idUcitelja
+    @PathVariable Long idKorisnika
   ) {
     Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
     try {
-      if (
-        lekcijaService
-          .getLekcijeByUcenikId(ucenik.getId())
-          .contains(lekcijaService.getLekcijeByUciteljId(idUcitelja))
-      ) {
-        ocjena.setUcenik(ucenik);
-        ocjena.setUcitelj(uciteljService.getUciteljById(idUcitelja));
-        ocjenaService.addOcjena(ocjena);
-      } else return ResponseEntity.badRequest().build();
+      ocjena.setUcenik(ucenik);
+      ocjena.setUcitelj(ucitelj);
+      ocjenaService.addOcjena(ocjena);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

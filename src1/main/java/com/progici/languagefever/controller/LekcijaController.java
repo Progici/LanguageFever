@@ -2,14 +2,18 @@ package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.LekcijaDTO;
+import com.progici.languagefever.model.dto.OcjenaDTO;
 import com.progici.languagefever.model.enums.Status;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UcenikService;
 import com.progici.languagefever.service.UciteljService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,49 +51,119 @@ public class LekcijaController {
   //  USER ENDPOINTS
   //
 
-  @GetMapping("/mojelekcije")
-  public List<Lekcija> getLekcije(OAuth2AuthenticationToken authentication) {
-    Korisnik korisnik = korisnikController.getCurrentUser(authentication);
-
-    List<Lekcija> lista = new ArrayList<>();
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
-    if (ucitelj != null) lista.addAll(
-      lekcijaService.getLekcijeByUciteljId(ucitelj.getId())
-    );
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-    if (ucenik != null) lista.addAll(
-      lekcijaService.getLekcijeByUcenikId(ucenik.getId())
-    );
-    return lista;
-  }
-
   @GetMapping("/mojelekcije/ucitelj")
-  public List<Lekcija> getLekcijeUcitelj(
+  public List<LekcijaDTO> getLekcijeUcitelj(
     OAuth2AuthenticationToken authentication
   ) {
     Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
 
-    return lekcijaService.getLekcijeByUciteljId(ucitelj.getId());
+    List<Lekcija> lekcije = lekcijaService.getLekcijeByUciteljId(
+      ucitelj.getId()
+    );
+
+    return lekcije
+      .stream()
+      .map(lekcija -> {
+        String ucenikName = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getName()
+          : null;
+
+        String uciteljName = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getName()
+          : null;
+
+        return new LekcijaDTO(
+          lekcija.getId(),
+          lekcija.getTimestampPocetka(),
+          lekcija.getTimestampZavrsetka(),
+          lekcija.getStatus(),
+          ucenikName,
+          uciteljName
+        );
+      })
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/mojelekcije/ucitelj/novizahtjevi")
-  public List<Lekcija> getLekcijeUciteljNoviZahtjevi(
+  public List<LekcijaDTO> getLekcijeUciteljNoviZahtjevi(
     OAuth2AuthenticationToken authentication
   ) {
     Ucitelj ucitelj = uciteljController.getCurrentUcitelj(authentication);
 
-    return lekcijaService.getLekcijeByUciteljIdAndByStatusPending(
+    List<Lekcija> lekcije = lekcijaService.getLekcijeByUciteljIdAndByStatusPending(
       ucitelj.getId()
     );
+
+    return lekcije
+      .stream()
+      .map(lekcija -> {
+        String ucenikName = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getName()
+          : null;
+
+        String uciteljName = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getName()
+          : null;
+
+        return new LekcijaDTO(
+          lekcija.getId(),
+          lekcija.getTimestampPocetka(),
+          lekcija.getTimestampZavrsetka(),
+          lekcija.getStatus(),
+          ucenikName,
+          uciteljName
+        );
+      })
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/mojelekcije/ucenik")
-  public List<Lekcija> getLekcijeUcenik(
+  public List<LekcijaDTO> getLekcijeUcenik(
     OAuth2AuthenticationToken authentication
   ) {
     Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
 
-    return lekcijaService.getLekcijeByUcenikId(ucenik.getId());
+    List<Lekcija> lekcije = lekcijaService.getLekcijeByUcenikId(ucenik.getId());
+
+    return lekcije
+      .stream()
+      .map(lekcija -> {
+        String ucenikName = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getName()
+          : null;
+
+        String uciteljName = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getName()
+          : null;
+
+        return new LekcijaDTO(
+          lekcija.getId(),
+          lekcija.getTimestampPocetka(),
+          lekcija.getTimestampZavrsetka(),
+          lekcija.getStatus(),
+          ucenikName,
+          uciteljName
+        );
+      })
+      .collect(Collectors.toList());
   }
 
   @GetMapping("/mojelekcije/ucenik/prihvacenizahtjevi")
@@ -202,6 +276,12 @@ public class LekcijaController {
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("/ucitelji/{idKorisnika}/lekcije")
+  public List<Lekcija> getLekcijeByUciteljId(@PathVariable Long idKorisnika) {
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
+    return lekcijaService.getLekcijeByUciteljId(ucitelj.getId());
+  }
+
   //
   //  ADMIN ENDPOINTS
   //
@@ -220,12 +300,6 @@ public class LekcijaController {
     } catch (Exception e) {
       return null;
     }
-  }
-
-  @GetMapping("/ucitelji/{id}/lekcije")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public List<Lekcija> getLekcijeByUciteljId(@PathVariable Long id) {
-    return lekcijaService.getLekcijeByUciteljId(id);
   }
 
   @GetMapping("/ucenici/{id}/lekcije")
