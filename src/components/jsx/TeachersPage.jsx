@@ -3,13 +3,33 @@ import "../css/TeachersPage.css";
 import TeacherCard from "./TeacherCard";
 import FilterBar from "./FilterBar";
 import { ApiConfig } from "../../config/api.config";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const TeachersPage = () => {
   // Definicija stanja za učitelje i trenutnu stranicu
-  const [teachers, setTeachers] = useState([]); // Početno stanje: prazna lista učitelja
+  const [teachers, setTeachers] = useState(null); // Početno stanje: prazna lista učitelja
   const [currentPage, setCurrentPage] = useState(1); // Početno stanje: prva stranica
 
   const itemsPerPage = 12; // Definiramo broj učitelja po stranici
+
+  // Funkcija za premještanje na sljedeću stranicu
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(teachers.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1); // Povećavamo trenutnu stranicu
+    }
+  };
+
+  // Funkcija za premještanje na prethodnu stranicu
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1); // Smanjujemo trenutnu stranicu
+    }
+  };
+
+  useEffect(() => {
+    console.log("teachers");
+    console.log(teachers);
+  }, [teachers]);
 
   // useEffect - dohvat podataka prilikom učitavanja komponente
   useEffect(() => {
@@ -33,24 +53,24 @@ const TeachersPage = () => {
     fetchTeachers(); // Pozivanje funkcije za dohvat podataka
   }, []); // Prazan niz znači da će efekt biti pozvan samo jednom, prilikom mountanja komponente
 
+  if (!teachers) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress /> {/* Display loading circle */}
+      </div>
+    ); // Show loading circle while teacher data is being fetched
+  }
+
   const indexOfLastItem = currentPage * itemsPerPage; // Indeks posljednjeg učitelja na stranici
   const indexOfFirstItem = indexOfLastItem - itemsPerPage; // Indeks prvog učitelja na stranici
-  console.log(teachers);
   const currentTeachers = teachers.slice(indexOfFirstItem, indexOfLastItem); // Uzima se podskup učitelja za trenutnu stranicu
-
-  // Funkcija za premještanje na sljedeću stranicu
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(teachers.length / itemsPerPage)) {
-      setCurrentPage(currentPage + 1); // Povećavamo trenutnu stranicu
-    }
-  };
-
-  // Funkcija za premještanje na prethodnu stranicu
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1); // Smanjujemo trenutnu stranicu
-    }
-  };
 
   return (
     <div className="teachers-page">
@@ -59,7 +79,7 @@ const TeachersPage = () => {
       <FilterBar /> {/* Komponenta za filtriranje učitelja */}
       <div className="teacher-cards">
         {currentTeachers.map((teacher) => (
-          <TeacherCard key={teacher.id} teacher={teacher} /> // Prikazujemo svaki učitelj kao komponentu
+          <TeacherCard key={teacher.idKorisnika} teacher={teacher} /> // Prikazujemo svaki učitelj kao komponentu
         ))}
       </div>
       <div className="pagination">

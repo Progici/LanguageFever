@@ -32,6 +32,10 @@ function RequireSelection({ children }) {
     return <Profile />;
   }
 
+  if (selected === 0) {
+    return <LoginUser />;
+  }
+
   // Render children if selection exists
   return children;
 }
@@ -52,17 +56,17 @@ function AppContent() {
     currentTeacher,
   } = useContext(AppContext); // Use context inside AppContent
 
-  useEffect(() => {
-    console.log("Active: " + active);
-    console.log("CurrentUser:", currentUser);
-    console.log("CurrentStudent:", currentStudent);
-    console.log("CurrentTeacher:", currentTeacher);
-    if (selected === 1)
-      console.log("%c Selected: Student ", "background: #222; color: #bada55");
-    else if (selected === 2)
-      console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
-    else console.log("%c Selected: NONE", "background: #222; color: #bada55");
-  }, [active, selected, currentUser, currentStudent, currentTeacher]);
+  // useEffect(() => {
+  //   console.log("Active: " + active);
+  //   console.log("CurrentUser:", currentUser);
+  //   console.log("CurrentStudent:", currentStudent);
+  //   console.log("CurrentTeacher:", currentTeacher);
+  //   if (selected === 1)
+  //     console.log("%c Selected: Student ", "background: #222; color: #bada55");
+  //   else if (selected === 2)
+  //     console.log("%c Selected: Teacher ", "background: #222; color: #bada55");
+  //   else console.log("%c Selected: NONE", "background: #222; color: #bada55");
+  // }, [active, selected, currentUser, currentStudent, currentTeacher]);
 
   useEffect(() => {
     const fetchActivityStatus = async () => {
@@ -163,14 +167,7 @@ function AppContent() {
         <Route path="/login" element={<LoginUser />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/teachers" element={<TeachersPage />} />
-        <Route
-          path="/teachers/:id"
-          element={
-            <RequireSelection>
-              <TeacherProfile />
-            </RequireSelection>
-          }
-        />
+        <Route path="/teachers/:idKorisnika" element={<TeacherProfile />} />
         <Route
           path="/edit-user"
           element={

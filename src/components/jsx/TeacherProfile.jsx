@@ -12,23 +12,28 @@ import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
 
 const TeacherProfile = () => {
-  const { id } = useParams();
+  const { idKorisnika } = useParams();
   const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
 
-  // useEffect(() => {
-  //   console.log("teacher");
-  //   console.log(teacher);
-  // }, [teacher]);
+  useEffect(() => {
+    console.log("idKorisnika");
+    console.log(idKorisnika);
+    console.log("teacher");
+    console.log(teacher);
+  }, [teacher]);
 
   // Fetch teacher data when the component mounts or when the `id` changes
   useEffect(() => {
     const fetchTeacher = async () => {
       try {
         // Send request to fetch teacher details based on the id
-        const response = await fetch(ApiConfig.API_URL + `/ucitelji/${id}`, {
-          method: "GET",
-          credentials: "include",
-        });
+        const response = await fetch(
+          ApiConfig.API_URL + `/ucitelji/${idKorisnika}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -41,10 +46,10 @@ const TeacherProfile = () => {
     };
 
     // Only fetch teacher data when the `id` changes
-    if (id) {
+    if (idKorisnika) {
       fetchTeacher();
     }
-  }, [id]); // Dependency on `id` to refetch data when the URL changes
+  }, [idKorisnika]); // Dependency on `id` to refetch data when the URL changes
 
   if (!teacher) {
     return (
@@ -77,18 +82,27 @@ const TeacherProfile = () => {
             }}
           >
             <Box id="item" sx={{ height: "auto" }}>
-              <Box key={teacher.id} className="teacher-box">
+              <Box key={teacher.idKorisnika} className="teacher-box">
                 <div className="teacher-info">
                   <img src={teacher.picture} alt={teacher.name} />
                   <div className="teacher-details">
                     <p>Ime: {teacher.name}</p>
                     <p>Jezici: {teacher.jezici?.join(", ")}</p>
                     <p>Iskustvo: {teacher.godineIskustva} godina</p>
-                    <p>Kvalifikacije: {teacher.kvalifikacija}</p>
+                    <p>
+                      Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}
+                    </p>
                     <p>Satnica: {teacher.satnica} eura</p>
-                    <p>Stil podučavanja: {teacher.stilPoducavanja}</p>
+                    <p>
+                      Stil podučavanja:{" "}
+                      {teacher.stilPoducavanja.replace(/_/g, " ")}
+                    </p>
                     {/* Placeholder for dynamic rating */}
-                    <p>Ocjena: 0</p>
+                    <p>Ocjena: {teacher.rating}</p>
+                    <p>
+                      Broj podučavanih učenika: {teacher.poducavaniUceniciBroj}
+                    </p>
+                    <p>Broj dovršenih lekcija: {teacher.dovrseneLekcijeBroj}</p>
                   </div>
                 </div>
               </Box>
@@ -110,7 +124,7 @@ const TeacherProfile = () => {
             <h2 style={{ textAlign: "center" }}>
               Kalendar dostupnosti lekcija
             </h2>
-            <CalendarDynamicTeacher id={id} />
+            <CalendarDynamicTeacher id={idKorisnika} />
           </div>
         </Container>
 
@@ -124,7 +138,7 @@ const TeacherProfile = () => {
             height: "auto",
           }}
         >
-          <RateTeachers teacher={teacher} id={id} />
+          <RateTeachers teacher={teacher} id={idKorisnika} />
         </Container>
       </div>
     </>

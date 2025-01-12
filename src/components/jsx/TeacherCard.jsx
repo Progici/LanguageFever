@@ -25,7 +25,7 @@ const TeacherCard = ({ teacher }) => {
           {/* improvizirano */}
           {/* <p>Jezici: {teacher.jezici.join(", ")}</p>{" "} */}
           {/* Prikazujemo jezike učitelja */}
-          <p>Ocjena: 0</p>{" "}
+          <p>Ocjena: {teacher.rating}</p>{" "}
           {/* Ovdje bi trebala biti ocjena učitelja, trenutno statički postavljeno na 0 */}
         </div>
       ) : (
@@ -36,11 +36,13 @@ const TeacherCard = ({ teacher }) => {
           {<p>Jezici: {teacher.jezici.join(", ")}</p>}
           <p>Iskustvo: {teacher.godineIskustva} godina</p>{" "}
           {/* Prikazujemo godine iskustva učitelja */}
-          <p>Kvalifikacije: {teacher.kvalifikacija}</p>{" "}
+          <p>Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}</p>{" "}
           {/* Prikazujemo kvalifikacije učitelja */}
           <p>Satnica: {teacher.satnica} eura</p>{" "}
           {/* Prikazujemo satnicu učitelja */}
-          <p>Stil podučavanja: {teacher.stilPoducavanja}</p>{" "}
+          <p>
+            Stil podučavanja: {teacher.stilPoducavanja.replace(/_/g, " ")}
+          </p>{" "}
           {/* Prikazujemo stil podučavanja učitelja */}
           <p>Ocjena: 0</p> {/* Ovdje bi također trebala biti ocjena učitelja */}
         </div>
@@ -55,7 +57,10 @@ const TeacherCard = ({ teacher }) => {
         </span>
 
         {/* Link koji vodi na stranicu s detaljima učitelja */}
-        <Link to={`/teachers/${teacher.id}`} className="profile-button">
+        <Link
+          to={`/teachers/${teacher.idKorisnika}`}
+          className="profile-button"
+        >
           Prikaži profil
         </Link>
       </div>

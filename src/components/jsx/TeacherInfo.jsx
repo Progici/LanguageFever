@@ -66,7 +66,7 @@ function TeacherInfo() {
     const isYearsValid =
       Number.isInteger(parseInt(years)) && parseInt(years) > 0;
     const isHourlyRateValid =
-      Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
+      !isNaN(parseFloat(hourlyRate)) && parseFloat(hourlyRate) > 0;
 
     return (
       language.length > 0 &&
@@ -99,7 +99,7 @@ function TeacherInfo() {
     event.preventDefault();
 
     const parsedYears = parseInt(years);
-    const parsedHourlyRate = parseInt(hourlyRate);
+    const parsedHourlyRate = parseFloat(hourlyRate);
 
     const data = {
       jezici: language,

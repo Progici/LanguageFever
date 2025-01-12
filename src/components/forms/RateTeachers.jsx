@@ -7,12 +7,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import HoverRating from "./hoverRating";
 import CommentForm from "./CommentForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ApiConfig } from "../../config/api.config";
+import { AppContext } from "../../AppContext";
 
 export default function rateTeacher({ teacher, id }) {
   const [rating, setRating] = useState(null); // Stanje za pohranu ocjene
-  const [comment, setComment] = useState(""); // Stanje za pohranu komentara
+  const [comment, setComment] = useState("");
+  const { active } = useContext(AppContext); // Stanje za pohranu komentara
 
   useEffect(() => {
     console.log("id");
@@ -27,6 +29,10 @@ export default function rateTeacher({ teacher, id }) {
 
   // Funkcija za slanje podataka
   const handleSubmit = (e) => {
+    if (!active) {
+      alert("Please login first.");
+      return;
+    }
     e.preventDefault();
 
     // Provjerite jesu li ocjena i komentar prisutni
