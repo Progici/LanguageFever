@@ -5,7 +5,7 @@ import { AppContext } from "./AppContext";
 function RequireSelection({ children }) {
   const { selected } = useContext(AppContext);
 
-  console.log("Selected: ", selected);
+  console.log("Selected:", selected);
 
   if (selected === 0) {
     console.log("Redirecting to /edit-user");

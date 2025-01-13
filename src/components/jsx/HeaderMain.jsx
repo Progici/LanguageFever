@@ -17,6 +17,7 @@ function HeaderMain() {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
+  const [newRequests, setNewRequests] = useState(0);
 
   useEffect(() => {
     if (active) {
@@ -35,14 +36,51 @@ function HeaderMain() {
           }
           const data = await response.json();
           setCurrentUser(data);
+          console.log("CurrentUser:", data);
         } catch (error) {
-          setCurrentUser("");
+          setCurrentUser(null);
           console.error("Error fetching status:", error);
         }
       };
       fetchActivityStatus();
     }
   }, [active, setCurrentUser]);
+
+  useEffect(() => {
+    if (active) {
+      const fetchRequests = async () => {
+        let endpoint = null;
+        if (selected === 1) {
+          endpoint = "/mojelekcije/ucenik/prihvacenizahtjevi"; // Endpoint for students
+          console.warn("HM Selected value is Student");
+        } else if (selected === 2) {
+          console.warn("HM Selected value is Teacher");
+          endpoint = "/mojelekcije/ucitelj/novizahtjevi"; // Endpoint for teachers
+        } else {
+          console.warn("Selected value is not valid. Skipping fetch.");
+          return;
+        }
+        try {
+          const response = await fetch(ApiConfig.API_URL + endpoint, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch requests");
+          }
+
+          const data = await response.json();
+          setNewRequests(data.length);
+          console.log("NewRequests:", data.length);
+        } catch (error) {
+          console.error("Error fetching lessons:", error);
+        }
+      };
+
+      fetchRequests();
+    }
+  }, [selected]);
 
   // Effect for closing hamburger menu
   useEffect(() => {
@@ -68,18 +106,17 @@ function HeaderMain() {
 
         <Nav className="navigation">
           <Nav.Link as={Link} to="/teachers">
-            Predavači
+            Učitelji
           </Nav.Link>
 
           <Nav.Link as={Link} to="/archived-lessons">
-            Lekcije
+            Arhiva
           </Nav.Link>
-          {/* <Nav.Link as={Link} to="/new-requests">
-            {/* tu treba stvoriti newRequests koji ce brojat nove zahtjeve 
+          <Nav.Link as={Link} to="/new-requests">
             <Badge badgeContent={newRequests} color="primary">
               Zahtjevi
             </Badge>
-          </Nav.Link> */}
+          </Nav.Link>
           <Nav.Link as={Link} to="/faqs">
             FAQs
           </Nav.Link>
@@ -158,14 +195,16 @@ function HeaderMain() {
                 <li className="d-grid">
                   <Link to="/archived-lessons">
                     <button className="btn btn-primary" id="logout2">
-                      Lekcije
+                      Arhiva
                     </button>
                   </Link>
                 </li>
                 <li className="d-grid">
                   <Link to="/new-requests">
                     <button className="btn btn-primary" id="logout2">
-                      Zahtjevi
+                      <Badge badgeContent={newRequests} color="primary">
+                        Zahtjevi
+                      </Badge>
                     </button>
                   </Link>
                 </li>
@@ -202,7 +241,7 @@ function HeaderMain() {
                       <div style={{ marginLeft: "20px" }}>
                         {selected === 1 && "Učenik"}
                         {selected === 2 && "Učitelj"}
-                        {selected === 0 && ""}
+                        {selected === 0 && "Odaberi"}
                       </div>
                     </li>
                     <li className="d-grid">

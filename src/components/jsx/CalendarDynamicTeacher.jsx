@@ -1,38 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Navigate } from "react-router-dom";
 import "../css/CalendarUser.css";
 import { ApiConfig } from "../../config/api.config";
 import CalendarComponent from "./CalendarComponent";
+import ReservationModal from "../utils/ReservationModal";
+import { AppContext } from "../../AppContext";
 
-function CalendarDynamicTeacher({ id }) {
+function CalendarDynamicTeacher({ idKorisnika, post, setPost }) {
   const [lessons, setLessons] = useState();
   const [formData, setFormData] = useState({
     start: null,
     end: null,
   });
-  const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [lessonId, setLessonId] = useState(null);
+  const { selected } = useContext(AppContext);
 
   const handleEvent = (event) => {
-    const { start, end, className } = event; // 'event' sadrži className
-    if (className === "event-available") {
-      setSelectedDate({ start, end, className });
+    if (selected === 0) {
+      alert(`Odaberi učenika ili učitelja (Uredi profil)`);
+      return;
+    } else if (selected === 2) {
+      alert(`Nisi učenik, ne možeš rezervirati lekcije.`);
+      return;
+    }
+
+    const { start, end, classNames } = event.event;
+    setLessonId(event.event._def.publicId);
+
+    if (classNames[0] === "event-available") {
+      setFormData({
+        start: start,
+        end: end,
+      });
       setOpen(true);
     } else {
-      const status = className.split("-")[1]; // Izvlači status iz className
+      const status = classNames[0].split("-")[1]; // Izvlači status iz className
       alert(`Ne može, lekcija je ${status}`);
     }
   };
 
   function handleNothing() {}
-
-  function handleOpen(date) {
-    setSelectedDate(date);
-    setOpen(true);
-    setFormData({
-      start: dayjs(date),
-      end: dayjs(date),
-    });
-  }
 
   function handleClose() {
     setOpen(false);
@@ -59,15 +67,15 @@ function CalendarDynamicTeacher({ id }) {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("id");
-  //   console.log(id);
-  //   console.log("lessons");
-  //   console.log(lessons);
-  // }, [lessons]);
+  useEffect(() => {
+    console.log("id");
+    console.log(idKorisnika);
+    console.log("lessons");
+    console.log(lessons);
+  }, [lessons]);
 
   useEffect(() => {
-    fetch(ApiConfig.API_URL + `/ucitelji/${id}/lekcije`, {
+    fetch(ApiConfig.API_URL + `/ucitelji/${idKorisnika}/lekcije`, {
       method: "GET",
       credentials: "include",
     })
@@ -76,6 +84,7 @@ function CalendarDynamicTeacher({ id }) {
         // Use map instead of forEach to return a new array
         const mappedLessons = data.map((lesson) => ({
           title: "Lekcija",
+          id: lesson.id,
           start: lesson.timestampPocetka,
           end: lesson.timestampZavrsetka,
           className: getEventClassName(lesson.status),
@@ -84,15 +93,16 @@ function CalendarDynamicTeacher({ id }) {
         setLessons(mappedLessons);
       })
       .catch((error) => console.error("Error fetching lessons:", error));
-  }, []);
+  }, [post]);
 
   return (
     <>
       <ReservationModal
         open={open}
-        selectedDate={selectedDate}
+        formData={formData}
+        lessonId={lessonId}
         handleClose={handleClose}
-        lessonId={id}
+        setPost={setPost}
       />
       <CalendarComponent
         onEventClick={handleEvent}

@@ -1,5 +1,4 @@
-import LessonsModal from "../utils/LessonsModal";
-import ReservationModal from "../utils/ReservationModal";
+import AddLessonModal from "../utils/AddLessonModal";
 import { useState, useEffect, useContext } from "react";
 import "../css/CalendarUser.css";
 import { ApiConfig } from "../../config/api.config";
@@ -7,6 +6,7 @@ import CalendarComponent from "./CalendarComponent";
 import { AppContext } from "../../AppContext";
 import dayjs from "dayjs";
 import CancelationModal from "../utils/CancelationModal";
+import DeleteModal from "../utils/DeleteModal";
 
 function CalendarUser() {
   const { selected } = useContext(AppContext);
@@ -16,21 +16,50 @@ function CalendarUser() {
     start: null,
     end: null,
   });
+  const [formDataDelete, setFormDataDelete] = useState({
+    start: null,
+    end: null,
+  });
   const [selectedDate, setSelectedDate] = useState(null);
+  const [lessonId, setLessonId] = useState(null);
   const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [post, setPost] = useState(false);
 
   const handleEvent = (event) => {
-    const { start, end, className } = event; // 'event' sadrži className
-    if (className === "event-pending") {
-      setSelectedDate({ start, end, className });
+    const { start, end, classNames } = event.event;
+    setLessonId(event.event._def.publicId);
+
+    if (classNames[0] === "event-pending") {
+      setFormData({
+        start: start,
+        end: end,
+      });
       setOpen(true);
     } else {
-      const status = className.split("-")[1]; // Izvlači status iz className
+      const status = classNames[0].split("-")[1]; // Izvlači status iz className
       alert(`Ne može, lekcija je ${status}`);
     }
   };
-  function handleNothing() {}
+
+  const handleDeleteEvent = (event) => {
+    const { start, end, classNames } = event.event;
+    setLessonId(event.event._def.publicId);
+
+    if (
+      classNames[0] === "event-available" ||
+      classNames[0] === "event-pending"
+    ) {
+      setFormDataDelete({
+        start: start,
+        end: end,
+      });
+      setOpenDelete(true);
+    } else {
+      const status = classNames[0].split("-")[1]; // Izvlači status iz className
+      alert(`Ne može, lekcija je ${status}`);
+    }
+  };
 
   function handleOpen(date) {
     setSelectedDate(date);
@@ -44,6 +73,16 @@ function CalendarUser() {
   function handleClose() {
     setOpen(false);
     setFormData({
+      start: null,
+      end: null,
+    });
+  }
+
+  function handleNothing() {}
+
+  function handleCloseDelete() {
+    setOpenDelete(false);
+    setFormDataDelete({
       start: null,
       end: null,
     });
@@ -127,7 +166,7 @@ function CalendarUser() {
     <>
       {selected === 2 && (
         <>
-          <LessonsModal
+          <AddLessonModal
             open={open}
             handleClose={handleClose}
             selectedDate={selectedDate}
@@ -135,8 +174,15 @@ function CalendarUser() {
             handleChange={handleChange}
             setPost={setPost}
           />
+          <DeleteModal
+            open={openDelete}
+            handleClose={handleCloseDelete}
+            formData={formDataDelete}
+            setPost={setPost}
+            lessonId={lessonId}
+          />
           <CalendarComponent
-            onEventClick={handleNothing}
+            onEventClick={handleDeleteEvent}
             onDateClick={handleOpen}
             lessons={lessons}
           />
@@ -144,12 +190,12 @@ function CalendarUser() {
       )}
       {selected === 1 && (
         <>
-          {/* ne reservation neg cancelation! */}
           <CancelationModal
             open={open}
-            selectedDate={selectedDate}
+            formData={formData}
             handleClose={handleClose}
-            lessonId={id}
+            lessonId={lessonId}
+            setPost={setPost}
           />
           <CalendarComponent
             onEventClick={handleEvent}

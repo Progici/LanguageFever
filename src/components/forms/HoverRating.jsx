@@ -15,13 +15,14 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-export default function HoverRating({ rating, setRating }) {
+export default function HoverRating({ rating, setRating, readOnly }) {
   const [value, setValue] = React.useState();
   const [hover, setHover] = React.useState(-1);
 
   return (
     <Box sx={{ width: 200, display: "flex", alignItems: "center" }}>
       <Rating
+        readOnly={readOnly}
         name="hover-feedback"
         value={rating}
         precision={1}

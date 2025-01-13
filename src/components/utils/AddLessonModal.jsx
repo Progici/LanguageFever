@@ -41,6 +41,10 @@ export default function LessonsModal({
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (formData.start >= formData.end) {
+      alert("Odaberi važeći raspon.");
+      return;
+    }
 
     const data = {
       timestampPocetka: formData.start,

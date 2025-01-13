@@ -5,6 +5,9 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import "../css/LessonsModal.css";
 import { ApiConfig } from "../../config/api.config";
+import { useContext } from "react";
+import { AppContext } from "../../AppContext";
+import dayjs from "dayjs";
 import "dayjs/locale/hr";
 
 const style = {
@@ -23,79 +26,63 @@ const style = {
 export default function ReservationModal({
   open,
   handleClose,
-  selectedDate,
+  formData,
   lessonId,
+  setPost,
 }) {
+  const { active } = useContext(AppContext);
+
   // Handle form submission
   const handleConfirm = () => {
-    const data = {
-      timestampPocetka: selectedDate.start,
-      timestampZavrsetka: selectedDate.end,
-    };
+    if (!active) {
+      alert("Please login first.");
+      return;
+    }
 
     fetch(ApiConfig.API_URL + `/rezervirajlekciju/${lessonId}`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        setPost((post) => !post);
         console.log("Lesson successfully added");
-        handleClose(); // Close modal after successful submission
+        handleClose();
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);
       });
   };
-  if (!selectedDate) {
-    return null;
-  }
-
-  const isAvailable = selectedDate.className === "event-available";
 
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {isAvailable
-            ? "Želiš li rezervirati ovu lekciju?"
-            : `Ne možeš rezervirati, lekcija je ${
-                selectedDate.className.split("-")[1]
-              }`}
+          Želiš li rezervirati ovu lekciju?
         </Typography>
 
-        {isAvailable && (
-          <>
-            <Typography
-              id="modal-modal-description"
-              style={{ marginTop: "16px", marginBottom: "16px" }}
-            >
-              Odabrali ste{" "}
-              {selectedDate.start ? formatDate(selectedDate.start) : ""}
-            </Typography>
-            <Box
-              sx={{ display: "flex", justifyContent: "center", gap: "16px" }}
-            >
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleClose}
-              >
-                Odustani
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleConfirm}
-              >
-                Prihvati
-              </Button>
-            </Box>
-          </>
-        )}
+        <>
+          <Typography
+            id="modal-modal-description"
+            style={{ marginTop: "16px", marginBottom: "16px" }}
+          >
+            Odabrali ste {formData.start ? formatDate(formData.start) : ""} -{" "}
+            {formData.end ? formatDate(formData.end) : ""}
+          </Typography>
+
+          <Box sx={{ display: "flex", justifyContent: "center", gap: "16px" }}>
+            <Button variant="outlined" color="secondary" onClick={handleClose}>
+              Odustani
+            </Button>
+
+            <Button variant="contained" color="primary" onClick={handleConfirm}>
+              Prihvati
+            </Button>
+          </Box>
+        </>
       </Box>
     </Modal>
   );

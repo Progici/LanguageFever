@@ -15,13 +15,17 @@ import AllRatings from "../forms/AllRatings";
 const TeacherProfile = () => {
   const { idKorisnika } = useParams();
   const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
+  const [post, setPost] = useState(false);
+  const [doneLesson, setDoneLesson] = useState(false);
 
   useEffect(() => {
     console.log("idKorisnika");
     console.log(idKorisnika);
     console.log("teacher");
     console.log(teacher);
-  }, [teacher]);
+    console.log("doneLesson");
+    console.log(doneLesson);
+  }, [teacher, doneLesson]);
 
   // Fetch teacher data when the component mounts or when the `id` changes
   useEffect(() => {
@@ -46,11 +50,33 @@ const TeacherProfile = () => {
       }
     };
 
-    // Only fetch teacher data when the `id` changes
-    if (idKorisnika) {
-      fetchTeacher();
-    }
-  }, [idKorisnika]); // Dependency on `id` to refetch data when the URL changes
+    fetchTeacher();
+  }, [post]); // Dependency on `id` to refetch data when the URL changes
+
+  useEffect(() => {
+    const fetchDoneLesson = async () => {
+      try {
+        // Send request to fetch teacher details based on the id
+        const response = await fetch(
+          ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+
+        setDoneLesson(data);
+      } catch (error) {
+        console.error("Error fetching lesson data:", error);
+      }
+    };
+
+    fetchDoneLesson();
+  }, [post]);
 
   if (!teacher) {
     return (
@@ -82,7 +108,12 @@ const TeacherProfile = () => {
               height: "auto",
             }}
           >
-            <Box id="item" sx={{ height: "auto" }}>
+            <Box
+              id="item"
+              sx={{
+                height: "auto",
+              }}
+            >
               <Box key={teacher.idKorisnika} className="teacher-box">
                 <div className="teacher-info">
                   <img src={teacher.picture} alt={teacher.name} />
@@ -125,7 +156,11 @@ const TeacherProfile = () => {
             <h2 style={{ textAlign: "center" }}>
               Kalendar dostupnosti lekcija
             </h2>
-            <CalendarDynamicTeacher id={idKorisnika} />
+            <CalendarDynamicTeacher
+              idKorisnika={idKorisnika}
+              post={post}
+              setPost={setPost}
+            />
           </div>
         </Container>
         <Container
@@ -139,20 +174,26 @@ const TeacherProfile = () => {
           }}
         >
           <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
-          <AllRatings idUcitelja={idKorisnika}></AllRatings>
+          <AllRatings idKorisnika={idKorisnika} post={post}></AllRatings>
         </Container>
-        <Container
-          maxWidth="md"
-          sx={{
-            backgroundColor: "#f5f5f5",
-            padding: 4,
-            borderRadius: 2,
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-            height: "auto",
-          }}
-        >
-          <RateTeachers teacher={teacher} id={idKorisnika} />
-        </Container>
+        {doneLesson && (
+          <Container
+            maxWidth="md"
+            sx={{
+              backgroundColor: "#f5f5f5",
+              padding: 4,
+              borderRadius: 2,
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              height: "auto",
+            }}
+          >
+            <RateTeachers
+              teacher={teacher}
+              id={idKorisnika}
+              setPost={setPost}
+            />
+          </Container>
+        )}
       </div>
     </>
   );

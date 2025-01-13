@@ -11,7 +11,7 @@ import { useState, useEffect, useContext } from "react";
 import { ApiConfig } from "../../config/api.config";
 import { AppContext } from "../../AppContext";
 
-export default function rateTeacher({ teacher, id }) {
+export default function rateTeacher({ teacher, id, setPost }) {
   const [rating, setRating] = useState(null); // Stanje za pohranu ocjene
   const [comment, setComment] = useState("");
   const { active } = useContext(AppContext); // Stanje za pohranu komentara
@@ -52,6 +52,7 @@ export default function rateTeacher({ teacher, id }) {
         body: JSON.stringify(data),
       })
         .then((result) => {
+          setPost((post) => !post);
           console.log("Ocjena uspješno dodana:", result);
         })
         .catch((error) => {
@@ -96,7 +97,7 @@ export default function rateTeacher({ teacher, id }) {
           {teacher.name}
         </Typography>
         <Box>
-          <HoverRating rating={rating} setRating={setRating} />
+          <HoverRating rating={rating} setRating={setRating} readOnly={false} />
         </Box>
         <Box>
           <CommentForm comment={comment} setComment={setComment} />

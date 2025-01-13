@@ -5,7 +5,7 @@ import { AppContext } from "./AppContext";
 function RequireLogin({ children }) {
   const { active } = useContext(AppContext);
 
-  console.log("Active: ", active);
+  console.log("Active:", active);
 
   if (!active) {
     console.log("Redirecting to /login");

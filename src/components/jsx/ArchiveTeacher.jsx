@@ -7,6 +7,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { ApiConfig } from "../../config/api.config";
 import { Typography } from "@mui/material";
+import { useEffect } from "react";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -15,18 +16,23 @@ const columns = [
   { field: "id", headerName: "Broj", width: 90 },
   {
     field: "tName",
-    headerName: "Ime učitelja",
+    headerName: "Ime učenika",
     width: 150,
   },
   {
     field: "timestampStart",
     headerName: "Početak",
-    width: 150,
+    width: 250,
   },
   {
     field: "timestampEnd",
     headerName: "Kraj",
-    width: 110,
+    width: 250,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 150,
   },
 ];
 
@@ -38,7 +44,7 @@ export default function DataGridDemo() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          ApiConfig.API_URL + "/mojelekcije/ucenik",
+          ApiConfig.API_URL + "/mojelekcije/ucitelj",
           {
             method: "GET",
             credentials: "include",
@@ -52,6 +58,7 @@ export default function DataGridDemo() {
           const transformedData = data
             .filter((item) => item.status === "FINISHED")
             .map((item, index) => ({
+              status: item.status,
               id: index + 1,
               tName: item.uciteljName,
               timestampStart: dayjs(item.timestampPocetka)
@@ -90,12 +97,12 @@ export default function DataGridDemo() {
     >
       {/* Title centered above the grid */}
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Arhiva lekcija
+        Arhiva lekcija učitelja
       </Typography>
 
       <Box
         sx={{
-          height: 400,
+          height: "70%",
           width: "70%", // Set the width to 70% of the screen
           display: "flex",
           justifyContent: "center",

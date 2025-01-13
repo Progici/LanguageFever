@@ -21,7 +21,7 @@ const style = {
   textAlign: "center",
 };
 
-export default function CancelationModal({
+export default function DeleteModal({
   open,
   handleClose,
   formData,
@@ -32,8 +32,8 @@ export default function CancelationModal({
   const handleConfirm = (e) => {
     e.preventDefault();
 
-    fetch(ApiConfig.API_URL + `/otkazirezervacijulekcije/${lessonId}`, {
-      method: "PUT",
+    fetch(ApiConfig.API_URL + `/izbrisimojulekciju/${lessonId}`, {
+      method: "DELETE",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     })
@@ -42,11 +42,11 @@ export default function CancelationModal({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         setPost((post) => !post);
-        console.log("Lesson successfully cancelled");
+        console.log("Lesson successfully deleted");
         handleClose(); // Close modal after successful submission
       })
       .catch((error) => {
-        console.error("Error cancelling lesson:", error);
+        console.error("Error deleting lesson:", error);
       });
   };
 
@@ -54,9 +54,8 @@ export default function CancelationModal({
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Želiš li otkazati ovu lekciju?
+          Želiš li izbrisati ovu lekciju?
         </Typography>
-
         <>
           <Typography
             id="modal-modal-description"

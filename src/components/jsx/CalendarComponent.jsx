@@ -30,7 +30,7 @@ function CalendarComponent({ lessons, onDateClick, onEventClick }) {
         }}
         firstDay={1}
         dateClick={(info) => onDateClick(info.dateStr)}
-        eventClick={(info) => onEventClick(info.dateStr)}
+        eventClick={(info) => onEventClick(info)}
       />
     </div>
   );

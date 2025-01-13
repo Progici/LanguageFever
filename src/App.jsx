@@ -12,9 +12,11 @@ import CalendarUser from "./components/jsx/CalendarUser";
 import TeachersPage from "./components/jsx/TeachersPage";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
-import Lessons from "./components/jsx/Lessons";
+import ArchiveStudent from "./components/jsx/ArchiveStudent";
+import ArchiveTeacher from "./components/jsx/ArchiveTeacher";
 import { ToastContainer } from "react-toastify";
 import RequestTeacher from "./components/forms/RequestTeacher";
+import RequestStudent from "./components/forms/RequestStudent";
 import RateTeachers from "./components/forms/RateTeachers";
 import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
@@ -24,7 +26,7 @@ import dayjs from "dayjs";
 
 function AppContent() {
   dayjs.locale("hr");
-  const { setActive, setSelected } = useContext(AppContext);
+  const { setActive, setSelected, selected } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +44,7 @@ function AppContent() {
 
         const data = await response.json();
         setActive(data);
+        console.log("dap");
         if (!data) setSelected(0);
       } catch (error) {
         setActive(false);
@@ -106,7 +109,7 @@ function AppContent() {
           element={
             <RequireLogin>
               <RequireSelection>
-                <RequestTeacher />
+                {selected === 2 ? <RequestTeacher /> : <RequestStudent />}
               </RequireSelection>
             </RequireLogin>
           }
@@ -126,7 +129,7 @@ function AppContent() {
           element={
             <RequireLogin>
               <RequireSelection>
-                <Lessons />
+                {selected === 2 ? <ArchiveTeacher /> : <ArchiveStudent />}
               </RequireSelection>
             </RequireLogin>
           }

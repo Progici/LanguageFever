@@ -6,15 +6,23 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import CommentForm from "./CommentForm";
 import HoverRating from "./hoverRating";
+import { useState, useEffect } from "react";
+import { ApiConfig } from "../../config/api.config";
 
-function AllRatings({ idUcitelja }) {
+function AllRatings({ idKorisnika, post }) {
   const [ratings, setRatings] = useState([]);
+
+  useEffect(() => {
+    console.log("ratings");
+    console.log(ratings);
+  }, [ratings]);
+
   useEffect(() => {
     // Fetch ratings data
     const fetchRatings = async () => {
       try {
         const response = await fetch(
-          ApiConfig.API_URL + `/mojeocjene/${idUcitelja}`,
+          ApiConfig.API_URL + `/ucitelji/${idKorisnika}/ocjene`,
           {
             method: "GET",
             credentials: "include",
@@ -33,7 +41,7 @@ function AllRatings({ idUcitelja }) {
     };
 
     fetchRatings();
-  }, [idUcitelja]); // Refetch data when idUcitelja changes
+  }, [post]); // Refetch data when idUcitelja changes
 
   return (
     <Box
@@ -54,8 +62,12 @@ function AllRatings({ idUcitelja }) {
               </Typography>
 
               {/* Rating */}
-              <Typography variant="body2" color="text.secondary">
-                <HoverRating value={rating.ocjena} readOnly />{" "}
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="div"
+              >
+                <HoverRating rating={rating.ocjena} readOnly={true} />{" "}
                 {/* Prikaz ocjene */}
               </Typography>
 
