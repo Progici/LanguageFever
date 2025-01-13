@@ -19,8 +19,10 @@ import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ApiConfig } from "./config/api.config";
+import dayjs from "dayjs";
 
 function AppContent() {
+  dayjs.locale("hr");
   const { setActive, setSelected } = useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
 

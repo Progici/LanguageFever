@@ -29,6 +29,7 @@ export default function LessonsModal({
   selectedDate,
   formData,
   handleChange,
+  setPost,
 }) {
   // Format date for display in the modal
   const formatDate = (date) => {
@@ -59,9 +60,9 @@ export default function LessonsModal({
         }
       })
       .then((res) => {
+        setPost((post) => !post);
         console.log("Lesson successfully added:", res);
         handleClose(); // Close the modal after successful submission
-        window.location.reload();
       })
       .catch((error) => {
         console.error("Error adding lesson:", error);

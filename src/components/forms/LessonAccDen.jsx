@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { ApiConfig } from "../../config/api.config";
 import { useEffect } from "react";
 
-export default function LessonAccDen({ lessonId }) {
+export default function LessonAccDen({ lessonId, setPost }) {
   const handleRequest = async (action) => {
     let endpoint = "";
     if (action === "accept") {
@@ -26,7 +26,7 @@ export default function LessonAccDen({ lessonId }) {
         throw new Error(`Error during ${action}ing the lesson`);
       }
 
-      window.location.reload();
+      setPost((post) => !post);
     } catch (error) {
       console.error(`Error during ${action}ing the lesson:`, error);
       alert("Došlo je do pogreške.");

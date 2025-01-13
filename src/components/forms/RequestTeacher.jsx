@@ -12,30 +12,24 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const columns = [
-  { field: "id", headerName: "Broj", width: 90 },
+  { field: "id", headerName: "Broj", width: 90, editable: false },
   {
     field: "name",
     headerName: "Ime",
     width: 150,
-    editable: true,
+    editable: false,
   },
   {
     field: "timestampPocetka",
     headerName: "Početak",
     width: 250,
-    editable: true,
+    editable: false,
   },
   {
     field: "timestampZavrsetka",
     headerName: "Završetak",
     width: 250,
-    editable: true,
-  },
-  {
-    field: "lessonId",
-    headerName: "ID lekcije",
-    width: 150,
-    editable: true,
+    editable: false,
   },
   {
     field: "pick",
@@ -43,13 +37,20 @@ const columns = [
     width: 200,
     editable: false,
     renderCell: (params) => {
-      return <LessonAccDen lessonId={params.row.lessonId} />;
+      return (
+        <LessonAccDen
+          lessonId={params.row.lessonId}
+          setPost={params.row.setPost}
+        />
+      );
     },
   },
 ];
 
 export default function DataGridDemo() {
   const [rows, setRows] = useState(null); // Drži podatke za DataGrid
+  const [post, setPost] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,6 +78,7 @@ export default function DataGridDemo() {
               .format("dddd, DD.MM.YYYY HH:mm"),
 
             lessonId: item.id,
+            setPost: setPost, // Pass setPost function here
           }));
 
           setRows(transformedData); // Postavljamo podatke u rows
@@ -88,7 +90,7 @@ export default function DataGridDemo() {
       }
     };
     fetchData(); // Pokrećemo dohvat podataka
-  }, []);
+  }, [post]);
 
   useEffect(() => {
     console.log("rows");
@@ -96,7 +98,7 @@ export default function DataGridDemo() {
   }, [rows]);
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: "100%", width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}

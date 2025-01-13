@@ -17,15 +17,14 @@ function CalendarUser() {
   });
   const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
+  const [post, setPost] = useState(false);
 
   function handleEvent(date) {
     setSelectedDate(date);
     setOpen(true);
-    console.log("brao");
+    console.log("dodati treba");
   }
-  function handleNothing() {
-    console.log("UCITELJ SI NEMRES");
-  }
+  function handleNothing() {}
 
   function handleOpen(date) {
     setSelectedDate(date);
@@ -116,7 +115,7 @@ function CalendarUser() {
     };
 
     fetchLessons();
-  }, [selected]);
+  }, [post]);
 
   return (
     <>
@@ -128,6 +127,7 @@ function CalendarUser() {
             selectedDate={selectedDate}
             formData={formData}
             handleChange={handleChange}
+            setPost={setPost}
           />
           <CalendarComponent
             onEventClick={handleNothing}
