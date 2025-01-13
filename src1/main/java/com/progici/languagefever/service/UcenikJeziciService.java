@@ -3,7 +3,6 @@ package com.progici.languagefever.service;
 import com.progici.languagefever.model.Jezik;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.UcenikJezici;
-import com.progici.languagefever.repository.JeziciRepository;
 import com.progici.languagefever.repository.UcenikJeziciRepository;
 import java.util.List;
 import java.util.Objects;

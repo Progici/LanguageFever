@@ -3,20 +3,14 @@ package com.progici.languagefever.controller;
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.dto.UcenikDTO;
-import com.progici.languagefever.model.dto.UciteljDTO;
 import com.progici.languagefever.model.enums.Role;
 import com.progici.languagefever.service.KorisnikService;
-import com.progici.languagefever.service.UcenikJeziciService;
 import com.progici.languagefever.service.UcenikService;
-import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -60,17 +54,14 @@ public class KorisnikController {
   }
 
   @PostMapping("/azurirajkorisnika")
-  public ResponseEntity<Void> updateCurrentUser(
+  public void updateCurrentUser(
     OAuth2AuthenticationToken authentication,
     @RequestBody Korisnik korisnikBody
   ) {
-    Korisnik korisnik = getCurrentUser(authentication);
-    try {
-      korisnikService.updateKorisnikById(korisnik.getId(), korisnikBody);
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok().build();
+    korisnikService.updateKorisnikById(
+      getCurrentUser(authentication).getId(),
+      korisnikBody
+    );
   }
 
   @DeleteMapping("/izbrisikorisnika")
@@ -108,11 +99,14 @@ public class KorisnikController {
   @GetMapping("/korisnici/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Korisnik getKorisnikById(@PathVariable Long id) {
-    try {
-      return korisnikService.getKorisnikById(id);
-    } catch (Exception e) {
-      return null;
-    }
+    Korisnik korisnik = korisnikService.getKorisnikById(id);
+
+    if (korisnik == null) throw new ResponseStatusException(
+      HttpStatus.NOT_FOUND,
+      "Korisnik not found"
+    );
+
+    return korisnik;
   }
 
   @PostMapping("/korisnici")
@@ -124,43 +118,19 @@ public class KorisnikController {
   @PutMapping("/setadmin/{idKorisnika}")
   //komentirati za development build
   //@PreAuthorize("hasRole('ROLE_ADMIN')")
-  public ResponseEntity<Void> setAdminByKorisnikId(
-    @PathVariable Long idKorisnika
-  ) {
-    Korisnik korisnik = getKorisnikById(idKorisnika);
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    try {
-      korisnikService.setRoleToKorisnikById(idKorisnika, Role.ROLE_ADMIN);
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok().build();
+  public void setAdminByKorisnikId(@PathVariable Long idKorisnika) {
+    Korisnik korisnik = getKorisnikById(idKorisnika); // checks null
+    korisnikService.setRoleToKorisnikById(idKorisnika, Role.ROLE_ADMIN);
   }
 
   @PutMapping("/korisnici/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public ResponseEntity<Void> updateKorisnikById(
+  public void updateKorisnikById(
     @RequestBody Korisnik korisnikBody,
     @PathVariable Long id
   ) {
-    Korisnik korisnik = getKorisnikById(id);
-
-    if (korisnik == null) throw new ResponseStatusException(
-      HttpStatus.NOT_FOUND,
-      "Korisnik not found"
-    );
-
-    try {
-      korisnikService.updateKorisnikById(id, korisnikBody);
-    } catch (Exception e) {
-      return ResponseEntity.badRequest().build();
-    }
-    return ResponseEntity.ok().build();
+    Korisnik korisnik = getKorisnikById(id); // checks null
+    korisnikService.updateKorisnikById(id, korisnikBody);
   }
 
   @DeleteMapping("/korisnici/{id}")
@@ -173,6 +143,8 @@ public class KorisnikController {
 
     korisnikService.deleteKorisnikById(id);
   }
+
+  // HELPER FUNCTIONS
 
   private Korisnik getKorisnikFromOAuth2AuthenticationToken(
     OAuth2AuthenticationToken authentication

@@ -20,8 +20,9 @@ public class KorisnikService {
     return sviKorisnici;
   }
 
-  public Korisnik getKorisnikById(Long id) throws Exception {
-    return korisniciRepository.findById(id).get();
+  //da
+  public Korisnik getKorisnikById(Long id) {
+    return korisniciRepository.findKorisnikById(id);
   }
 
   public List<Korisnik> getAllAdminRoles() {
@@ -40,14 +41,14 @@ public class KorisnikService {
     korisniciRepository.save(korisnik);
   }
 
-  public void updateKorisnikById(Long id, Korisnik korisnik) throws Exception {
+  public void updateKorisnikById(Long id, Korisnik korisnik) {
     Korisnik korisnikById = getKorisnikById(id);
     korisnikById.setName(korisnik.getName());
     korisnikById.setPicture(korisnik.getPicture());
     korisniciRepository.save(korisnikById);
   }
 
-  public void setRoleToKorisnikById(Long id, Role role) throws Exception {
+  public void setRoleToKorisnikById(Long id, Role role) {
     Korisnik korisnikById = getKorisnikById(id);
     korisnikById.setRole(role);
     korisniciRepository.save(korisnikById);
