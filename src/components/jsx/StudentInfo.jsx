@@ -21,11 +21,36 @@ function StudentInfo() {
     useContext(AppContext);
 
   useEffect(() => {
+    // Fetch current student data
+    const fetchCurrentStudent = async () => {
+      try {
+        const studentResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucenik",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (studentResponse.ok) {
+          const studentData = await studentResponse.json();
+          setCurrentStudent(studentData);
+        }
+      } catch (error) {
+        console.error("Error fetching current student:", error);
+      }
+    };
+
+    fetchCurrentStudent();
+  }, [setCurrentStudent]);
+
+  useEffect(() => {
     setLanguage(currentStudent?.jezici || []);
     setLevel(currentStudent?.razina || "");
     setStyle(currentStudent?.stilUcenja || "");
     setGoals(currentStudent?.ciljevi || "");
-  }, []);
+    console.log("CurrentStudent:", currentStudent);
+  }, [currentStudent]);
 
   // Fetch podaci za jezike
   useEffect(() => {

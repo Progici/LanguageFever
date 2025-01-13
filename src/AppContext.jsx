@@ -1,24 +1,22 @@
 import React, { createContext, useState, useEffect } from "react";
 
-// Create the context
 export const AppContext = createContext();
 
-// Create a provider component
 export const AppProvider = ({ children }) => {
   const [active, setActive] = useState(false);
+
   const [selected, setSelected] = useState(() => {
-    // Retrieve the `selected` value from local storage, or default to 0
     const savedSelected = localStorage.getItem("selected");
     return savedSelected ? JSON.parse(savedSelected) : 0;
   });
-  const [currentTeacher, setCurrentTeacher] = useState("");
-  const [currentStudent, setCurrentStudent] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
 
-  // Save the `selected` value to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem("selected", JSON.stringify(selected));
   }, [selected]);
+
+  const [currentTeacher, setCurrentTeacher] = useState(null);
+  const [currentStudent, setCurrentStudent] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   return (
     <AppContext.Provider

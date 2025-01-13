@@ -6,12 +6,12 @@ import "../css/Home.css";
 import { AppContext } from "../../AppContext";
 
 function Home() {
-  const { currentUser } = useContext(AppContext);
+  const { currentUser, active } = useContext(AppContext);
   return (
     <>
       <div className="home">
         <div className="home-section">
-          <p>Dobrodošli, {currentUser.name}!</p>
+          <p>{active && <>Dobrodošli, {currentUser?.name}!</>}</p>
           <section className="hero-section">
             <div className="home-picture-div">
               <img src={homeImage} className="home-picture" />

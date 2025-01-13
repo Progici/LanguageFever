@@ -24,12 +24,37 @@ function TeacherInfo() {
     useContext(AppContext);
 
   useEffect(() => {
+    // Fetch current teacher data
+    const fetchCurrentTeacher = async () => {
+      try {
+        const teacherResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucitelj",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (teacherResponse.ok) {
+          const teacherData = await teacherResponse.json();
+          setCurrentTeacher(teacherData);
+        }
+      } catch (error) {
+        console.error("Error fetching current teacher:", error);
+      }
+    };
+
+    fetchCurrentTeacher();
+  }, [setCurrentTeacher]);
+
+  useEffect(() => {
     setLanguage(currentTeacher?.jezici || []);
     setYears(currentTeacher?.godineIskustva || "");
     setQualifications(currentTeacher?.kvalifikacija || "");
     setStyle(currentTeacher?.stilPoducavanja || "");
     setHourlyRate(currentTeacher?.satnica || "");
-  }, []);
+    console.log("CurrentTeacher:", currentTeacher);
+  }, [currentTeacher]);
 
   // Fetch podaci za jezike
   useEffect(() => {

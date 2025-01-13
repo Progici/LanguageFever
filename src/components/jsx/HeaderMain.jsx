@@ -8,12 +8,40 @@ import Button from "react-bootstrap/Button";
 import "../css/HeaderMain.css";
 import Avatar from "@mui/material/Avatar";
 import { AppContext } from "../../AppContext";
+import { ApiConfig } from "../../config/api.config";
 
 function HeaderMain() {
-  const { active, currentUser, selected } = useContext(AppContext); // Using context
+  const { active, selected, currentUser, setCurrentUser } =
+    useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (active) {
+      const fetchActivityStatus = async () => {
+        try {
+          const response = await fetch(
+            ApiConfig.API_URL + "/trenutnikorisnik",
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          if (!response.ok) {
+            setCurrentUser("");
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setCurrentUser(data);
+        } catch (error) {
+          setCurrentUser("");
+          console.error("Error fetching status:", error);
+        }
+      };
+      fetchActivityStatus();
+    }
+  }, [active, setCurrentUser]);
 
   // Effect for closing hamburger menu
   useEffect(() => {
@@ -62,7 +90,7 @@ function HeaderMain() {
             <div>
               {selected === 1 && "Učenik"}
               {selected === 2 && "Učitelj"}
-              {selected === 0 && ""}
+              {selected === 0 && "Odaberi"}
             </div>
             <div className="dropdown-menu">
               <ul>
