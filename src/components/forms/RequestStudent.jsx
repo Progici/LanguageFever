@@ -31,20 +31,6 @@ const columns = [
     width: 250,
     editable: false,
   },
-  {
-    field: "pick",
-    headerName: "Zahtjev",
-    width: 200,
-    editable: false,
-    renderCell: (params) => {
-      return (
-        <LessonAccDen
-          lessonId={params.row.lessonId}
-          setPost={params.row.setPost}
-        />
-      );
-    },
-  },
 ];
 
 export default function DataGridDemo() {
@@ -55,10 +41,10 @@ export default function DataGridDemo() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          ApiConfig.API_URL + "/mojelekcije/ucitelj/novizahtjevi",
+          ApiConfig.API_URL + "/mojelekcije/ucenik/prihvacenizahtjevi",
           {
             method: "GET",
-            credentials: "include", // Ako je potrebno za autentifikaciju
+            credentials: "include",
           }
         );
 
@@ -68,7 +54,7 @@ export default function DataGridDemo() {
           // Pretvaramo podatke u odgovarajući format za DataGrid
           const transformedData = data.map((item, index) => ({
             id: index + 1,
-            name: item.ucenikName,
+            name: item.uciteljName,
 
             timestampPocetka: dayjs(item.timestampPocetka)
               .tz("Europe/Paris") // Convert to GMT+1 (Paris time zone)
@@ -110,8 +96,9 @@ export default function DataGridDemo() {
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Vaši zahtjevi za lekcijom
+        Vaše prihvaćene lekcije
       </Typography>
+
       <DataGrid
         rows={rows}
         columns={columns}

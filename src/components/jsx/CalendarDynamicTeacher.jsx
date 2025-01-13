@@ -5,8 +5,42 @@ import CalendarComponent from "./CalendarComponent";
 
 function CalendarDynamicTeacher({ id }) {
   const [lessons, setLessons] = useState();
+  const [formData, setFormData] = useState({
+    start: null,
+    end: null,
+  });
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  function handleOpen() {}
+  const handleEvent = (event) => {
+    const { start, end, className } = event; // 'event' sadrži className
+    if (className === "event-available") {
+      setSelectedDate({ start, end, className });
+      setOpen(true);
+    } else {
+      const status = className.split("-")[1]; // Izvlači status iz className
+      alert(`Ne može, lekcija je ${status}`);
+    }
+  };
+
+  function handleNothing() {}
+
+  function handleOpen(date) {
+    setSelectedDate(date);
+    setOpen(true);
+    setFormData({
+      start: dayjs(date),
+      end: dayjs(date),
+    });
+  }
+
+  function handleClose() {
+    setOpen(false);
+    setFormData({
+      start: null,
+      end: null,
+    });
+  }
 
   const getEventClassName = (status) => {
     switch (status) {
@@ -54,7 +88,17 @@ function CalendarDynamicTeacher({ id }) {
 
   return (
     <>
-      <CalendarComponent onDateClick={handleOpen} lessons={lessons} />
+      <ReservationModal
+        open={open}
+        selectedDate={selectedDate}
+        handleClose={handleClose}
+        lessonId={id}
+      />
+      <CalendarComponent
+        onEventClick={handleEvent}
+        onDateClick={handleNothing}
+        lessons={lessons}
+      />
     </>
   );
 }

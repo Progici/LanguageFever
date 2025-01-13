@@ -4,11 +4,11 @@ import Box from "@mui/material/Box";
 import StarIcon from "@mui/icons-material/Star";
 
 const labels = {
-  1: "Useless",
-  2: "Poor",
-  3: "Ok",
-  4: "Good",
-  5: "Excellent",
+  1: "Vrlo loše",
+  2: "Loše",
+  3: "U redu",
+  4: "Dobro",
+  5: "Odlično",
 };
 
 function getLabelText(value) {

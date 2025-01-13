@@ -10,6 +10,7 @@ import CalendarDynamicTeacher from "./CalendarDynamicTeacher";
 import RateTeachers from "../forms/RateTeachers";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
+import AllRatings from "../forms/AllRatings";
 
 const TeacherProfile = () => {
   const { idKorisnika } = useParams();
@@ -127,7 +128,19 @@ const TeacherProfile = () => {
             <CalendarDynamicTeacher id={idKorisnika} />
           </div>
         </Container>
-
+        <Container
+          maxWidth="md"
+          sx={{
+            backgroundColor: "#f5f5f5",
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            height: "auto",
+          }}
+        >
+          <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
+          <AllRatings idUcitelja={idKorisnika}></AllRatings>
+        </Container>
         <Container
           maxWidth="md"
           sx={{

@@ -12,8 +12,9 @@ import CalendarUser from "./components/jsx/CalendarUser";
 import TeachersPage from "./components/jsx/TeachersPage";
 import Faqs from "./components/jsx/Faqs";
 import LoginUser from "./components/jsx/LoginUser";
+import Lessons from "./components/jsx/Lessons";
 import { ToastContainer } from "react-toastify";
-import NewReqTeacher from "./components/jsx/NewReqTeacher";
+import RequestTeacher from "./components/forms/RequestTeacher";
 import RateTeachers from "./components/forms/RateTeachers";
 import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
@@ -105,7 +106,7 @@ function AppContent() {
           element={
             <RequireLogin>
               <RequireSelection>
-                <NewReqTeacher />
+                <RequestTeacher />
               </RequireSelection>
             </RequireLogin>
           }
@@ -116,6 +117,16 @@ function AppContent() {
             <RequireLogin>
               <RequireSelection>
                 <RateTeachers />
+              </RequireSelection>
+            </RequireLogin>
+          }
+        />
+        <Route
+          path="/archived-lessons"
+          element={
+            <RequireLogin>
+              <RequireSelection>
+                <Lessons />
               </RequireSelection>
             </RequireLogin>
           }

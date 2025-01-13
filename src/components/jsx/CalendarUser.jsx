@@ -6,6 +6,7 @@ import { ApiConfig } from "../../config/api.config";
 import CalendarComponent from "./CalendarComponent";
 import { AppContext } from "../../AppContext";
 import dayjs from "dayjs";
+import CancelationModal from "../utils/CancelationModal";
 
 function CalendarUser() {
   const { selected } = useContext(AppContext);
@@ -19,11 +20,16 @@ function CalendarUser() {
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState(false);
 
-  function handleEvent(date) {
-    setSelectedDate(date);
-    setOpen(true);
-    console.log("dodati treba");
-  }
+  const handleEvent = (event) => {
+    const { start, end, className } = event; // 'event' sadrži className
+    if (className === "event-pending") {
+      setSelectedDate({ start, end, className });
+      setOpen(true);
+    } else {
+      const status = className.split("-")[1]; // Izvlači status iz className
+      alert(`Ne može, lekcija je ${status}`);
+    }
+  };
   function handleNothing() {}
 
   function handleOpen(date) {
@@ -138,10 +144,12 @@ function CalendarUser() {
       )}
       {selected === 1 && (
         <>
-          <ReservationModal
+          {/* ne reservation neg cancelation! */}
+          <CancelationModal
             open={open}
             selectedDate={selectedDate}
             handleClose={handleClose}
+            lessonId={id}
           />
           <CalendarComponent
             onEventClick={handleEvent}

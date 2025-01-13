@@ -9,6 +9,7 @@ import "../css/HeaderMain.css";
 import Avatar from "@mui/material/Avatar";
 import { AppContext } from "../../AppContext";
 import { ApiConfig } from "../../config/api.config";
+import Badge from "@mui/material/Badge";
 
 function HeaderMain() {
   const { active, selected, currentUser, setCurrentUser } =
@@ -69,12 +70,16 @@ function HeaderMain() {
           <Nav.Link as={Link} to="/teachers">
             Predavači
           </Nav.Link>
-          <Nav.Link as={Link} to="/lessons">
+
+          <Nav.Link as={Link} to="/archived-lessons">
             Lekcije
           </Nav.Link>
-          <Nav.Link as={Link} to="/new-requests">
-            Zahtjevi
-          </Nav.Link>
+          {/* <Nav.Link as={Link} to="/new-requests">
+            {/* tu treba stvoriti newRequests koji ce brojat nove zahtjeve 
+            <Badge badgeContent={newRequests} color="primary">
+              Zahtjevi
+            </Badge>
+          </Nav.Link> */}
           <Nav.Link as={Link} to="/faqs">
             FAQs
           </Nav.Link>
@@ -151,7 +156,7 @@ function HeaderMain() {
                   </Link>
                 </li>
                 <li className="d-grid">
-                  <Link to="/lessons">
+                  <Link to="/archived-lessons">
                     <button className="btn btn-primary" id="logout2">
                       Lekcije
                     </button>

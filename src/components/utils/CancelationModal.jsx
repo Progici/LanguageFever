@@ -20,20 +20,22 @@ const style = {
   textAlign: "center",
 };
 
-export default function ReservationModal({
+export default function CancelationModal({
   open,
   handleClose,
   selectedDate,
   lessonId,
 }) {
   // Handle form submission
-  const handleConfirm = () => {
+  const handleConfirm = (e) => {
+    e.preventDefault();
+
     const data = {
       timestampPocetka: selectedDate.start,
       timestampZavrsetka: selectedDate.end,
     };
 
-    fetch(ApiConfig.API_URL + `/rezervirajlekciju/${lessonId}`, {
+    fetch(ApiConfig.API_URL + `/otkazirezervacijulekcije/${lessonId}`, {
       method: "PUT",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -43,31 +45,30 @@ export default function ReservationModal({
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        console.log("Lesson successfully added");
+        console.log("Lesson successfully cancelled");
         handleClose(); // Close modal after successful submission
       })
       .catch((error) => {
-        console.error("Error adding lesson:", error);
+        console.error("Error cancelling lesson:", error);
       });
   };
   if (!selectedDate) {
     return null;
   }
 
-  const isAvailable = selectedDate.className === "event-available";
-
+  const isPending = selectedDate.className === "event-pending";
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          {isAvailable
-            ? "Želiš li rezervirati ovu lekciju?"
-            : `Ne možeš rezervirati, lekcija je ${
+          {isPending
+            ? "Želiš li otkazati ovu lekciju?"
+            : `Ne možeš otkazati, lekcija je ${
                 selectedDate.className.split("-")[1]
               }`}
         </Typography>
 
-        {isAvailable && (
+        {isPending && (
           <>
             <Typography
               id="modal-modal-description"
