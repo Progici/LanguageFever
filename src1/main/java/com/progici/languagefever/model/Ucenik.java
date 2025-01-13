@@ -85,4 +85,21 @@ public class Ucenik {
   public void setStilUcenja(Stil stilUcenja) {
     this.stilUcenja = stilUcenja;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Ucenik [id=" +
+      id +
+      ", korisnik=" +
+      korisnik +
+      ", razina=" +
+      razina +
+      ", stilUcenja=" +
+      stilUcenja +
+      ", ciljevi=" +
+      ciljevi +
+      "]"
+    );
+  }
 }

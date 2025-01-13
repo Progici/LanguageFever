@@ -97,4 +97,23 @@ public class Ucitelj {
   public void setSatnica(Float satnica) {
     this.satnica = satnica;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Ucitelj [id=" +
+      id +
+      ", korisnik=" +
+      korisnik +
+      ", godineIskustva=" +
+      godineIskustva +
+      ", kvalifikacija=" +
+      kvalifikacija +
+      ", stilPoducavanja=" +
+      stilPoducavanja +
+      ", satnica=" +
+      satnica +
+      "]"
+    );
+  }
 }
