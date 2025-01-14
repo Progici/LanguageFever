@@ -155,40 +155,42 @@ public class KorisnikController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void deleteKorisnikById(@PathVariable Long idKorisnika) {
     Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
+    if (ucitelj != null) {
+      uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
 
-    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
+      List<Lekcija> lekcije = lekcijaService.getLekcijeByUciteljId(
+        ucitelj.getId()
+      );
+      for (Lekcija lekcija : lekcije) {
+        lekcijaService.deleteLekcijaById(lekcija.getId());
+      }
 
-    List<Lekcija> lekcije = lekcijaService.getLekcijeByUciteljId(
-      ucitelj.getId()
-    );
-    for (Lekcija lekcija : lekcije) {
-      lekcijaService.deleteLekcijaById(lekcija.getId());
+      List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(ucitelj.getId());
+      for (Ocjena ocjena : ocjene) {
+        ocjenaService.deleteOcjenaById(ocjena.getId());
+      }
+
+      uciteljService.deleteUciteljById(ucitelj.getId());
     }
-
-    List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(ucitelj.getId());
-    for (Ocjena ocjena : ocjene) {
-      ocjenaService.deleteOcjenaById(ocjena.getId());
-    }
-
-    uciteljService.deleteUciteljById(ucitelj.getId());
 
     Ucenik ucenik = ucenikService.getUcenikByKorisnikId(idKorisnika);
+    if (ucenik != null) {
+      ucenikJeziciService.deleteJeziciByUcenikId(ucenik.getId());
 
-    ucenikJeziciService.deleteJeziciByUcenikId(ucenik.getId());
+      List<Lekcija> lekcije2 = lekcijaService.getLekcijeByUcenikId(
+        ucenik.getId()
+      );
+      for (Lekcija lekcija : lekcije2) {
+        lekcijaService.deleteLekcijaById(lekcija.getId());
+      }
 
-    List<Lekcija> lekcije2 = lekcijaService.getLekcijeByUcenikId(
-      ucenik.getId()
-    );
-    for (Lekcija lekcija : lekcije2) {
-      lekcijaService.deleteLekcijaById(lekcija.getId());
+      List<Ocjena> ocjene2 = ocjenaService.getOcjeneByUcenikId(ucenik.getId());
+      for (Ocjena ocjena : ocjene2) {
+        ocjenaService.deleteOcjenaById(ocjena.getId());
+      }
+
+      ucenikService.deleteUcenikById(ucenik.getId());
     }
-
-    List<Ocjena> ocjene2 = ocjenaService.getOcjeneByUcenikId(ucenik.getId());
-    for (Ocjena ocjena : ocjene2) {
-      ocjenaService.deleteOcjenaById(ocjena.getId());
-    }
-
-    ucenikService.deleteUcenikById(ucenik.getId());
 
     korisnikService.deleteKorisnikById(idKorisnika);
   }
