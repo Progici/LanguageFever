@@ -8,6 +8,7 @@ function RequireSelection({ children }) {
   console.log("Selected:", selected);
 
   if (selected === 0) {
+    alert("Molimo odaberite postojećeg učenika ili učitelja.");
     console.log("Redirecting to /edit-user");
     return <Navigate to="/edit-user" replace />;
   }

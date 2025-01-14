@@ -18,16 +18,17 @@ import { ToastContainer } from "react-toastify";
 import RequestTeacher from "./components/forms/RequestTeacher";
 import RequestStudent from "./components/forms/RequestStudent";
 import RateTeachers from "./components/forms/RateTeachers";
-import AdminDeleteUser from "./components/forms/AdminOptions";
 import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { ApiConfig } from "./config/api.config";
 import dayjs from "dayjs";
+import AdminOptions from "./components/forms/AdminOptions";
 
 function AppContent() {
   dayjs.locale("hr");
-  const { setActive, setSelected, selected } = useContext(AppContext);
+  const { setActive, setSelected, selected, currentUser } =
+    useContext(AppContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -136,12 +137,10 @@ function AppContent() {
           }
         />
         <Route
-          path="/admin-deleteUser"
+          path="/admin-options"
           element={
             <RequireLogin>
-              <RequireSelection>
-                <AdminDeleteUser />
-              </RequireSelection>
+              {currentUser?.role === "ROLE_ADMIN" ? <AdminOptions /> : null}
             </RequireLogin>
           }
         />

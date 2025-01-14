@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useContext } from "react"; // Added useContext
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Hamburger from "hamburger-react";
 import Navbar from "react-bootstrap/Navbar";
@@ -18,6 +18,10 @@ function HeaderMain() {
   const menuRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
   const [newRequests, setNewRequests] = useState(0);
+
+  //potrebno za isActive funkciju
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     if (active) {
@@ -105,21 +109,63 @@ function HeaderMain() {
         </Navbar.Brand>
 
         <Nav className="navigation">
-          <Nav.Link as={Link} to="/teachers">
+          <Nav.Link
+            as={Link}
+            to="/teachers"
+            className={isActive("/teachers") ? "active-link" : "nav-link"}
+          >
             Učitelji
           </Nav.Link>
 
-          <Nav.Link as={Link} to="/archived-lessons">
+          <Nav.Link
+            as={Link}
+            to="/archived-lessons"
+            className={
+              isActive("/archived-lessons") ? "active-link" : "nav-link"
+            }
+          >
             Arhiva
           </Nav.Link>
-          <Nav.Link as={Link} to="/new-requests">
-            <Badge badgeContent={newRequests} color="primary">
-              Zahtjevi
-            </Badge>
+
+          <Nav.Link
+            as={Link}
+            to="/new-requests"
+            className={isActive("/new-requests") ? "active-link" : "nav-link"}
+          >
+            <div style={{ position: "relative", display: "inline-block" }}>
+              <Badge
+                badgeContent={newRequests}
+                color="primary"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 1.55,
+                  transform: "translate(-50%, 50%)",
+                }}
+              />
+              <span>Zahtjevi</span>
+            </div>
           </Nav.Link>
-          <Nav.Link as={Link} to="/faqs">
+
+          <Nav.Link
+            as={Link}
+            to="/faqs"
+            className={isActive("/faqs") ? "active-link" : "nav-link"}
+          >
             FAQs
           </Nav.Link>
+
+          {currentUser?.role === "ROLE_ADMIN" ? (
+            <Nav.Link
+              as={Link}
+              to="/admin-options"
+              className={
+                isActive("/admin-options") ? "active-link" : "nav-link"
+              }
+            >
+              Admin
+            </Nav.Link>
+          ) : null}
         </Nav>
 
         {/* Profile icon for logged-in user */}

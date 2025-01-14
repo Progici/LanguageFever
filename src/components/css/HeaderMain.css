@@ -144,6 +144,14 @@
   width: 100%;
 }
 
+.nav-link {
+  text-decoration: none;
+}
+
+.active-link {
+  font-weight: bold;
+}
+
 /* Responzivnost za manje ekrane */
 @media (max-width: 768px) {
   .navigation {

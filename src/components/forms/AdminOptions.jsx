@@ -56,7 +56,7 @@ export default function AdminOptions() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(ApiConfig.API_URL + "/users", {
+        const response = await fetch(ApiConfig.API_URL + "/korisnici", {
           method: "GET",
           credentials: "include",
         });
