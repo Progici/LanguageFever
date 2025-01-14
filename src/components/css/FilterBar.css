@@ -21,7 +21,8 @@
 }
 
 .filter-button,
-.sort-button {
+.sort-button
+ {
     background-color: #007bff;
     color: #fff;
     padding: 8px 16px;
@@ -32,8 +33,19 @@
     width: 100px;
 }
 
+.reset-filter-button{
+    background-color: black;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+}
+
 .filter-button:hover,
-.sort-button:hover {
+.sort-button:hover,
+.reset-filter-button:hover
+{
     opacity: 0.8;
 }
 
@@ -81,6 +93,13 @@ input[type="number"]:hover {
     border-width: 1px;
 }
 
+input.unosBroja {
+    width: 120px;
+}
+
+input.unosBrojaVeci{
+    width: 100%;
+}
 
 @media (max-width: 1400px) {
     .filter-bar-container {
