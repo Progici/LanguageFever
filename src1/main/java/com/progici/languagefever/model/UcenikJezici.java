@@ -24,10 +24,6 @@ public class UcenikJezici {
 
   @ManyToOne
   @JoinColumn(name = "jezik_id")
-  private Jezik jezik;
-
-  @ManyToOne
-  @JoinColumn(name = "jezik_id")
   @Column(nullable = false)
   private Jezik jezik;
 
