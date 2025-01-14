@@ -2,9 +2,12 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { ApiConfig } from "../../config/api.config";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AppContext } from "../../AppContext";
 
 export default function LessonAccDen({ lessonId, setPost }) {
+  const { setChange } = useContext(AppContext);
+
   const handleRequest = async (action) => {
     let endpoint = "";
     if (action === "accept") {
@@ -25,7 +28,7 @@ export default function LessonAccDen({ lessonId, setPost }) {
       if (!response.ok) {
         throw new Error(`Error during ${action}ing the lesson`);
       }
-
+      setChange((change) => !change);
       setPost((post) => !post);
     } catch (error) {
       console.error(`Error during ${action}ing the lesson:`, error);

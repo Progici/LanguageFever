@@ -12,7 +12,7 @@ import { ApiConfig } from "../../config/api.config";
 import Badge from "@mui/material/Badge";
 
 function HeaderMain() {
-  const { active, selected, currentUser, setCurrentUser } =
+  const { active, selected, currentUser, setCurrentUser, change } =
     useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
@@ -80,7 +80,7 @@ function HeaderMain() {
 
       fetchRequests();
     }
-  }, [selected]);
+  }, [selected, change]);
 
   // Effect for closing hamburger menu
   useEffect(() => {
