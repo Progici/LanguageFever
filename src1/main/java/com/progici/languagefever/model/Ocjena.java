@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 
 @Entity
 @Table
@@ -24,6 +27,8 @@ public class Ocjena {
   @JoinColumn(name = "id_ucitelj")
   private Ucitelj ucitelj;
 
+  @Min(0)
+  @Max(5)
   private Integer ocjena;
   private String komentar;
 
