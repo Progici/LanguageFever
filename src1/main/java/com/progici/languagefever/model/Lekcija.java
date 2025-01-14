@@ -83,4 +83,23 @@ public class Lekcija {
   public void setStatus(Status status) {
     this.status = status;
   }
+
+  @Override
+  public String toString() {
+    return (
+      "Lekcija [id=" +
+      id +
+      ", ucitelj=" +
+      ucitelj +
+      ", ucenik=" +
+      ucenik +
+      ", timestampPocetka=" +
+      timestampPocetka +
+      ", timestampZavrsetka=" +
+      timestampZavrsetka +
+      ", status=" +
+      status +
+      "]"
+    );
+  }
 }

@@ -111,14 +111,21 @@ public class LekcijaService {
     Lekcija lekcija,
     Ucitelj ucitelj,
     Ucenik ucenik
-  ) throws Exception {
+  ) {
     Lekcija newLekcija = new Lekcija();
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA1");
     newLekcija.setUcitelj(ucitelj);
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA2");
     newLekcija.setUcenik(ucenik);
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA3");
     newLekcija.setTimestampPocetka(lekcija.getTimestampPocetka());
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA4");
     newLekcija.setTimestampZavrsetka(lekcija.getTimestampZavrsetka());
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA5");
     newLekcija.setStatus(lekcija.getStatus());
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA6");
     lekcijaRepository.save(newLekcija);
+    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA7");
   }
 
   public void rezervirajLekciju(Long id, Ucenik ucenik) throws Exception {

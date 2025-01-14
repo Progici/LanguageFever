@@ -2,16 +2,13 @@ package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Korisnik;
 import com.progici.languagefever.model.Lekcija;
-import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.dto.LekcijaDTO;
-import com.progici.languagefever.model.dto.OcjenaDTO;
 import com.progici.languagefever.model.enums.Status;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.UcenikService;
 import com.progici.languagefever.service.UciteljService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +47,33 @@ public class LekcijaController {
   //
   //  USER ENDPOINTS
   //
+
+  @GetMapping("/odradenalekcija/{idKorisnikaUcitelja}")
+  public Boolean getIfHasDoneLesson(
+    OAuth2AuthenticationToken authentication,
+    @PathVariable Long idKorisnikaUcitelja
+  ) {
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    Ucitelj ucitelj = uciteljController.getUciteljByKorisnikId(
+      idKorisnikaUcitelja
+    );
+
+    List<Lekcija> finishedLessonsByTeacher = lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(
+      ucitelj.getId()
+    );
+
+    List<Lekcija> lessonsByStudent = lekcijaService.getLekcijeByUcenikId(
+      ucenik.getId()
+    );
+
+    for (Lekcija lesson : lessonsByStudent) {
+      if (finishedLessonsByTeacher.contains(lesson)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   @GetMapping("/mojelekcije/ucitelj")
   public List<LekcijaDTO> getLekcijeUcitelj(
@@ -167,14 +191,42 @@ public class LekcijaController {
   }
 
   @GetMapping("/mojelekcije/ucenik/prihvacenizahtjevi")
-  public List<Lekcija> getLekcijeUcenikPrihvaceneLekcije(
+  public List<LekcijaDTO> getLekcijeUcenikPrihvaceneLekcije(
     OAuth2AuthenticationToken authentication
   ) {
     Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
 
-    return lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
+    List<Lekcija> lekcije = lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
       ucenik.getId()
     );
+
+    return lekcije
+      .stream()
+      .map(lekcija -> {
+        String ucenikName = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getName()
+          : null;
+
+        String uciteljName = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getName()
+          : null;
+
+        return new LekcijaDTO(
+          lekcija.getId(),
+          lekcija.getTimestampPocetka(),
+          lekcija.getTimestampZavrsetka(),
+          lekcija.getStatus(),
+          ucenikName,
+          uciteljName
+        );
+      })
+      .collect(Collectors.toList());
   }
 
   @PostMapping("/dodajlekciju")
@@ -226,7 +278,7 @@ public class LekcijaController {
       lekcijaService.prihvatiRezervacijuLekcije(idLekcije);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
-    }
+    } else return ResponseEntity.badRequest().build();
     return ResponseEntity.ok().build();
   }
 
@@ -238,20 +290,29 @@ public class LekcijaController {
     Korisnik korisnik = korisnikController.getCurrentUser(authentication);
     Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(korisnik.getId());
     Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
+    boolean canceled = false;
     try {
       if (ucitelj != null) {
         if (
           lekcijaService
             .getLekcijeByUciteljId(ucitelj.getId())
             .contains(lekcijaService.getLekcijaById(idLekcije))
-        ) lekcijaService.otkaziRezervacijuLekcije(idLekcije);
-      } else if (ucenik != null) {
+        ) {
+          canceled = true;
+          lekcijaService.otkaziRezervacijuLekcije(idLekcije);
+        }
+      }
+      if (ucenik != null && !canceled) {
         if (
           lekcijaService
             .getLekcijeByUcenikId(ucenik.getId())
             .contains(lekcijaService.getLekcijaById(idLekcije))
-        ) lekcijaService.otkaziRezervacijuLekcije(idLekcije);
-      } else return ResponseEntity.badRequest().build();
+        ) {
+          canceled = true;
+          lekcijaService.otkaziRezervacijuLekcije(idLekcije);
+        }
+      }
+      if (!canceled) return ResponseEntity.badRequest().build();
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }
@@ -308,19 +369,19 @@ public class LekcijaController {
     return lekcijaService.getLekcijeByUcenikId(id);
   }
 
-  @PostMapping("/lekcije/{idUcitelja}/{idUcenika}")
+  @PostMapping("/lekcije/{idKorisnikaUcitelj}/{idKorisnikaUcenik}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public ResponseEntity<Void> addLekcija(
     @RequestBody Lekcija lekcija,
-    @PathVariable Long idUcitelja,
-    @PathVariable Long idUcenika
+    @PathVariable Long idKorisnikaUcitelj,
+    @PathVariable Long idKorisnikaUcenik
   ) {
     try {
-      lekcijaService.addLekcijaExplicit(
-        lekcija,
-        uciteljService.getUciteljById(idUcitelja),
-        ucenikService.getUcenikById(idUcenika)
+      Ucenik ucenik = ucenikService.getUcenikByKorisnikId(idKorisnikaUcenik);
+      Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(
+        idKorisnikaUcitelj
       );
+      lekcijaService.addLekcijaExplicit(lekcija, ucitelj, ucenik);
     } catch (Exception e) {
       return ResponseEntity.badRequest().build();
     }

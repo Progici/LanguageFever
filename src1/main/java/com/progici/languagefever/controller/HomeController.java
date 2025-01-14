@@ -1,5 +1,7 @@
 package com.progici.languagefever.controller;
 
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class HomeController {
   }
 
   @GetMapping("/active")
-  public Boolean active(OAuth2AuthenticationToken authentication) {
+  public Boolean getActive(OAuth2AuthenticationToken authentication) {
     if (authentication == null) return false;
     korisnikController.getCurrentUser(authentication); //baci error ako je korisnik null
     return authentication.isAuthenticated();
