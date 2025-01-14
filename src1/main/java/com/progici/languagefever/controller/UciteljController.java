@@ -252,6 +252,7 @@ public class UciteljController {
     @RequestParam(required = false) Integer minExperience,
     @RequestParam(required = false) Kvalifikacija kvalifikacija,
     @RequestParam(required = false) Stil stil,
+    @RequestParam(required = false) String jezik,
     @RequestParam(required = false) Double minAverageOcjena,
     @RequestParam(required = false) Integer minCountOcjena,
     @RequestParam(required = false) String sortBy,
@@ -295,6 +296,17 @@ public class UciteljController {
         ucitelji
           .stream()
           .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+          .collect(Collectors.toList());
+    }
+    if (jezik != null && !jezik.isEmpty()) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj ->
+            uciteljJeziciService
+              .getJeziciStringByUciteljId(ucitelj.getId())
+              .contains(jezik)
+          )
           .collect(Collectors.toList());
     }
     if (minAverageOcjena != null) {
