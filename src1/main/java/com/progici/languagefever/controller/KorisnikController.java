@@ -1,11 +1,17 @@
 package com.progici.languagefever.controller;
 
 import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ocjena;
 import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.enums.Role;
 import com.progici.languagefever.service.KorisnikService;
+import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.OcjenaService;
+import com.progici.languagefever.service.UcenikJeziciService;
 import com.progici.languagefever.service.UcenikService;
+import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +40,18 @@ public class KorisnikController {
 
   @Autowired
   private UciteljService uciteljService;
+
+  @Autowired
+  private UciteljJeziciService uciteljJeziciService;
+
+  @Autowired
+  private UcenikJeziciService ucenikJeziciService;
+
+  @Autowired
+  private OcjenaService ocjenaService;
+
+  @Autowired
+  private LekcijaService lekcijaService;
 
   //
   //  USER ENDPOINTS
@@ -133,15 +151,46 @@ public class KorisnikController {
     korisnikService.updateKorisnikById(id, korisnikBody);
   }
 
-  @DeleteMapping("/korisnici/{id}")
+  @DeleteMapping("/korisnici/{idKorisnika}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public void deleteKorisnikById(@PathVariable Long id) {
-    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(id);
-    if (ucitelj != null) uciteljService.deleteUciteljById(ucitelj.getId());
-    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(id);
-    if (ucenik != null) ucenikService.deleteUcenikById(ucenik.getId());
+  public void deleteKorisnikById(@PathVariable Long idKorisnika) {
+    Ucitelj ucitelj = uciteljService.getUciteljByKorisnikId(idKorisnika);
 
-    korisnikService.deleteKorisnikById(id);
+    uciteljJeziciService.deleteJeziciByUciteljId(ucitelj.getId());
+
+    List<Lekcija> lekcije = lekcijaService.getLekcijeByUciteljId(
+      ucitelj.getId()
+    );
+    for (Lekcija lekcija : lekcije) {
+      lekcijaService.deleteLekcijaById(lekcija.getId());
+    }
+
+    List<Ocjena> ocjene = ocjenaService.getOcjeneByUciteljId(ucitelj.getId());
+    for (Ocjena ocjena : ocjene) {
+      ocjenaService.deleteOcjenaById(ocjena.getId());
+    }
+
+    uciteljService.deleteUciteljById(ucitelj.getId());
+
+    Ucenik ucenik = ucenikService.getUcenikByKorisnikId(idKorisnika);
+
+    ucenikJeziciService.deleteJeziciByUcenikId(ucenik.getId());
+
+    List<Lekcija> lekcije2 = lekcijaService.getLekcijeByUcenikId(
+      ucenik.getId()
+    );
+    for (Lekcija lekcija : lekcije2) {
+      lekcijaService.deleteLekcijaById(lekcija.getId());
+    }
+
+    List<Ocjena> ocjene2 = ocjenaService.getOcjeneByUcenikId(ucenik.getId());
+    for (Ocjena ocjena : ocjene2) {
+      ocjenaService.deleteOcjenaById(ocjena.getId());
+    }
+
+    ucenikService.deleteUcenikById(ucenik.getId());
+
+    korisnikService.deleteKorisnikById(idKorisnika);
   }
 
   // HELPER FUNCTIONS
