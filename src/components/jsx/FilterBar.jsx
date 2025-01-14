@@ -25,7 +25,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
 
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/jezici", {
-      method: "GET"
+      method: "GET",
+      credentials:"include"
     })
       .then(response => response.json())
       .then(data => {
@@ -39,7 +40,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
 
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/kvalifikacije", {
-      method: "GET"
+      method: "GET",
+      credentials:"include"
     })
       .then(response => response.json())
       .then(data => {
@@ -53,7 +55,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
 
   useEffect(() => {
     fetch(ApiConfig.API_URL + "/enums/stilovi", {
-      method: "GET"
+      method: "GET",
+      credentials:"include"
     })
       .then(response => response.json())
       .then(data => {
