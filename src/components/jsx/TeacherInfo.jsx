@@ -209,7 +209,7 @@ function TeacherInfo() {
         type="button"
         disabled={!currentTeacher}
       >
-        Izbrisi učitelja
+        Izbriši učitelja
       </button>
       <div className="teacher-info">
         <form className="template" onSubmit={handleSubmit}>

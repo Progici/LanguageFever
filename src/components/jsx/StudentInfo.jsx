@@ -186,7 +186,7 @@ function StudentInfo() {
         type="button"
         disabled={!currentStudent}
       >
-        Izbrisi učenika
+        Izbriši učenika
       </button>
       <div className="student-info">
         <form className="template" onSubmit={handleSubmit}>

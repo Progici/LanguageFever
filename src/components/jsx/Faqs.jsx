@@ -3,59 +3,39 @@ import React, { useState } from "react";
 
 const faqData = [
   {
-    question: "Kako mogu započeti koristiti Language Fever?",
+    question: "Kako mogu započeti koristiti LanguageFever?",
     answer:
-      "Da biste započeli, registrirajte se putem e-maila i postavite svoj profil. Nakon toga, možete pretraživati dostupne učitelje ili učenike te započeti lekcije.",
+      "Želite li punu funkcionalnost stranice, morate se prijaviti. Bez prijave, možete samo pregledavati profile postojećih učitelja.",
   },
   {
-    question: "Koje jezike mogu učiti na Language Fever?",
+    question: "Prijavljen sam. Što sad?",
     answer:
-      "Naša platforma nudi širok spektar jezika, uključujući engleski, španjolski, njemački, francuski, talijanski i mnoge druge. Učitelji i učenici mogu birati jezike prema svojim potrebama.",
+      "Prijavom ste dobili punu funkcionalnost stranice. Uredite svoj profil, nadopunite ga informacijama i spremni ste za uživanje u stranici. Odaberite učitelja po svojim preferencama, a prikazom njegovog profila dobit ćete uvid u njegov raspored na kalendaru. To je to - rezervirajte željenu lekciju!",
   },
   {
-    question: "Kako mogu postati učitelj na Language Fever?",
+    question: "Rezervirao sam lekciju. Kako znam kada je prihvaćena?",
     answer:
-      "Ako želite postati učitelj, prijavite se putem platforme i dostavite svoj životopis, certifikate i primjere lekcija. Na temelju vaše prijave i iskustva, možete biti prihvaćeni kao učitelj.",
+      "Kada Vaša lekcija bude prihvaćena od učitelja, pojavit će Vam se obavijest na 'Zahtjevi' te ćete imati uvid u prihvaćene lekcije.",
   },
   {
-    question: "Koje su cijene lekcija?",
+    question: "Kako mogu stupiti u kontakt s učiteljem?",
     answer:
-      "Cijene lekcija ovise o učitelju, jeziku i trajanju nastave. Svaki učitelj postavlja vlastitu cijenu, koja je jasno prikazana na njegovom profilu.",
+      "Kada se Vaša lekcija prihvati, otvara Vam se mogućnost Chat-a sa željenim učiteljem.",
   },
   {
-    question: "Kako mogu zakazati lekciju?",
+    question: "Mogu li otkazati lekciju?",
     answer:
-      "Jednostavno pretražujte učitelje i odaberite onog koji vam odgovara. Zatim, odaberite slobodno vrijeme u njegovom rasporedu i rezervirajte lekciju.",
+      "Lekciju kao učenik možete otkazati samo dok još nije prihvaćena. Kao učitelj imate mogućnost odbijanja zahtjeva za lekcijom te brisanja postojećih, ako nisu rezervirane ili završene.",
   },
   {
-    question: "Je li moguće otkazati lekciju?",
+    question: "Gdje vidim svoje lekcije?",
     answer:
-      "Da, možete otkazati lekciju do 24 sata prije početka. Nakon tog vremena, otkazivanje može biti podložno naplati.",
-  },
-  {
-    question: "Kako mogu platiti za lekcije?",
-    answer:
-      "Plaćanja se vrše putem sigurnih online platformi, uključujući kreditne kartice i PayPal. Detalji o plačanju bit će navedeni prilikom rezervacije lekcija.",
+      "Osim prikaza lekcija na Vašem kalendaru, možete ih vidjeti i pod 'Arhiva'.",
   },
   {
     question: "Mogu li ocijeniti učitelja nakon lekcije?",
     answer:
-      "Da, nakon svake lekcije možete ocijeniti učitelja i ostaviti povratnu informaciju, što pomaže drugim korisnicima pri odabiru.",
-  },
-  {
-    question: "Mogu li učiti u grupama?",
-    answer:
-      "Trenutno su dostupne samo privatne lekcije, ali planiramo u budućnosti dodati opciju za grupno učenje.",
-  },
-  {
-    question: "Što ako imam tehničkih problema tijekom lekcije?",
-    answer:
-      "Ako dođe do tehničkih problema, odmah se obratite našoj podršci. Pomoći ćemo vam da riješite problem kako bi lekcija mogla nastaviti bez smetnji.",
-  },
-  {
-    question: "Kako mogu kontaktirati podršku?",
-    answer:
-      "Ako imate bilo kakvih problema ili pitanja, možete kontaktirati naš tim za podršku putem e-maila ili live chat opcije na stranici aplikacije.",
+      "Da, nakon svake odrađene lekcije možete ocijeniti učitelja na njihovim profilima i ostaviti povratnu informaciju, što pomaže drugim korisnicima pri odabiru.",
   },
 ];
 
