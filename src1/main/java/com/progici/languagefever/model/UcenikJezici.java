@@ -19,12 +19,10 @@ public class UcenikJezici {
 
   @ManyToOne
   @JoinColumn(name = "ucenik_id")
-  @Column(nullable = false)
   private Ucenik ucenik;
 
   @ManyToOne
   @JoinColumn(name = "jezik_id")
-  @Column(nullable = false)
   private Jezik jezik;
 
   public UcenikJezici() {}

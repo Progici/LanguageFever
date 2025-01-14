@@ -18,7 +18,7 @@ public class Jezik {
 
   public Jezik() {}
 
-  public Jezik(String name, String opis) {
+  public Jezik(String name) {
     this.name = name;
   }
 

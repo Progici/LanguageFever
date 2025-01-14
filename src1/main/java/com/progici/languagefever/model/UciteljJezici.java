@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "ucitelj_jezici")
 public class UciteljJezici {
 
   @Id
@@ -18,32 +18,27 @@ public class UciteljJezici {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "Ucitelj_id")
-  @Column(nullable = false)
-  private Ucitelj Ucitelj;
+  @JoinColumn(name = "ucitelj_id")
+  private Ucitelj ucitelj;
 
   @ManyToOne
   @JoinColumn(name = "jezik_id")
-  @Column(nullable = false)
   private Jezik jezik;
-
-  public UciteljJezici() {}
-
-  public UciteljJezici(Ucitelj Ucitelj, Jezik jezik) {
-    this.Ucitelj = Ucitelj;
-    this.jezik = jezik;
-  }
 
   public Long getId() {
     return id;
   }
 
-  public Ucitelj getUcitelj() {
-    return Ucitelj;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public void setUcitelj(Ucitelj Ucitelj) {
-    this.Ucitelj = Ucitelj;
+  public Ucitelj getUcitelj() {
+    return ucitelj;
+  }
+
+  public void setUcitelj(Ucitelj ucitelj) {
+    this.ucitelj = ucitelj;
   }
 
   public Jezik getJezik() {
