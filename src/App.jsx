@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import RequestTeacher from "./components/forms/RequestTeacher";
 import RequestStudent from "./components/forms/RequestStudent";
 import RateTeachers from "./components/forms/RateTeachers";
-import AdminDeleteUser from "./components/forms/AdminDeleteUser";
+import AdminDeleteUser from "./components/forms/AdminOptions";
 import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";

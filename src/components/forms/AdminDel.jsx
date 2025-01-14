@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import { ApiConfig } from "../../config/api.config";
 import { useEffect } from "react";
 
-export default function LessonAccDen({ idKorisnika, setPost }) {
+export default function AdminDel({ idKorisnika, setPost }) {
   const handleAdmin = async () => {
     try {
       const response = await fetch(
