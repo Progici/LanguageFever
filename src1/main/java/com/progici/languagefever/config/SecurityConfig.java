@@ -31,7 +31,15 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> {
-        auth.requestMatchers("/", "/ucitelji/**", "/active").permitAll();
+        auth
+          .requestMatchers(
+            "/",
+            "/ucitelji/**",
+            "/active",
+            "/jezici",
+            "/enums/**"
+          )
+          .permitAll();
         auth.anyRequest().authenticated();
       })
       .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
