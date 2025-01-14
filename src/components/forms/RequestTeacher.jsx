@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import LessonAccDen from "../forms/LessonAccDen.jsx";
+import LessonAccDen from "./miniComponents/LessonAccDen.jsx";
 import { ApiConfig } from "../../config/api.config";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";

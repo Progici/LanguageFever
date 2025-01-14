@@ -1,9 +1,9 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { ApiConfig } from "../../config/api.config";
+import { ApiConfig } from "../../../config/api.config";
 import { useEffect, useContext } from "react";
-import { AppContext } from "../../AppContext";
+import { AppContext } from "../../../AppContext";
 
 export default function LessonAccDen({ lessonId, setPost }) {
   const { setChange } = useContext(AppContext);

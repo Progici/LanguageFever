@@ -4,8 +4,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-import CommentForm from "./CommentForm";
-import HoverRating from "./hoverRating";
+import CommentForm from "./miniComponents/CommentForm";
+import HoverRating from "./miniComponents/HoverRating";
 import { useState, useEffect } from "react";
 import { ApiConfig } from "../../config/api.config";
 
