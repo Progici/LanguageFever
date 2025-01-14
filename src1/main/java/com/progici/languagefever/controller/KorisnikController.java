@@ -141,6 +141,13 @@ public class KorisnikController {
     korisnikService.setRoleToKorisnikById(idKorisnika, Role.ROLE_ADMIN);
   }
 
+  @PutMapping("/setuser/{idKorisnika}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public void setUserByKorisnikId(@PathVariable Long idKorisnika) {
+    Korisnik korisnik = getKorisnikById(idKorisnika); // checks null
+    korisnikService.setRoleToKorisnikById(idKorisnika, Role.ROLE_USER);
+  }
+
   @PutMapping("/korisnici/{id}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void updateKorisnikById(
