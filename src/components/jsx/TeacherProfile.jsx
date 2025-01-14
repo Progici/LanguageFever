@@ -16,7 +16,7 @@ const TeacherProfile = () => {
   const { idKorisnika } = useParams();
   const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
   const [post, setPost] = useState(false);
-  const [doneLesson, setDoneLesson] = useState(false);
+  const [doneLesson, setDoneLesson] = useState(true);
 
   useEffect(() => {
     console.log("idKorisnika");
@@ -53,30 +53,30 @@ const TeacherProfile = () => {
     fetchTeacher();
   }, [post]); // Dependency on `id` to refetch data when the URL changes
 
-  useEffect(() => {
-    const fetchDoneLesson = async () => {
-      try {
-        // Send request to fetch teacher details based on the id
-        const response = await fetch(
-          ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
+  // useEffect(() => {
+  //   const fetchDoneLesson = async () => {
+  //     try {
+  //       // Send request to fetch teacher details based on the id
+  //       const response = await fetch(
+  //         ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
+  //         {
+  //           method: "GET",
+  //           credentials: "include",
+  //         }
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       const data = await response.json();
 
-        setDoneLesson(data);
-      } catch (error) {
-        console.error("Error fetching lesson data:", error);
-      }
-    };
+  //       setDoneLesson(data);
+  //     } catch (error) {
+  //       console.error("Error fetching lesson data:", error);
+  //     }
+  //   };
 
-    fetchDoneLesson();
-  }, [post]);
+  //   fetchDoneLesson();
+  // }, [post]);
 
   if (!teacher) {
     return (

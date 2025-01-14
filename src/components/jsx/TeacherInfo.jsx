@@ -53,7 +53,7 @@ function TeacherInfo() {
     setQualifications(currentTeacher?.kvalifikacija || "");
     setStyle(currentTeacher?.stilPoducavanja || "");
     setHourlyRate(currentTeacher?.satnica || "");
-    console.log("CurrentTeacher:", currentTeacher);
+    console.log("CurrentTeacher", currentTeacher);
   }, [currentTeacher]);
 
   // Fetch podaci za jezike
@@ -103,6 +103,25 @@ function TeacherInfo() {
       isHourlyRateValid
     );
   };
+
+  function HandleDelete() {
+    fetch(ApiConfig.API_URL + "/izbrisiucitelja", {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        console.log("Teacher successfully deleted");
+        setCurrentTeacher(null);
+        setSelected(0);
+      })
+      .catch((error) => {
+        console.error("Error deleting teacher:", error);
+      });
+  }
 
   // Funkcija za promjenu odabranih jezika
   const handleLanguageChange = (selectedOptions) => {
@@ -183,95 +202,113 @@ function TeacherInfo() {
   }));
 
   return (
-    <div className="teacher-info">
-      <form className="template" onSubmit={handleSubmit}>
-        <h3 id="text">Profil učitelja</h3>
+    <>
+      <button
+        className="btn btn-secondary"
+        onClick={HandleDelete}
+        type="button"
+        disabled={!currentTeacher}
+      >
+        Izbrisi učitelja
+      </button>
+      <div className="teacher-info">
+        <form className="template" onSubmit={handleSubmit}>
+          <h3 id="text">Profil učitelja</h3>
 
-        <div className="name-container">
-          <div className="floating-label react-select-container">
-            <label>Jezici:</label>
-            <Select
-              isMulti
-              name="languages"
-              options={languageSelectOptions}
-              value={languageSelectOptions.filter((option) =>
-                language.includes(option.value)
-              )}
-              onChange={handleLanguageChange}
-              placeholder="Izaberite jezike"
-            />
+          <div className="name-container">
+            <div className="floating-label react-select-container">
+              <label>Jezici:</label>
+              <Select
+                isMulti
+                name="languages"
+                options={languageSelectOptions}
+                value={languageSelectOptions.filter((option) =>
+                  language.includes(option.value)
+                )}
+                onChange={handleLanguageChange}
+                placeholder="Izaberite jezike"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Stil podučavanja:</label>
+              <Select
+                name="style"
+                options={styleSelectOptions}
+                value={
+                  style
+                    ? styleSelectOptions.find(
+                        (option) => option.value === style
+                      )
+                    : null
+                }
+                onChange={handleStyleChange}
+                placeholder="Izaberite stil podučavanja"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Kvalifikacije:</label>
+              <Select
+                name="kvalifikacije"
+                options={qualificationSelectOptions}
+                value={
+                  qualifications
+                    ? qualificationSelectOptions.find(
+                        (option) => option.value === qualifications
+                      )
+                    : null
+                }
+                onChange={handleQualificationsChange}
+                placeholder="Izaberite kvalifikacije"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Godine iskustva:</label>
+              <TextareaAutosize
+                name="godineIskustva"
+                className="form-control textarea-autosize no-resize full-width"
+                minRows={1}
+                maxRows={1}
+                value={years}
+                onChange={(e) => setYears(e.target.value)}
+                maxLength={15}
+                placeholder="Unesite godine iskustva"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Satnica:</label>
+              <TextareaAutosize
+                name="satnica"
+                className="form-control textarea-autosize no-resize full-width"
+                minRows={1}
+                maxRows={1}
+                value={hourlyRate}
+                onChange={(e) => setHourlyRate(e.target.value)}
+                maxLength={15}
+                placeholder="Unesite satnicu"
+              />
+            </div>
           </div>
 
-          <div className="floating-label">
-            <label>Stil podučavanja:</label>
-            <Select
-              name="style"
-              options={styleSelectOptions}
-              value={styleSelectOptions.find(
-                (option) => option.value === style
-              )}
-              onChange={handleStyleChange}
-              placeholder="Izaberite stil podučavanja"
-            />
+          <div className="btns">
+            <Link to="/">
+              <button className="btn">Natrag</button>
+            </Link>
+
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={!isFormValid()}
+            >
+              Spremi
+            </button>
           </div>
-
-          <div className="floating-label">
-            <label>Kvalifikacije:</label>
-            <Select
-              name="kvalifikacije"
-              options={qualificationSelectOptions}
-              value={qualificationSelectOptions.find(
-                (option) => option.value === qualifications
-              )}
-              onChange={handleQualificationsChange}
-              placeholder="Izaberite kvalifikacije"
-            />
-          </div>
-
-          <div className="floating-label">
-            <label>Godine iskustva:</label>
-            <TextareaAutosize
-              name="godineIskustva"
-              className="form-control textarea-autosize no-resize full-width"
-              minRows={1}
-              maxRows={1}
-              value={years}
-              onChange={(e) => setYears(e.target.value)}
-              maxLength={15}
-              placeholder="Unesite godine iskustva"
-            />
-          </div>
-
-          <div className="floating-label">
-            <label>Satnica:</label>
-            <TextareaAutosize
-              name="satnica"
-              className="form-control textarea-autosize no-resize full-width"
-              minRows={1}
-              maxRows={1}
-              value={hourlyRate}
-              onChange={(e) => setHourlyRate(e.target.value)}
-              maxLength={15}
-              placeholder="Unesite satnicu"
-            />
-          </div>
-        </div>
-
-        <div className="btns">
-          <Link to="/">
-            <button className="btn">Natrag</button>
-          </Link>
-
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={!isFormValid()}
-          >
-            Spremi
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 }
 

@@ -82,6 +82,25 @@ function StudentInfo() {
       .then((data) => setTeachingStyles(data));
   }, []);
 
+  function HandleDelete() {
+    fetch(ApiConfig.API_URL + "/izbrisiucenika", {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        console.log("Student successfully deleted");
+        setCurrentStudent(null);
+        setSelected(0);
+      })
+      .catch((error) => {
+        console.error("Error deleting student:", error);
+      });
+  }
+
   // Funkcija za provjeru jesu li svi podaci uneseni
   const isFormValid = () => {
     return language.length > 0 && level && style && goals;
@@ -161,6 +180,14 @@ function StudentInfo() {
 
   return (
     <>
+      <button
+        className="btn btn-secondary"
+        onClick={HandleDelete}
+        type="button"
+        disabled={!currentStudent}
+      >
+        Izbrisi učenika
+      </button>
       <div className="student-info">
         <form className="template" onSubmit={handleSubmit}>
           <h3 id="text">Profil učenika</h3>
@@ -185,9 +212,13 @@ function StudentInfo() {
               <Select
                 name="style"
                 options={styleSelectOptions}
-                value={styleSelectOptions.find(
-                  (option) => option.value === style
-                )}
+                value={
+                  style
+                    ? styleSelectOptions.find(
+                        (option) => option.value === style
+                      )
+                    : null
+                }
                 onChange={handleStyleChange}
                 placeholder="Izaberite stil učenja"
               />
@@ -198,9 +229,13 @@ function StudentInfo() {
               <Select
                 name="level"
                 options={levelSelectOptions}
-                value={levelSelectOptions.find(
-                  (option) => option.value === level
-                )}
+                value={
+                  level
+                    ? levelSelectOptions.find(
+                        (option) => option.value === level
+                      )
+                    : null
+                }
                 onChange={handleLevelChange}
                 placeholder="Izaberite razinu znanja"
               />

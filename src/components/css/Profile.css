@@ -41,74 +41,151 @@
 
 */
 
+/* Style for the name-change-form container */
+.name-change-form {
+  margin: 50px auto 0; /* Center horizontally */
+  padding: 20px;
+  max-width: 500px;
+  background-color: #f9f9f9; /* Light background */
+  border: 1px solid #ddd; /* Subtle border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+
+  /* Flexbox for vertical and horizontal centering */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form heading */
+.name-change-form h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Dark text color */
+}
+
+/* Floating label container */
+.floating-label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.floating-label label {
+  font-size: 0.9rem;
+  color: #666; /* Gray label text */
+  margin-bottom: 5px;
+}
+
+/* Textarea Autosize field */
+.textarea-autosize {
+  resize: none;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 6px; /* Rounded corners */
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Focus state for input fields */
+.textarea-autosize:focus {
+  border-color: #8989f3; /* Blue border on focus */
+  box-shadow: 0 0 5px #5f5fc9; /* Glow effect */
+}
+
+/* Submit button */
+.name-change-form .btn-primary {
+  background-color: #8989f3; /* Blue background */
+  color: #fff; /* White text */
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+.name-change-form .btn-primary:hover {
+  background-color: #5f5fc9; /* Darker blue */
+}
+
+/* Disabled button state */
+.name-change-form .btn-primary:disabled {
+  cursor: not-allowed;
+}
+
 .profile-content-container {
-    margin: 100px auto 0px auto;
+  margin: 50px auto 0px auto;
 }
 
 .profile-form-container {
-    min-width: 200px;
-    width: 600px;
-    margin: 0px 20px;
+  min-width: 200px;
+  width: 600px;
+  margin: 0px 20px;
 }
 
 .grid-layout {
-    gap: 10px;
-    width: 50%;
+  gap: 10px;
+  width: 50%;
 }
 
 .tabs {
-    grid-column: 1/span 2;
-    display: flex;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    gap: 20px;
-    justify-content: center;
+  grid-column: 1 / span 2;
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  gap: 20px;
+  justify-content: center;
 }
 
 .tab ul li {
-    background-color: #f6f6f6;
-    padding: 20px;
-    border-radius: 600px;
-    cursor: pointer;
-    text-align: center;
+  background-color: #f6f6f6;
+  padding: 20px;
+  border-radius: 600px;
+  cursor: pointer;
+  text-align: center;
 }
 
 .tab ul li:hover {
-    color: black;
-    border: 2px solid rgb(137, 137, 243);
-    transition: box-shadow 0.25s;
-    box-shadow: 0px 0px 10px 2px rgba(0, 0, 255, 0.6); 
+  color: black;
+  border: 2px solid rgb(137, 137, 243);
+  transition: box-shadow 0.25s;
+  box-shadow: 0px 0px 10px 2px #5f5fc9;
 }
 
 .tab ul li.active-tab {
-    background-color: rgb(137, 137, 243); 
-    color: white; 
-    border: 2px solid rgb(137, 137, 243); 
+  background-color: rgb(137, 137, 243);
+  color: white;
+  border: 2px solid rgb(137, 137, 243);
 }
 
-.content-area { 
-    width: 100%;
-    padding: 20px;
-    border: 1px solid #e6e6e6;
-    margin: 10px auto;
-    border-radius: 10px;
+.content-area {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #e6e6e6;
+  margin: 10px auto;
+  border-radius: 10px;
 }
 
 .show-content {
-    display: block;
+  display: block;
 }
 
 .content {
-    display: none;
+  display: none;
 }
 
 body {
-    height: 400px;
+  height: 400px;
 }
 
 .Toastify__toast-container {
-    z-index: 9999;
-  }
-  
-
+  z-index: 9999;
+}
