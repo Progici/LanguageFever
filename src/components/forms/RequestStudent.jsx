@@ -24,12 +24,14 @@ const columns = [
     field: "timestampPocetka",
     headerName: "Početak",
     width: 250,
+    sortable: false,
     editable: false,
   },
   {
     field: "timestampZavrsetka",
     headerName: "Završetak",
     width: 250,
+    sortable: false,
     editable: false,
   },
   {

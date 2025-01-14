@@ -1,53 +1,46 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-import { useState, useEffect } from "react";
-import LessonAccDen from "../forms/LessonAccDen.jsx";
-import { ApiConfig } from "../../config/api.config";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import { Typography } from "@mui/material";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import AdminDel from "../forms/AdminDel.jsx";
+import { useState, useEffect } from "react";
+import { ApiConfig } from "../../config/api.config.js";
 
 const columns = [
-  { field: "id", headerName: "Broj", width: 90, editable: false },
+  { field: "id", headerName: "Broj", width: 90 },
+
   {
-    field: "name",
-    headerName: "Ime učenika",
+    field: "userId",
+    headerName: "ID korisnika",
+    type: "number",
+    width: 110,
+    editable: false,
+  },
+  {
+    field: "firstName",
+    headerName: "Ime korisnika",
     width: 150,
     editable: false,
   },
+
   {
-    field: "timestampPocetka",
-    headerName: "Početak",
-    width: 250,
-    sortable: false,
-    editable: false,
-  },
-  {
-    field: "timestampZavrsetka",
-    headerName: "Završetak",
-    width: 250,
-    sortable: false,
-    editable: false,
-  },
-  {
-    field: "status",
-    headerName: "Status",
+    field: "email",
+    headerName: "E-mail",
     width: 150,
+    editable: false,
   },
+
   {
-    field: "pick",
-    headerName: "Zahtjev",
+    field: "action",
+    headerName: "Radnja",
     width: 200,
+    sortable: false,
     editable: false,
     renderCell: (params) => {
       return (
-        <LessonAccDen
-          lessonId={params.row.lessonId}
+        // lessonId={params.row.lessonId} setPost={params.row.setPost}
+        <AdminDel
+          idKorisnika={params.row.userId}
           setPost={params.row.setPost}
         />
       );
@@ -62,31 +55,21 @@ export default function DataGridDemo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          ApiConfig.API_URL + "/mojelekcije/ucitelj/novizahtjevi",
-          {
-            method: "GET",
-            credentials: "include", // Ako je potrebno za autentifikaciju
-          }
-        );
+        const response = await fetch(ApiConfig.API_URL + "/users", {
+          method: "GET",
+          credentials: "include",
+        });
 
         if (response.ok) {
           const data = await response.json();
-
+          console.log("PODATCI");
+          console.log(data);
           // Pretvaramo podatke u odgovarajući format za DataGrid
           const transformedData = data.map((item, index) => ({
-            status: item.status,
             id: index + 1,
-            name: item.ucenikName,
-
-            timestampPocetka: dayjs(item.timestampPocetka)
-              .tz("Europe/Paris") // Convert to GMT+1 (Paris time zone)
-              .format("dddd, DD.MM.YYYY HH:mm"), // Adjust format if needed
-            timestampZavrsetka: dayjs(item.timestampZavrsetka)
-              .tz("Europe/Paris")
-              .format("dddd, DD.MM.YYYY HH:mm"),
-
-            lessonId: item.id,
+            userId: item.id,
+            firstName: item.name,
+            email: item.email,
             setPost: setPost, // Pass setPost function here
           }));
 
@@ -120,7 +103,7 @@ export default function DataGridDemo() {
     >
       {/* Title centered above the grid */}
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Novi zahtjevi
+        Izbrišite željenog korisnika ili ga postavite za admina
       </Typography>
 
       <Box

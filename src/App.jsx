@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import RequestTeacher from "./components/forms/RequestTeacher";
 import RequestStudent from "./components/forms/RequestStudent";
 import RateTeachers from "./components/forms/RateTeachers";
+import AdminDeleteUser from "./components/forms/AdminDeleteUser";
 import RequireSelection from "./RequireSelection";
 import { useContext, useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -130,6 +131,16 @@ function AppContent() {
             <RequireLogin>
               <RequireSelection>
                 {selected === 2 ? <ArchiveTeacher /> : <ArchiveStudent />}
+              </RequireSelection>
+            </RequireLogin>
+          }
+        />
+        <Route
+          path="/admin-deleteUser"
+          element={
+            <RequireLogin>
+              <RequireSelection>
+                <AdminDeleteUser />
               </RequireSelection>
             </RequireLogin>
           }
