@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,16 @@ public class LekcijaService {
 
   @Autowired
   private LekcijaRepository lekcijaRepository;
+
+    @Scheduled(cron = "0 * * * * *")  // Runs every minute
+    public void deleteExpiredLekcija() {
+        lekcijaRepository.deleteExpiredLekcija();
+    }
+
+    @Scheduled(cron = "0 * * * * *")  // Runs every minute
+    public void updateExpiredLekcijaStatus() {
+        lekcijaRepository.updateAcceptedLekcijaStatus();
+    }
 
   public List<Lekcija> getSveLekcije() {
     List<Lekcija> sveLekcije = new ArrayList<>();
