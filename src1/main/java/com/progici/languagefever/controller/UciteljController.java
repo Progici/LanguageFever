@@ -1,20 +1,9 @@
 package com.progici.languagefever.controller;
 
-import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.model.Lekcija;
-import com.progici.languagefever.model.Ocjena;
-import com.progici.languagefever.model.Ucenik;
-import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.dto.UciteljDTO;
-import com.progici.languagefever.model.enums.Kvalifikacija;
-import com.progici.languagefever.model.enums.Stil;
-import com.progici.languagefever.service.LekcijaService;
-import com.progici.languagefever.service.OcjenaService;
-import com.progici.languagefever.service.UciteljJeziciService;
-import com.progici.languagefever.service.UciteljService;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,6 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ocjena;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.UciteljDTO;
+import com.progici.languagefever.model.enums.Kvalifikacija;
+import com.progici.languagefever.model.enums.Stil;
+import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.OcjenaService;
+import com.progici.languagefever.service.UciteljJeziciService;
+import com.progici.languagefever.service.UciteljService;
 
 @RestController
 public class UciteljController {
@@ -252,12 +254,13 @@ public class UciteljController {
     @RequestParam(required = false) Integer minExperience,
     @RequestParam(required = false) Kvalifikacija kvalifikacija,
     @RequestParam(required = false) Stil stil,
+    @RequestParam(required = false) String jezik,
     @RequestParam(required = false) Double minAverageOcjena,
     @RequestParam(required = false) Integer minCountOcjena,
     @RequestParam(required = false) String sortBy,
     @RequestParam(required = false) String sortOrder,
     @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "12") int size
+    @RequestParam(defaultValue = "6") int size
   ) {
     List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
 
@@ -295,6 +298,13 @@ public class UciteljController {
         ucitelji
           .stream()
           .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+          .collect(Collectors.toList());
+    }
+    if (jezik != null && !jezik.isEmpty()) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj -> uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()).contains(jezik))
           .collect(Collectors.toList());
     }
     if (minAverageOcjena != null) {
