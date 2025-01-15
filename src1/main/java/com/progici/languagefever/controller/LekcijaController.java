@@ -102,13 +102,29 @@ public class LekcijaController {
           ? lekcija.getUcitelj().getKorisnik().getName()
           : null;
 
+        Long ucenikKorisnikId = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getId()
+          : null;
+
+        Long uciteljKorisnikId = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getId()
+          : null;
+
         return new LekcijaDTO(
           lekcija.getId(),
           lekcija.getTimestampPocetka(),
           lekcija.getTimestampZavrsetka(),
           lekcija.getStatus(),
           ucenikName,
-          uciteljName
+          uciteljName,
+          ucenikKorisnikId,
+          uciteljKorisnikId
         );
       })
       .collect(Collectors.toList());
@@ -141,13 +157,29 @@ public class LekcijaController {
           ? lekcija.getUcitelj().getKorisnik().getName()
           : null;
 
+        Long ucenikKorisnikId = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getId()
+          : null;
+
+        Long uciteljKorisnikId = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getId()
+          : null;
+
         return new LekcijaDTO(
           lekcija.getId(),
           lekcija.getTimestampPocetka(),
           lekcija.getTimestampZavrsetka(),
           lekcija.getStatus(),
           ucenikName,
-          uciteljName
+          uciteljName,
+          ucenikKorisnikId,
+          uciteljKorisnikId
         );
       })
       .collect(Collectors.toList());
@@ -178,13 +210,29 @@ public class LekcijaController {
           ? lekcija.getUcitelj().getKorisnik().getName()
           : null;
 
+        Long ucenikKorisnikId = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getId()
+          : null;
+
+        Long uciteljKorisnikId = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getId()
+          : null;
+
         return new LekcijaDTO(
           lekcija.getId(),
           lekcija.getTimestampPocetka(),
           lekcija.getTimestampZavrsetka(),
           lekcija.getStatus(),
           ucenikName,
-          uciteljName
+          uciteljName,
+          ucenikKorisnikId,
+          uciteljKorisnikId
         );
       })
       .collect(Collectors.toList());
@@ -217,13 +265,29 @@ public class LekcijaController {
           ? lekcija.getUcitelj().getKorisnik().getName()
           : null;
 
+        Long ucenikKorisnikId = (
+            lekcija.getUcenik() != null &&
+            lekcija.getUcenik().getKorisnik() != null
+          )
+          ? lekcija.getUcenik().getKorisnik().getId()
+          : null;
+
+        Long uciteljKorisnikId = (
+            lekcija.getUcitelj() != null &&
+            lekcija.getUcitelj().getKorisnik() != null
+          )
+          ? lekcija.getUcitelj().getKorisnik().getId()
+          : null;
+
         return new LekcijaDTO(
           lekcija.getId(),
           lekcija.getTimestampPocetka(),
           lekcija.getTimestampZavrsetka(),
           lekcija.getStatus(),
           ucenikName,
-          uciteljName
+          uciteljName,
+          ucenikKorisnikId,
+          uciteljKorisnikId
         );
       })
       .collect(Collectors.toList());

@@ -41,6 +41,9 @@ public class UciteljController {
   private LekcijaService lekcijaService;
 
   @Autowired
+  private UcenikController ucenikController;
+
+  @Autowired
   private OcjenaService ocjenaService;
 
   @Autowired
@@ -117,6 +120,36 @@ public class UciteljController {
       getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
       getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
     );
+  }
+
+  @GetMapping("/ucitelji/{idKorisnikaUcitelja}/email")
+  public String getUciteljDTOEmailByKorisnikId(
+    OAuth2AuthenticationToken authentication,
+    @PathVariable Long idKorisnikaUcitelja
+  ) {
+    Boolean uvjet = false;
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    Ucitelj ucitelj = getUciteljByKorisnikId(idKorisnikaUcitelja);
+
+    List<Lekcija> finishedLessonsByTeacher = lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(
+      ucitelj.getId()
+    );
+
+    List<Lekcija> lessonsByStudent = lekcijaService.getLekcijeByUcenikId(
+      ucenik.getId()
+    );
+
+    for (Lekcija lesson : lessonsByStudent) {
+      if (finishedLessonsByTeacher.contains(lesson)) {
+        uvjet = true;
+      }
+    }
+
+    if (uvjet) return korisnikController
+      .getKorisnikById(idKorisnikaUcitelja)
+      .getEmail(); else {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCESS DENIED");
+    }
   }
 
   @PostMapping("/azurirajucitelja")

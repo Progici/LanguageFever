@@ -11,6 +11,8 @@ public class LekcijaDTO {
   private Status status;
   private String ucenikName;
   private String uciteljName;
+  private Long ucenikKorisnikId;
+  private Long uciteljKorisnikId;
 
   public LekcijaDTO(
     Long id,
@@ -18,7 +20,9 @@ public class LekcijaDTO {
     Timestamp timestampZavrsetka,
     Status status,
     String ucenikName,
-    String uciteljName
+    String uciteljName,
+    Long ucenikKorisnikId,
+    Long uciteljKorisnikId
   ) {
     this.id = id;
     this.timestampPocetka = timestampPocetka;
@@ -26,6 +30,8 @@ public class LekcijaDTO {
     this.status = status;
     this.ucenikName = ucenikName;
     this.uciteljName = uciteljName;
+    this.ucenikKorisnikId = ucenikKorisnikId;
+    this.uciteljKorisnikId = uciteljKorisnikId;
   }
 
   public Long getId() {
@@ -74,5 +80,21 @@ public class LekcijaDTO {
 
   public void setUciteljName(String uciteljName) {
     this.uciteljName = uciteljName;
+  }
+
+  public Long getUcenikKorisnikId() {
+    return ucenikKorisnikId;
+  }
+
+  public void setUcenikKorisnikId(Long ucenikKorisnikId) {
+    this.ucenikKorisnikId = ucenikKorisnikId;
+  }
+
+  public Long getUciteljKorisnikId() {
+    return uciteljKorisnikId;
+  }
+
+  public void setUciteljKorisnikId(Long uciteljKorisnikId) {
+    this.uciteljKorisnikId = uciteljKorisnikId;
   }
 }
