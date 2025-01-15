@@ -13,24 +13,50 @@ const faqData = [
       "Prijavom ste dobili punu funkcionalnost stranice. Uredite svoj profil, nadopunite ga informacijama i spremni ste za uživanje u stranici. Odaberite učitelja po svojim preferencama, a prikazom njegovog profila dobit ćete uvid u njegov raspored na kalendaru. To je to - rezervirajte željenu lekciju!",
   },
   {
+    question: "Što označuju boje na kalendaru učitelja?",
+    answer: (
+      <>
+        Plava - slobodna lekcija <br />
+        Narančasta - rezervirana lekcija <br />
+        Zelena - dogovorena lekcija <br />
+        Siva - završena lekcija
+      </>
+    ),
+  },
+  {
     question: "Rezervirao sam lekciju. Kako znam kada je prihvaćena?",
     answer:
       "Kada Vaša lekcija bude prihvaćena od učitelja, pojavit će Vam se obavijest na 'Zahtjevi' te ćete imati uvid u prihvaćene lekcije.",
   },
+
   {
-    question: "Kako mogu stupiti u kontakt s učiteljem?",
+    question: "Gdje vidim svoje lekcije?",
     answer:
-      "Kada se Vaša lekcija prihvati, otvara Vam se mogućnost Chat-a sa željenim učiteljem.",
+      "Sve svoje lekcije možete vidjeti na Vašem kalendaru, a završene lekcije pod 'Arhiva'.",
   },
   {
     question: "Mogu li otkazati lekciju?",
     answer:
-      "Lekciju kao učenik možete otkazati samo dok još nije prihvaćena. Kao učitelj imate mogućnost odbijanja zahtjeva za lekcijom te brisanja postojećih, ako nisu rezervirane ili završene.",
+      "Lekciju kao učenik možete otkazati samo dok još nije prihvaćena. Kao učitelj imate mogućnost odbijanja zahtjeva za lekcijom te brisanja postojećih, ako nisu dogovorene ili završene.",
   },
   {
-    question: "Gdje vidim svoje lekcije?",
+    question: "Kako mogu stupiti u kontakt s učiteljem?",
     answer:
-      "Osim prikaza lekcija na Vašem kalendaru, možete ih vidjeti i pod 'Arhiva'.",
+      "Kada se Vaš zahtjev za lekcijom prihvati, otvara Vam se mogućnost Chat-a s tim učiteljem.",
+  },
+  {
+    question: "Mogu li ocijeniti učitelja nakon lekcije?",
+    answer:
+      "Da, nakon svake odrađene lekcije možete ocijeniti učitelja na njihovim profilima i ostaviti povratnu informaciju, što pomaže drugim korisnicima pri odabiru.",
+  },
+  {
+    question: "Učitelj sam, što da radim?",
+    answer:
+      "Kao učitelj, možete postaviti svoj raspored, prihvaćati ili odbijati zahtjeve za lekcijom te komunicirati s učenicima.",
+  },
+  {
+    question: "Učitelj mi ne odgovara na poruke. Što da radim?",
+    answer: "Ukoliko učitelj ne odgovara na poruke, kontaktirajte podršku.",
   },
   {
     question: "Mogu li ocijeniti učitelja nakon lekcije?",

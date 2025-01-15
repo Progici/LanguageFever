@@ -13,23 +13,26 @@ import FreeChat from "./FreeChat";
 import { AppContext } from "../../AppContext";
 
 const TeacherProfile = () => {
-  const { active, selected } = useContext(AppContext);
-  const { idKorisnika } = useParams();
+  const { active } = useContext(AppContext);
+  const { idKorisnika } = useParams(); // idKorisnika means user ID in Croatian
   const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
   const [post, setPost] = useState(false);
   const [doneLesson, setDoneLesson] = useState(false);
+  const [hasAcceptedLesson, setHasAcceptedLesson] = useState(false);
   const [teacherEmail, setTeacherEmail] = useState(false);
 
   useEffect(() => {
-    console.log("idKorisnika");
+    console.log("idKorisnika"); // idKorisnika means user ID in Croatian
     console.log(idKorisnika);
     console.log("teacher");
     console.log(teacher);
     console.log("doneLesson");
     console.log(doneLesson);
+    console.log("hasAcceptedLesson");
+    console.log(hasAcceptedLesson);
     console.log("teacherEmail");
     console.log(teacherEmail);
-  }, [teacher, doneLesson, teacherEmail]);
+  }, [teacher, doneLesson, teacherEmail, hasAcceptedLesson]);
 
   // Fetch teacher data when the component mounts or when the `id` changes
   useEffect(() => {
@@ -37,7 +40,7 @@ const TeacherProfile = () => {
       try {
         // Send request to fetch teacher details based on the id
         const response = await fetch(
-          ApiConfig.API_URL + `/ucitelji/${idKorisnika}`,
+          ApiConfig.API_URL + `/ucitelji/${idKorisnika}`, // ucitelji means teachers in Croatian
           {
             method: "GET",
             credentials: "include",
@@ -63,7 +66,7 @@ const TeacherProfile = () => {
         try {
           // Send request to fetch teacher details based on the id
           const response = await fetch(
-            ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
+            ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`, // odradenalekcija means completed lesson in Croatian
             {
               method: "GET",
               credentials: "include",
@@ -85,7 +88,34 @@ const TeacherProfile = () => {
   }, [post]);
 
   useEffect(() => {
-    if (active && doneLesson) {
+    if (active) {
+      const fetchDoneLesson = async () => {
+        try {
+          // Send request to fetch teacher details based on the id
+          const response = await fetch(
+            ApiConfig.API_URL + `/dogovorenalekcija/${idKorisnika}`, // dogovorenalekcija means scheduled lesson in Croatian
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+
+          setHasAcceptedLesson(data);
+        } catch (error) {
+          console.error("Error fetching lesson data:", error);
+        }
+      };
+
+      fetchDoneLesson();
+    }
+  }, [post]);
+
+  useEffect(() => {
+    if (active && hasAcceptedLesson) {
       const fetchEmail = async () => {
         try {
           // Send request to fetch teacher details based on the id
@@ -110,7 +140,7 @@ const TeacherProfile = () => {
 
       fetchEmail();
     }
-  }, [doneLesson, post, teacherEmail]);
+  }, [post, hasAcceptedLesson]);
 
   if (!teacher) {
     return (
@@ -149,6 +179,7 @@ const TeacherProfile = () => {
               }}
             >
               <Box key={teacher.idKorisnika} className="teacher-box">
+                {" "}
                 <div className="teacher-info">
                   <img src={teacher.picture} alt={teacher.name} />
                   <div className="teacher-details">
@@ -156,19 +187,19 @@ const TeacherProfile = () => {
                     <p>Jezici: {teacher.jezici?.join(", ")}</p>
                     <p>Iskustvo: {teacher.godineIskustva} godina</p>
                     <p>
-                      Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}
+                      Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}{" "}
                     </p>
                     <p>Satnica: {teacher.satnica} eura</p>
                     <p>
-                      Stil podučavanja:{" "}
+                      Stil podučavanja:
                       {teacher.stilPoducavanja.replace(/_/g, " ")}
                     </p>
                     {/* Placeholder for dynamic rating */}
                     <p>Ocjena: {parseFloat(teacher.rating).toFixed(2)}</p>
                     <p>
-                      Broj podučavanih učenika: {teacher.poducavaniUceniciBroj}
+                      Broj podučavanih učenika: {teacher.poducavaniUceniciBroj}{" "}
                     </p>
-                    <p>Broj dovršenih lekcija: {teacher.dovrseneLekcijeBroj}</p>
+                    <p>Broj dovršenih lekcija: {teacher.dovrseneLekcijeBroj}</p>{" "}
                   </div>
                 </div>
               </Box>
@@ -210,31 +241,30 @@ const TeacherProfile = () => {
           <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
           <AllRatings idKorisnika={idKorisnika} post={post}></AllRatings>
         </Container>
-        {doneLesson && teacherEmail && (
-          <>
-            <FreeChat
-              mail={teacherEmail}
-              picture={teacher.picture}
-              name={teacher.name}
+        {hasAcceptedLesson && teacherEmail && (
+          <FreeChat
+            mail={teacherEmail}
+            picture={teacher.picture}
+            name={teacher.name}
+          />
+        )}
+        {doneLesson && (
+          <Container
+            maxWidth="md"
+            sx={{
+              backgroundColor: "#f5f5f5",
+              padding: 4,
+              borderRadius: 2,
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              height: "auto",
+            }}
+          >
+            <RateTeachers
+              teacher={teacher}
+              id={idKorisnika}
+              setPost={setPost}
             />
-
-            <Container
-              maxWidth="md"
-              sx={{
-                backgroundColor: "#f5f5f5",
-                padding: 4,
-                borderRadius: 2,
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                height: "auto",
-              }}
-            >
-              <RateTeachers
-                teacher={teacher}
-                id={idKorisnika}
-                setPost={setPost}
-              />
-            </Container>
-          </>
+          </Container>
         )}
       </div>
     </>
