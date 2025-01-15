@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../css/TeacherProfile.css";
-import TeacherCard from "./TeacherCard";
 import { ApiConfig } from "../../config/api.config";
 import { Box } from "@mui/material";
-import CalendarUser from "./CalendarUser";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import CalendarDynamicTeacher from "./CalendarDynamicTeacher";
@@ -11,12 +9,16 @@ import RateTeachers from "../forms/RateTeachers";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
 import AllRatings from "../forms/AllRatings";
+import FreeChat from "./FreeChat";
+import { AppContext } from "../../AppContext";
 
 const TeacherProfile = () => {
+  const { active, selected } = useContext(AppContext);
   const { idKorisnika } = useParams();
   const [teacher, setTeacher] = useState(null); // Use null initially for better data handling
   const [post, setPost] = useState(false);
   const [doneLesson, setDoneLesson] = useState(false);
+  const [teacherEmail, setTeacherEmail] = useState(false);
 
   useEffect(() => {
     console.log("idKorisnika");
@@ -25,7 +27,9 @@ const TeacherProfile = () => {
     console.log(teacher);
     console.log("doneLesson");
     console.log(doneLesson);
-  }, [teacher, doneLesson]);
+    console.log("teacherEmail");
+    console.log(teacherEmail);
+  }, [teacher, doneLesson, teacherEmail]);
 
   // Fetch teacher data when the component mounts or when the `id` changes
   useEffect(() => {
@@ -54,29 +58,59 @@ const TeacherProfile = () => {
   }, [post]); // Dependency on `id` to refetch data when the URL changes
 
   useEffect(() => {
-    const fetchDoneLesson = async () => {
-      try {
-        // Send request to fetch teacher details based on the id
-        const response = await fetch(
-          ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
-          {
-            method: "GET",
-            credentials: "include",
+    if (active) {
+      const fetchDoneLesson = async () => {
+        try {
+          // Send request to fetch teacher details based on the id
+          const response = await fetch(
+            ApiConfig.API_URL + `/odradenalekcija/${idKorisnika}`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
           }
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const data = await response.json();
+
+          setDoneLesson(data);
+        } catch (error) {
+          console.error("Error fetching lesson data:", error);
         }
-        const data = await response.json();
+      };
 
-        setDoneLesson(data);
-      } catch (error) {
-        console.error("Error fetching lesson data:", error);
-      }
-    };
-
-    fetchDoneLesson();
+      fetchDoneLesson();
+    }
   }, [post]);
+
+  useEffect(() => {
+    if (active && doneLesson) {
+      const fetchEmail = async () => {
+        try {
+          // Send request to fetch teacher details based on the id
+          const response = await fetch(
+            ApiConfig.API_URL + `/ucitelji/${idKorisnika}/email`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.text();
+          console.log("data");
+          console.log(data);
+          setTeacherEmail(data);
+        } catch (error) {
+          console.error("Error fetching email data:", error);
+        }
+      };
+
+      fetchEmail();
+    }
+  }, [doneLesson, post, teacherEmail]);
 
   if (!teacher) {
     return (
@@ -130,7 +164,7 @@ const TeacherProfile = () => {
                       {teacher.stilPoducavanja.replace(/_/g, " ")}
                     </p>
                     {/* Placeholder for dynamic rating */}
-                    <p>Ocjena: {teacher.rating}</p>
+                    <p>Ocjena: {parseFloat(teacher.rating).toFixed(2)}</p>
                     <p>
                       Broj podučavanih učenika: {teacher.poducavaniUceniciBroj}
                     </p>
@@ -176,23 +210,31 @@ const TeacherProfile = () => {
           <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
           <AllRatings idKorisnika={idKorisnika} post={post}></AllRatings>
         </Container>
-        {doneLesson && (
-          <Container
-            maxWidth="md"
-            sx={{
-              backgroundColor: "#f5f5f5",
-              padding: 4,
-              borderRadius: 2,
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-              height: "auto",
-            }}
-          >
-            <RateTeachers
-              teacher={teacher}
-              id={idKorisnika}
-              setPost={setPost}
+        {doneLesson && teacherEmail && (
+          <>
+            <FreeChat
+              mail={teacherEmail}
+              picture={teacher.picture}
+              name={teacher.name}
             />
-          </Container>
+
+            <Container
+              maxWidth="md"
+              sx={{
+                backgroundColor: "#f5f5f5",
+                padding: 4,
+                borderRadius: 2,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                height: "auto",
+              }}
+            >
+              <RateTeachers
+                teacher={teacher}
+                id={idKorisnika}
+                setPost={setPost}
+              />
+            </Container>
+          </>
         )}
       </div>
     </>

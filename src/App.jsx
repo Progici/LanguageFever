@@ -24,6 +24,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { ApiConfig } from "./config/api.config";
 import dayjs from "dayjs";
 import AdminOptions from "./components/forms/AdminOptions";
+import FreeChat from "./components/jsx/FreeChat";
 
 function AppContent() {
   dayjs.locale("hr");
@@ -78,7 +79,6 @@ function AppContent() {
   return (
     <>
       <HeaderMain />
-
       <ToastContainer />
 
       <Routes>

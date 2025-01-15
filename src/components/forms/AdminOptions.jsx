@@ -25,7 +25,7 @@ const columns = [
   {
     field: "email",
     headerName: "E-mail",
-    width: 200,
+    width: 250,
     editable: false,
   },
   {

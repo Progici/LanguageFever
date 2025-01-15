@@ -2,47 +2,64 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import LessonAccDen from "./miniComponents/LessonAccDen.jsx";
 import { ApiConfig } from "../../config/api.config";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const columns = [
-  { field: "id", headerName: "Broj", width: 90, editable: false },
-  {
-    field: "name",
-    headerName: "Ime učitelja",
-    width: 150,
-    editable: false,
-  },
-  {
-    field: "timestampPocetka",
-    headerName: "Početak",
-    width: 250,
-    sortable: false,
-    editable: false,
-  },
-  {
-    field: "timestampZavrsetka",
-    headerName: "Završetak",
-    width: 250,
-    sortable: false,
-    editable: false,
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 150,
-  },
-];
-
 export default function DataGridDemo() {
+  const navigate = useNavigate(); // Use the hook directly inside the component
   const [rows, setRows] = useState(null); // Drži podatke za DataGrid
+
+  // Updated handleLink function
+  const handleLink = (link) => {
+    navigate(link); // Use the navigate function directly
+  };
+
+  const columns = [
+    { field: "id", headerName: "Broj", width: 90, editable: false },
+    {
+      field: "name",
+      headerName: "Ime učitelja",
+      width: 200,
+      editable: false,
+      renderCell: (params) => {
+        return (
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => handleLink(params.row.link)} // Pass the correct link to navigate
+          >
+            {params.row.name}
+          </Button>
+        );
+      },
+    },
+    {
+      field: "timestampPocetka",
+      headerName: "Početak",
+      width: 250,
+      sortable: false,
+      editable: false,
+    },
+    {
+      field: "timestampZavrsetka",
+      headerName: "Završetak",
+      width: 250,
+      sortable: false,
+      editable: false,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 150,
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +80,7 @@ export default function DataGridDemo() {
             status: item.status,
             id: index + 1,
             name: item.uciteljName,
-
+            link: "/teachers/" + item.uciteljKorisnikId,
             timestampPocetka: dayjs(item.timestampPocetka)
               .tz("Europe/Paris") // Convert to GMT+1 (Paris time zone)
               .format("dddd, DD.MM.YYYY HH:mm"), // Adjust format if needed

@@ -58,7 +58,6 @@ export default function DataGridDemo() {
           const transformedData = data
             .filter((item) => item.status === "FINISHED")
             .map((item, index) => ({
-              status: item.status,
               id: index + 1,
               tName: item.uciteljName,
               timestampStart: dayjs(item.timestampPocetka)

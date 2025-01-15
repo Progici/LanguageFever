@@ -25,23 +25,26 @@ const TeacherCard = ({ teacher }) => {
           {/* improvizirano */}
           <p>Jezici: {teacher.jezici.join(", ")}</p>{" "}
           {/* Prikazujemo jezike učitelja */}
-          <p>Ocjena: {parseFloat(teacher.rating).toFixed(1)}</p>{" "}
+          <p>Ocjena: {parseFloat(teacher.rating).toFixed(2)}</p>{" "}
           {/* Ovdje bi trebala biti ocjena učitelja, trenutno statički postavljeno na 0 */}
         </div>
       ) : (
         <div className="long-details">
-           {/* improvizirano */}
+          {/* improvizirano */}
           <p>Jezici: {teacher.jezici.join(", ")}</p>{" "}
           {/* Prikazujemo jezike učitelja */}
           <p>Iskustvo: {teacher.godineIskustva} godina</p>{" "}
           {/* Prikazujemo godine iskustva učitelja */}
-          <p>Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ") }</p>{" "}
+          <p>Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}</p>{" "}
           {/* Prikazujemo kvalifikacije učitelja */}
           <p>Satnica: {teacher.satnica} eura</p>{" "}
           {/* Prikazujemo satnicu učitelja */}
-          <p>Stil podučavanja: {teacher.stilPoducavanja.replace(/_/g, " ") }</p>{" "}
+          <p>
+            Stil podučavanja: {teacher.stilPoducavanja.replace(/_/g, " ")}
+          </p>{" "}
           {/* Prikazujemo stil podučavanja učitelja */}
-          <p>Ocjena: {parseFloat(teacher.rating).toFixed(1)}</p> {/* Ovdje bi također trebala biti ocjena učitelja */}
+          <p>Ocjena: {parseFloat(teacher.rating).toFixed(1)}</p>{" "}
+          {/* Ovdje bi također trebala biti ocjena učitelja */}
         </div>
       )}
       <div className="card-actions">
@@ -54,7 +57,10 @@ const TeacherCard = ({ teacher }) => {
         </span>
 
         {/* Link koji vodi na stranicu s detaljima učitelja */}
-        <Link to={`/teachers/${teacher.id}`} className="profile-button">
+        <Link
+          to={`/teachers/${teacher.idKorisnika}`}
+          className="profile-button"
+        >
           Prikaži profil
         </Link>
       </div>
