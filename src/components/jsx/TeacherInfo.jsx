@@ -114,11 +114,23 @@ function TeacherInfo() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        toast.success("Učitelj uspješno izbrisan!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.log("Teacher successfully deleted");
         setCurrentTeacher(null);
         setSelected(0);
       })
       .catch((error) => {
+        toast.error("Greška kod brisanja učitelja.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error deleting teacher:", error);
       });
   }

@@ -92,11 +92,23 @@ function StudentInfo() {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        toast.success("Učenik uspješno izbrisan!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.log("Student successfully deleted");
         setCurrentStudent(null);
         setSelected(0);
       })
       .catch((error) => {
+        toast.error("Greška kod brisanja učenika.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error deleting student:", error);
       });
   }
