@@ -131,16 +131,16 @@ public class UciteljController {
     Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
     Ucitelj ucitelj = getUciteljByKorisnikId(idKorisnikaUcitelja);
 
-    List<Lekcija> finishedLessonsByTeacher = lekcijaService.getLekcijeByUciteljIdAndByStatusFinished(
+    List<Lekcija> allLessonsByTeacher = lekcijaService.getLekcijeByUciteljId(
       ucitelj.getId()
     );
 
-    List<Lekcija> lessonsByStudent = lekcijaService.getLekcijeByUcenikId(
+    List<Lekcija> acceptedLessonsByStudent = lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
       ucenik.getId()
     );
 
-    for (Lekcija lesson : lessonsByStudent) {
-      if (finishedLessonsByTeacher.contains(lesson)) {
+    for (Lekcija lesson : acceptedLessonsByStudent) {
+      if (allLessonsByTeacher.contains(lesson)) {
         uvjet = true;
       }
     }

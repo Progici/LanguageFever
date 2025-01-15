@@ -75,6 +75,33 @@ public class LekcijaController {
     return false;
   }
 
+  @GetMapping("/dogovorenalekcija/{idKorisnikaUcitelja}")
+  public Boolean getIfHasAcceptedLesson(
+    OAuth2AuthenticationToken authentication,
+    @PathVariable Long idKorisnikaUcitelja
+  ) {
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    Ucitelj ucitelj = uciteljController.getUciteljByKorisnikId(
+      idKorisnikaUcitelja
+    );
+
+    List<Lekcija> allLessonsByTeacher = lekcijaService.getLekcijeByUciteljId(
+      ucitelj.getId()
+    );
+
+    List<Lekcija> acceptedLessonsByStudent = lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
+      ucenik.getId()
+    );
+
+    for (Lekcija lesson : acceptedLessonsByStudent) {
+      if (allLessonsByTeacher.contains(lesson)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   @GetMapping("/mojelekcije/ucitelj")
   public List<LekcijaDTO> getLekcijeUcitelj(
     OAuth2AuthenticationToken authentication
