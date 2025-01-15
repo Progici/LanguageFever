@@ -7,6 +7,7 @@ import "../css/LessonsModal.css";
 import { ApiConfig } from "../../config/api.config";
 import dayjs from "dayjs";
 import "dayjs/locale/hr";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -41,11 +42,23 @@ export default function CancelationModal({
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+        toast.success("Lekcija je uspješno otkazana!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         setPost((post) => !post);
         console.log("Lesson successfully cancelled");
         handleClose(); // Close modal after successful submission
       })
       .catch((error) => {
+        toast.error("Lekcija se nije uspjela otkazati.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error cancelling lesson:", error);
       });
   };

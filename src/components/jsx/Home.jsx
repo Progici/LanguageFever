@@ -1,4 +1,4 @@
-import teacherPhoto from "../../assets/images/teacherphoto.jpg";
+import teacherPhoto from "../../assets/images/teacherdefault.png";
 import homeImage from "../../assets/images/homeimage.png";
 import { Link } from "react-router-dom";
 import { useContext } from "react";

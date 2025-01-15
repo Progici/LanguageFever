@@ -4,16 +4,20 @@ import Button from "@mui/material/Button";
 import { ApiConfig } from "../../../config/api.config";
 import { useEffect, useContext } from "react";
 import { AppContext } from "../../../AppContext";
+import { toast } from "react-toastify";
 
 export default function LessonAccDen({ lessonId, setPost }) {
   const { setChange } = useContext(AppContext);
 
   const handleRequest = async (action) => {
+    let message = "";
     let endpoint = "";
     if (action === "accept") {
       endpoint = `/prihvatirezervacijulekcije/${lessonId}`;
+      message = "Zahtjev je uspješno prihvaćen!";
     } else if (action === "reject") {
       endpoint = `/otkazirezervacijulekcije/${lessonId}`;
+      message = "Zahtjev je uspješno odbijen!";
     }
 
     try {
@@ -30,9 +34,21 @@ export default function LessonAccDen({ lessonId, setPost }) {
       }
       setChange((change) => !change);
       setPost((post) => !post);
+
+      toast.success(message, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
     } catch (error) {
+      toast.error("Došlo je do pogreške.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       console.error(`Error during ${action}ing the lesson:`, error);
-      alert("Došlo je do pogreške.");
     }
   };
 

@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { AppContext } from "../../AppContext";
 import dayjs from "dayjs";
 import "dayjs/locale/hr";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -35,7 +36,12 @@ export default function ReservationModal({
   // Handle form submission
   const handleConfirm = () => {
     if (!active) {
-      alert("Please login first.");
+      toast.error("Molimo Vas da se prvo prijavite.", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       return;
     }
 
@@ -49,10 +55,22 @@ export default function ReservationModal({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         setPost((post) => !post);
+        toast.success("Lekcija je uspješno rezervirana!", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.log("Lesson successfully added");
         handleClose();
       })
       .catch((error) => {
+        toast.error("Lekcija se nije uspjela rezervirati.", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error adding lesson:", error);
       });
   };

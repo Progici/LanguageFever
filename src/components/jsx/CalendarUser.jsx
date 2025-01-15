@@ -37,8 +37,15 @@ function CalendarUser() {
       });
       setOpen(true);
     } else {
-      const status = classNames[0].split("-")[1]; // Izvlači status iz className
-      alert(`Ne može, lekcija je ${status}`);
+      toast.error(
+        "Lekcija se ne može otkazati (odaberite narančastu lekciju).",
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        }
+      );
     }
   };
 
@@ -57,7 +64,15 @@ function CalendarUser() {
       setOpenDelete(true);
     } else {
       const status = classNames[0].split("-")[1]; // Izvlači status iz className
-      alert(`Ne može, lekcija je ${status}`);
+      toast.error(
+        "Lekcija se ne može izbrisati (odaberite narančastu ili plavu lekciju).",
+        {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        }
+      );
     }
   };
 

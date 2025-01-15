@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import { AppContext } from "../../AppContext";
 import { ApiConfig } from "../../config/api.config";
 import Badge from "@mui/material/Badge";
+import teacherdefault from "../../assets/images/teacherdefault.png";
 
 function HeaderMain() {
   const { active, selected, currentUser, setCurrentUser, change } =
@@ -172,7 +173,7 @@ function HeaderMain() {
         {active && currentUser ? (
           <div className="profile-container1">
             <button id="profile-pic">
-              <Avatar alt="K" src={currentUser.picture || ""} />{" "}
+              <Avatar src={currentUser.picture || teacherdefault} />{" "}
               {/* Check if data.picture exists */}
             </button>
             <div>
@@ -262,14 +263,26 @@ function HeaderMain() {
                   </Link>
                 </li>
 
-                {!active && (
-                  <li className="d-grid">
-                    <Link to="/login" className="link-underline-opacity-0">
+                <li className="d-grid">
+                  {currentUser?.role === "ROLE_ADMIN" ? (
+                    <Link to="/admin-options">
                       <button className="btn btn-primary" id="logout2">
-                        Log In
+                        Admin
                       </button>
                     </Link>
-                  </li>
+                  ) : null}
+                </li>
+
+                {!active && (
+                  <>
+                    <li className="d-grid">
+                      <Link to="/login" className="link-underline-opacity-0">
+                        <button className="btn btn-primary" id="logout2">
+                          Log In
+                        </button>
+                      </Link>
+                    </li>
+                  </>
                 )}
 
                 {active && currentUser && (
@@ -280,8 +293,7 @@ function HeaderMain() {
                         style={{ display: "flex", justifyContent: "flex-end" }}
                       >
                         <Avatar
-                          alt="K"
-                          src={currentUser.picture || ""}
+                          src={currentUser.picture || teacherdefault}
                         ></Avatar>
                       </button>
                       <div style={{ marginLeft: "20px" }}>

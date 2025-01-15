@@ -10,6 +10,7 @@ import CommentForm from "./miniComponents/CommentForm";
 import { useState, useEffect, useContext } from "react";
 import { ApiConfig } from "../../config/api.config";
 import { AppContext } from "../../AppContext";
+import { toast } from "react-toastify";
 
 export default function rateTeacher({ teacher, id, setPost }) {
   const [rating, setRating] = useState(null); // Stanje za pohranu ocjene
@@ -30,7 +31,12 @@ export default function rateTeacher({ teacher, id, setPost }) {
   // Funkcija za slanje podataka
   const handleSubmit = (e) => {
     if (!active) {
-      alert("Please login first.");
+      toast.error("Molimo Vas da se prvo prijavite.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       return;
     }
     e.preventDefault();
@@ -52,14 +58,31 @@ export default function rateTeacher({ teacher, id, setPost }) {
         body: JSON.stringify(data),
       })
         .then((result) => {
+          toast.success("Ocjena uspješno dodana!", {
+            position: "bottom-left",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          });
           setPost((post) => !post);
           console.log("Ocjena uspješno dodana:", result);
         })
         .catch((error) => {
+          toast.error("Greška pri slanju ocjene.", {
+            position: "bottom-left",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          });
           console.error("Greška pri slanju ocjene:", error);
         });
     } else {
-      alert("Molimo vas da unesete ocjenu i komentar.");
+      toast.error("Molimo vas da unesete ocjenu i komentar.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
     }
   };
 

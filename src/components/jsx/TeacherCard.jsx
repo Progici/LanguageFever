@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/TeacherCard.css";
 import { Link } from "react-router-dom";
+import teacherPhoto from "../../assets/images/teacherdefault.png";
 
 const TeacherCard = ({ teacher }) => {
   // Definiramo stanje za upravljanje prikazom detalja učitelja
@@ -14,9 +15,9 @@ const TeacherCard = ({ teacher }) => {
   return (
     <div className="teacher-card">
       <img
-        src={teacher.picture} // Slika učitelja
-        alt={teacher.name}
-        className={showDetails ? "small-img" : "large-img"} // Ako su detalji prikazani, slika je manja, inače je veća
+        src={teacher.picture ? teacher.picture : teacherPhoto} // Use teacher.picture if available, otherwise fallback to teacherPhoto
+        alt={teacher.picture ? teacher.name : ""} // Only set alt if teacher.picture exists
+        className={showDetails ? "small-img" : "large-img"} // If details are shown, small image; otherwise, large image
       />
       <h3>{teacher.name}</h3> {/* Ime učitelja */}
       {/* Prikazujemo kratke ili duže detalje o učitelju na temelju stanja */}

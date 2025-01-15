@@ -6,6 +6,7 @@ import AdminDel from "./miniComponents/AdminDel.jsx";
 import SelectTextbox from "./miniComponents/SelectTextbox.jsx";
 import { useState, useEffect } from "react";
 import { ApiConfig } from "../../config/api.config.js";
+import { toast } from "react-toastify";
 
 const columns = [
   { field: "id", headerName: "Broj", width: 50 },
@@ -92,7 +93,12 @@ export default function AdminOptions() {
   const handleAddUser = async () => {
     try {
       if (!newUser.name || !newUser.email) {
-        alert("Sva polja su obavezna!");
+        toast.error("Sva polja su obavezna!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         return;
       }
 
@@ -112,9 +118,21 @@ export default function AdminOptions() {
       });
 
       if (response.ok) {
+        toast.success("Korisnik uspješno dodan!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         setPost(!post); // Refresh user list
         setNewUser({ name: "", email: "" }); // Reset the form
       } else {
+        toast.error("Greška prilikom dodavanja korisnika.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Greška prilikom dodavanja korisnika:", response.status);
       }
     } catch (error) {

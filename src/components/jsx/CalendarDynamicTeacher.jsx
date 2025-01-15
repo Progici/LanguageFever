@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, act } from "react";
 import { Navigate } from "react-router-dom";
 import "../css/CalendarUser.css";
 import { ApiConfig } from "../../config/api.config";
 import CalendarComponent from "./CalendarComponent";
 import ReservationModal from "../utils/ReservationModal";
 import { AppContext } from "../../AppContext";
+import { toast } from "react-toastify";
 
 function CalendarDynamicTeacher({ idKorisnika, post, setPost }) {
   const [lessons, setLessons] = useState();
@@ -14,14 +15,25 @@ function CalendarDynamicTeacher({ idKorisnika, post, setPost }) {
   });
   const [open, setOpen] = useState(false);
   const [lessonId, setLessonId] = useState(null);
-  const { selected } = useContext(AppContext);
+  const { selected, active } = useContext(AppContext);
 
   const handleEvent = (event) => {
-    if (selected === 0) {
-      alert(`Odaberi učenika ili učitelja (Uredi profil)`);
+    if (active === false) {
+      toast.error("Molimo Vas da se prvo prijavite.", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       return;
-    } else if (selected === 2) {
-      alert(`Nisi učenik, ne možeš rezervirati lekcije.`);
+    }
+    if (selected === 0 || selected === 2) {
+      toast.error("Nisi učenik.", {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       return;
     }
 
@@ -35,8 +47,16 @@ function CalendarDynamicTeacher({ idKorisnika, post, setPost }) {
       });
       setOpen(true);
     } else {
-      const status = classNames[0].split("-")[1]; // Izvlači status iz className
-      alert(`Ne može, lekcija je ${status}`);
+      const status = classNames[0].split("-")[1];
+      toast.error(
+        "Lekcija nije dostupna za rezervaciju (odaberi plavu lekciju).",
+        {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        }
+      ); // Izvlači status iz className
     }
   };
 

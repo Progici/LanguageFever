@@ -7,6 +7,7 @@ import "../css/LessonsModal.css";
 import { ApiConfig } from "../../config/api.config";
 import dayjs from "dayjs";
 import "dayjs/locale/hr";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -42,10 +43,22 @@ export default function DeleteModal({
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         setPost((post) => !post);
+        toast.success("Lekcija je uspješno izbrisana!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.log("Lesson successfully deleted");
         handleClose(); // Close modal after successful submission
       })
       .catch((error) => {
+        toast.success("Lekcija se nije uspjela izbrisati.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error deleting lesson:", error);
       });
   };

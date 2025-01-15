@@ -10,6 +10,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { ApiConfig } from "../../config/api.config";
 import "dayjs/locale/hr";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -42,7 +43,12 @@ export default function LessonsModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.start >= formData.end) {
-      alert("Odaberi važeći raspon.");
+      toast.error("Odaberi važeći raspon.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
       return;
     }
 
@@ -65,10 +71,22 @@ export default function LessonsModal({
       })
       .then((res) => {
         setPost((post) => !post);
+        toast.success("Lekcija je uspješno dodana!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.log("Lesson successfully added:", res);
         handleClose(); // Close the modal after successful submission
       })
       .catch((error) => {
+        toast.error("Lekcija se nije uspjela dodati!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
         console.error("Error adding lesson:", error);
       });
   };
