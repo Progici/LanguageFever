@@ -20,7 +20,14 @@ export default function HoverRating({ rating, setRating, readOnly }) {
   const [hover, setHover] = React.useState(-1);
 
   return (
-    <Box sx={{ width: 200, display: "flex", alignItems: "center" }}>
+    <Box
+      sx={{
+        width: 200,
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+      }}
+    >
       <Rating
         readOnly={readOnly}
         name="hover-feedback"
@@ -36,7 +43,13 @@ export default function HoverRating({ rating, setRating, readOnly }) {
         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
       />
       {value !== null && (
-        <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
+        <Box
+          sx={{
+            ml: 2,
+          }}
+        >
+          {labels[hover !== -1 ? hover : rating]}
+        </Box>
       )}
     </Box>
   );

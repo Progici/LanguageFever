@@ -77,7 +77,7 @@ export default function rateTeacher({ teacher, id, setPost }) {
         });
     } else {
       toast.error("Molimo vas da unesete ocjenu i komentar.", {
-        position: "bottom-right",
+        position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: true,
         closeOnClick: true,
@@ -88,13 +88,15 @@ export default function rateTeacher({ teacher, id, setPost }) {
   return (
     <Card
       sx={{
-        width: "80%",
+        width: "100%",
         height: "auto", // Visina celog viewport-a
         display: "flex",
         justifyContent: "center", // Horizontalno centriranje
         alignItems: "center", // Vertikalno centriranje
         backgroundColor: "background.default",
-        p: 2,
+        p: "2rem",
+        borderRadius: "2rem",
+        boxShadow: "0px 10px 10px  #8989F3",
       }}
     >
       <CardContent
@@ -125,8 +127,14 @@ export default function rateTeacher({ teacher, id, setPost }) {
           <CommentForm comment={comment} setComment={setComment} />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={handleSubmit}
-          sx={{backgroundColor: "rgba(61, 76, 243, 0.582)", color: "antiquewhite"}}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              backgroundColor: "rgba(61, 76, 243, 0.582)",
+              color: "antiquewhite",
+            }}
+          >
             Pošaljite ocjenu
           </Button>
         </Box>

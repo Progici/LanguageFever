@@ -162,11 +162,7 @@ const TeacherProfile = () => {
       <div className="flex-container">
         <React.Fragment>
           <CssBaseline />
-          <Container 
-            maxWidth="md"
-            className = "teacher-container"
-            
-          >
+          <Container maxWidth="md" className="teacher-container">
             <Box
               id="item"
               sx={{
@@ -176,7 +172,11 @@ const TeacherProfile = () => {
               <Box key={teacher.idKorisnika} className="teacher-box">
                 {" "}
                 <div className="teacher-info">
-                  <img src={teacher.picture} alt={teacher.name} />
+                  <img
+                    src={teacher.picture}
+                    alt={teacher.name}
+                    style={{ textAlign: "center", margin: "2rem" }}
+                  />
                   <div className="teacher-details">
                     <p>Ime: {teacher.name}</p>
                     <p>Jezici: {teacher.jezici?.join(", ")}</p>
@@ -202,13 +202,9 @@ const TeacherProfile = () => {
           </Container>
         </React.Fragment>
 
-        <Container
-          maxWidth="md"
-          className="teacher.calendar"
-          
-        >
+        <Container maxWidth="md" className="teacher.calendar">
           <div id="item" className="teacher-calendar">
-            <h2 style={{ textAlign: "center", paddingTop: "20px" }}>
+            <h2 style={{ textAlign: "center", paddingTop: "100px" }}>
               Kalendar dostupnosti lekcija
             </h2>
             <CalendarDynamicTeacher
@@ -221,16 +217,18 @@ const TeacherProfile = () => {
         <Container
           maxWidth="md"
           sx={{
-            padding: 4,
-            borderRadius: 2,
+            padding: "2rem",
+            borderRadius: "2rem",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             height: "auto",
             marginTop: "30px",
             backgroundColor: "rgba(61, 76, 243, 0.582)",
-            color:"antiquewhite"
+            color: "antiquewhite",
           }}
         >
-          <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
+          <h2 style={{ textAlign: "center", marginBottom: "30px" }}>
+            Prikaz ocjena
+          </h2>
           <AllRatings idKorisnika={idKorisnika} post={post}></AllRatings>
         </Container>
         {hasAcceptedLesson && teacherEmail && (
@@ -241,11 +239,7 @@ const TeacherProfile = () => {
           />
         )}
         {doneLesson && (
-          <Container
-            maxWidth="md"
-            className = "rate-container"
-            
-          >
+          <Container maxWidth="md" className="rate-container">
             <RateTeachers
               teacher={teacher}
               id={idKorisnika}

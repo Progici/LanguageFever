@@ -155,6 +155,7 @@ export default function AdminOptions() {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#f5f5f5",
+        maxWidth: "100%",
       }}
     >
       {/* Navigation Buttons */}
@@ -221,7 +222,8 @@ export default function AdminOptions() {
               borderRadius: 2,
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
               padding: 3,
-              width: "50%",
+              width: "25%",
+              minWidth: "400px",
             }}
           >
             <TextField

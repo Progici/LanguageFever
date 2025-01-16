@@ -47,7 +47,6 @@ function AppContent() {
 
         const data = await response.json();
         setActive(data);
-        console.log("dap");
         if (!data) setSelected(0);
       } catch (error) {
         setActive(false);
