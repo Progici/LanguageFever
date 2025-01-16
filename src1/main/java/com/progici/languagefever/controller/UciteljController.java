@@ -41,6 +41,9 @@ public class UciteljController {
   private LekcijaService lekcijaService;
 
   @Autowired
+  private UcenikController ucenikController;
+
+  @Autowired
   private OcjenaService ocjenaService;
 
   @Autowired
@@ -117,6 +120,36 @@ public class UciteljController {
       getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
       getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
     );
+  }
+
+  @GetMapping("/ucitelji/{idKorisnikaUcitelja}/email")
+  public String getUciteljDTOEmailByKorisnikId(
+    OAuth2AuthenticationToken authentication,
+    @PathVariable Long idKorisnikaUcitelja
+  ) {
+    Boolean uvjet = false;
+    Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+    Ucitelj ucitelj = getUciteljByKorisnikId(idKorisnikaUcitelja);
+
+    List<Lekcija> allLessonsByTeacher = lekcijaService.getLekcijeByUciteljId(
+      ucitelj.getId()
+    );
+
+    List<Lekcija> acceptedLessonsByStudent = lekcijaService.getLekcijeByUcenikIdAndByStatusAccepted(
+      ucenik.getId()
+    );
+
+    for (Lekcija lesson : acceptedLessonsByStudent) {
+      if (allLessonsByTeacher.contains(lesson)) {
+        uvjet = true;
+      }
+    }
+
+    if (uvjet) return korisnikController
+      .getKorisnikById(idKorisnikaUcitelja)
+      .getEmail(); else {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCESS DENIED");
+    }
   }
 
   @PostMapping("/azurirajucitelja")
@@ -252,6 +285,7 @@ public class UciteljController {
     @RequestParam(required = false) Integer minExperience,
     @RequestParam(required = false) Kvalifikacija kvalifikacija,
     @RequestParam(required = false) Stil stil,
+    @RequestParam(required = false) String jezik,
     @RequestParam(required = false) Double minAverageOcjena,
     @RequestParam(required = false) Integer minCountOcjena,
     @RequestParam(required = false) String sortBy,
@@ -295,6 +329,17 @@ public class UciteljController {
         ucitelji
           .stream()
           .filter(ucitelj -> ucitelj.getStilPoducavanja() == stil)
+          .collect(Collectors.toList());
+    }
+    if (jezik != null && !jezik.isEmpty()) {
+      ucitelji =
+        ucitelji
+          .stream()
+          .filter(ucitelj ->
+            uciteljJeziciService
+              .getJeziciStringByUciteljId(ucitelj.getId())
+              .contains(jezik)
+          )
           .collect(Collectors.toList());
     }
     if (minAverageOcjena != null) {

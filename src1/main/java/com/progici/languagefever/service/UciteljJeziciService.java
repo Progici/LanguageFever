@@ -1,7 +1,6 @@
 package com.progici.languagefever.service;
 
 import com.progici.languagefever.model.Jezik;
-import com.progici.languagefever.model.Ucenik;
 import com.progici.languagefever.model.Ucitelj;
 import com.progici.languagefever.model.UciteljJezici;
 import com.progici.languagefever.repository.UciteljJeziciRepository;
