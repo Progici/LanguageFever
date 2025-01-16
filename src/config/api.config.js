@@ -1,4 +1,7 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const ApiConfig = {
-  //promjenit kad ce se deployat
-  API_URL: `${BACKEND_URL}`,
+  // Use the environment variable for the API URL
+  API_URL: process.env.BACKEND_URL,
 };
