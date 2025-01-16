@@ -118,35 +118,40 @@ function HeaderMain() {
             Učitelji
           </Nav.Link>
 
-          <Nav.Link
-            as={Link}
-            to="/archived-lessons"
-            className={
-              isActive("/archived-lessons") ? "active-link" : "nav-link"
-            }
-          >
-            Arhiva
-          </Nav.Link>
+          {/* Prikazujemo samo ako je korisnik ulogiran */}
+          {active && currentUser && (
+            <>
+              <Nav.Link
+                as={Link}
+                to="/archived-lessons"
+                className={
+                  isActive("/archived-lessons") ? "active-link" : "nav-link"
+                }
+              >
+                Arhiva
+              </Nav.Link>
 
-          <Nav.Link
-            as={Link}
-            to="/new-requests"
-            className={isActive("/new-requests") ? "active-link" : "nav-link"}
-          >
-            <div style={{ position: "relative", display: "inline-block" }}>
-              <Badge
-                badgeContent={newRequests}
-                color="primary"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 1.55,
-                  transform: "translate(-50%, 50%)",
-                }}
-              />
-              <span>Zahtjevi</span>
-            </div>
-          </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/new-requests"
+                className={isActive("/new-requests") ? "active-link" : "nav-link"}
+              >
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  <Badge
+                    badgeContent={newRequests}
+                    color="primary"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 1.55,
+                      transform: "translate(-50%, 50%)",
+                    }}
+                  />
+                  <span>Zahtjevi</span>
+                </div>
+              </Nav.Link>
+            </>
+          )}
 
           <Nav.Link
             as={Link}
@@ -168,6 +173,7 @@ function HeaderMain() {
             </Nav.Link>
           ) : null}
         </Nav>
+
 
         {/* Profile icon for logged-in user */}
         {active && currentUser ? (
@@ -235,17 +241,20 @@ function HeaderMain() {
                 <li className="d-grid">
                   <Link to="/teachers">
                     <button className="btn btn-primary" id="logout2">
-                      Predavači
+                      Učitelji
                     </button>
                   </Link>
                 </li>
-                <li className="d-grid">
-                  <Link to="/archived-lessons">
-                    <button className="btn btn-primary" id="logout2">
-                      Arhiva
-                    </button>
-                  </Link>
-                </li>
+                {active && (
+                  <li className="d-grid">
+                    <Link to="/archived-lessons">
+                      <button className="btn btn-primary" id="logout2">
+                        Arhiva
+                      </button>
+                    </Link>
+                  </li>
+                )}
+                {active && (
                 <li className="d-grid">
                   <Link to="/new-requests">
                     <button className="btn btn-primary" id="logout2">
@@ -255,6 +264,7 @@ function HeaderMain() {
                     </button>
                   </Link>
                 </li>
+                )}
                 <li className="d-grid">
                   <Link to="/faqs">
                     <button className="btn btn-primary" id="logout2">
@@ -290,13 +300,13 @@ function HeaderMain() {
                     <li className="d-grid">
                       <button
                         id="profile-pic"
-                        style={{ display: "flex", justifyContent: "flex-end" }}
+                        style={{ display: "flex", justifyContent: "center", margin:"0px" }}
                       >
                         <Avatar
                           src={currentUser.picture || teacherdefault}
                         ></Avatar>
                       </button>
-                      <div style={{ marginLeft: "20px" }}>
+                      <div className = "burger-profile" >
                         {selected === 1 && "Učenik"}
                         {selected === 2 && "Učitelj"}
                         {selected === 0 && "Odaberi"}

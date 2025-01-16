@@ -1,10 +1,72 @@
+.teacher-box{
+    display: flex; /* Prikazuje elemente u redu */
+    flex-wrap: wrap; /* Omogućava prelazak na novi red */
+    justify-content: center; /* Poravnava elemente u sredini */
+    gap: 20px; /* Dodaje razmak između elemenata */
+    padding: 20px; /* Dodaje unutarnji razmak */   
+    ;
+}
 
+.teacher-container{
+    background-color: rgba(61, 76, 243, 0.582);
+    padding: 4px;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto;
+    margin-top: 110px;
+    
+}
   
 .teacher-info img {
     width: 150px; /* Definiraj širinu slike učitelja */
     height: 150px; /* Definiraj visinu slike učitelja */
     border-radius: 50%; /* Zaokruži sliku */
     object-fit: cover; /* Slika će se prilagoditi unutar kvadratnog okvira */
+    margin-right: 1.5rem;
+}
+
+.teacher-info {
+    text-align: center; /* Poravnava tekst centrirano */
+    color: antiquewhite; /* Boja teksta */
+    padding: 20px; /* Dodaje unutarnji razmak */
+    font-size: 1.4rem;
+    border: 2px solid antiquewhite;
+    border-radius: 2rem;
+}
+
+.teacher-calendar{
+    background-color: white;
+    padding: 4px;
+    border-radius: 2rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto;
+    margin-top: 60px;
 }
   
+.rate-container{
+    background-color: rgba(61, 76, 243, 0.582);
+    padding: 25px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   
+
+@media (max-width: 767px) {
+    .teacher-box {
+        flex-direction: column; /* Prikazuje elemente jedan ispod drugog */
+        align-items:center; /* Poravnava elemente u sredini */
+    }
+    .teacher-info{
+        font-size: 0.8rem;
+    }
+
+    .teacher-info img {
+        width: 100px; /* Definiraj širinu slike učitelja */
+        height: 100px; /* Definiraj visinu slike učitelja */
+    }
+
+}

@@ -3,7 +3,25 @@
   justify-content: center; /* Centriranje horizontalno */
   align-items: center;     /* Centriranje vertikalno */
   height: 100vh;          /* Puni visinu ekrana */
-  padding-top: 55px;     /* Gornja margina od 20px */
+  padding-top: 155px;     /* Gornja margina od 20px */
+}
+
+.fc-toolbar {
+  background-color: rgba(61, 76, 243, 0.582); /* Tamnoplava boja */
+  color: white;
+  padding: 10px;
+  border-radius: 8px; 
+  display: flex;
+  justify-content: space-between; /* Gumbi se raspoređuju lijevo i desno */
+  align-items: center; /* Poravnanje gumba po vertikalnoj osi */
+  gap: 10px; /* Razmak između gumba */
+  flex-wrap: wrap;
+  margin-top: -100px;
+}
+
+.fc-toolbar .fc-button{
+  background-color: rgba(61, 76, 243, 0.582);
+  margin: 5px
 }
 
 .fc {
@@ -62,4 +80,22 @@
 .event-finished {
   background-color: gray !important;
   color: white !important;
+}
+
+@media (max-width: 767px) {
+  .fc-toolbar {
+    font-size: 0.8rem;
+    
+  }
+  .fc-daygrid-day-number {
+    font-size: 0.8rem;
+  }
+  .fc-col-header-cell {
+    font-size: 0.8rem;
+  }
+
+  .fc-toolbar .fc-button{
+    width: auto;
+    font-size: 0.7rem;
+  }
 }

@@ -1,5 +1,6 @@
 
 .home {
+    
     padding-top: 8rem;
     padding-bottom: 3rem;
     padding-left: 14rem;
@@ -19,6 +20,12 @@
     padding-right: 7rem;
     background-color: rgba(61, 76, 243, 0.582);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .welcome-text{
+    color: antiquewhite;
+    font-size: 2.5rem;
+    
   }
   
   .hero-section {
@@ -74,6 +81,7 @@
     box-shadow:0 8px 16px rgba(255, 255, 255, 0.25);
     cursor: pointer;
     border-radius: 1rem;
+    width: 6rem;
   }
   .cta-button:hover {
     background-color:rgba(61, 76, 243, 0.227);
@@ -88,6 +96,17 @@
   .popular-section h2{
     color: antiquewhite;
   }
+
+  .popular-text {
+    padding: 1rem;
+    color: antiquewhite;
+    font-size: 2.2rem;
+    line-height: 1.8; /* Povećava razmak između redaka */
+    text-align: center; /* Poravnava tekst centrirano */
+    margin: 1.5rem auto; /* Dodaje vertikalni razmak */
+    max-width: 80%; /* Ograničava širinu na velikim ekranima */
+}
+
   
   .popular-cards {
     display: flex;
@@ -163,6 +182,10 @@
       padding-bottom: 3rem;
   }
 
+  .welcome-text{
+    font-size: 1.5rem;
+  }
+
   .home-section {
       padding: 2rem;
       border-radius: 4rem;
@@ -180,7 +203,7 @@
   }
 
   .home-picture {
-      width: 30%;
+      width: 40%;
   }
 
   .hero-text {
@@ -210,6 +233,10 @@
   .cta-button {
       font-size: 0.9em;
       margin: 10px 0;
+  }
+
+  .popular-text{
+    font-size: 1.5rem;
   }
 
   .popular-section {
@@ -277,8 +304,9 @@
     }
 
     .home-picture {
-        width: 70%;
+        width: 80%;
         max-width: 300px;
+        margin-top: 10px;
     }
     
     .home-picture-div{
@@ -303,6 +331,15 @@
         gap: 10px;
         margin-top: 20px;
         padding-bottom: 30px;
+    }
+
+    .welcome-text{
+      font-size: 1.5rem;
+    }
+
+    .popular-text{
+      font-size: 1.3rem;
+      
     }
 
     .popular-cards {

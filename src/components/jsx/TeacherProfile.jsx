@@ -162,15 +162,10 @@ const TeacherProfile = () => {
       <div className="flex-container">
         <React.Fragment>
           <CssBaseline />
-          <Container
+          <Container 
             maxWidth="md"
-            sx={{
-              backgroundColor: "#f5f5f5",
-              padding: 4,
-              borderRadius: 2,
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-              height: "auto",
-            }}
+            className = "teacher-container"
+            
           >
             <Box
               id="item"
@@ -209,16 +204,11 @@ const TeacherProfile = () => {
 
         <Container
           maxWidth="md"
-          sx={{
-            backgroundColor: "#f5f5f5",
-            padding: 4,
-            borderRadius: 2,
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-            height: "auto",
-          }}
+          className="teacher.calendar"
+          
         >
           <div id="item" className="teacher-calendar">
-            <h2 style={{ textAlign: "center" }}>
+            <h2 style={{ textAlign: "center", paddingTop: "20px" }}>
               Kalendar dostupnosti lekcija
             </h2>
             <CalendarDynamicTeacher
@@ -231,11 +221,13 @@ const TeacherProfile = () => {
         <Container
           maxWidth="md"
           sx={{
-            backgroundColor: "#f5f5f5",
             padding: 4,
             borderRadius: 2,
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             height: "auto",
+            marginTop: "30px",
+            backgroundColor: "rgba(61, 76, 243, 0.582)",
+            color:"antiquewhite"
           }}
         >
           <h2 style={{ textAlign: "center" }}>Prikaz ocjena</h2>
@@ -251,13 +243,8 @@ const TeacherProfile = () => {
         {doneLesson && (
           <Container
             maxWidth="md"
-            sx={{
-              backgroundColor: "#f5f5f5",
-              padding: 4,
-              borderRadius: 2,
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-              height: "auto",
-            }}
+            className = "rate-container"
+            
           >
             <RateTeachers
               teacher={teacher}

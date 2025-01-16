@@ -11,7 +11,7 @@ function Home() {
     <>
       <div className="home">
         <div className="home-section">
-          <p>{active && <>Dobrodošli, {currentUser?.name}!</>}</p>
+          <h2 className="welcome-text">{active && <>Dobrodošli, {currentUser?.name}!</>}</h2>
           <section className="hero-section">
             <div className="home-picture-div">
               <img src={homeImage} className="home-picture" />
@@ -21,53 +21,41 @@ function Home() {
               <p>Povezujemo učenike i učitelje stranih jezika diljem svijeta</p>
             </section>
             <section className="hero-buttons">
-              <Link to="/login">
-                <button className="cta-button">Započni</button>
-              </Link>
+              {!active &&(
+                <Link to="/login">
+                  <button className="cta-button">Započni</button>
+                </Link>
+              )}
 
-              <button className="cta-button">O nama</button>
+              
             </section>
           </section>
 
           <section className="popular-section">
-            <h2>Popularni učitelji i jezici</h2>
-            <div className="popular-cards">
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★★</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★★</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
+            <div className="popular-content">
+              {active ? (
+                <p className= "popular-text">
+                  Vaša LanguageFever pustolovnina počinje ovdje! 
+                
+                  <p className = "popular-text">
+                    Možete pretraživati učitelje,
+                    rezervirati lekcije ili se čak prijaviti kao učitelj kako biste podučavali
+                    druge korisnike. Iskoristite sve što LanguageFever nudi!
+                  </p>
+                </p>
+              ) : (
+                <p className="popular-text">
+                  Dobrodošli u LanguageFever! 
+                  <p>
+                    Trenutno možete pregledavati učitelje,
+                    ali stvaranjem računa dobivate pristup punom iskustvu naše aplikacije:
+                    <p>
+                      pretražujte učitelje, rezervirajte lekcije ili sami postanite učitelj. 
+                      Postanite član LanguageFever zajednice za pristup svim našim mogućnostima!
+                    </p>
+                  </p>
+                </p>
+              )}
             </div>
           </section>
 

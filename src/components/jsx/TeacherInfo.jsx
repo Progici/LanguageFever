@@ -223,7 +223,7 @@ function TeacherInfo() {
       >
         Izbriši učitelja
       </button>
-      <div className="teacher-info">
+      <div className="teacher-info2">
         <form className="template" onSubmit={handleSubmit}>
           <h3 id="text">Profil učitelja</h3>
 

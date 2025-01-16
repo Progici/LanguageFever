@@ -88,7 +88,7 @@ export default function rateTeacher({ teacher, id, setPost }) {
   return (
     <Card
       sx={{
-        width: "100%",
+        width: "80%",
         height: "auto", // Visina celog viewport-a
         display: "flex",
         justifyContent: "center", // Horizontalno centriranje
@@ -125,7 +125,8 @@ export default function rateTeacher({ teacher, id, setPost }) {
           <CommentForm comment={comment} setComment={setComment} />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <Button variant="contained" onClick={handleSubmit}>
+          <Button variant="contained" onClick={handleSubmit}
+          sx={{backgroundColor: "rgba(61, 76, 243, 0.582)", color: "antiquewhite"}}>
             Pošaljite ocjenu
           </Button>
         </Box>

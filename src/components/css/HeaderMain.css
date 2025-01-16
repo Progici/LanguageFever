@@ -1,5 +1,7 @@
 /* Globalne postavke */
+
 .header {
+  margin-bottom: -75px;
   padding: 15px 0;
   position: sticky;
   left: 0;
@@ -101,6 +103,11 @@
 .hamburger-menu #profile-pic {
   border-top: 1px solid antiquewhite;
   background-color: rgba(39, 53, 204, 0.582);
+}
+
+.burger-profile{
+  background-color: rgba(39, 53, 204, 0.582);
+  color: white;
 }
 
 .dropdown-menu ul {

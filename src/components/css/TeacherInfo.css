@@ -10,6 +10,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+
 .teacher-info {
   position: relative;
   display: flex;
@@ -17,6 +18,20 @@
   align-items: center;
   width: auto;
   height: auto;
+  background-color: rgba(61, 76, 243, 0.582);
+  border: 2px solid antiquewhite;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
+}
+
+.teacher-info2{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: auto;
+  background-color: white;
+ 
 }
 
 .template {
@@ -30,6 +45,7 @@
 #text {
   text-align: center;
   padding: 5px;
+  color: rgba(61, 76, 243, 0.582);
 }
 
 #option {

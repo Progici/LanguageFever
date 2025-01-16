@@ -23,7 +23,7 @@
 .filter-button,
 .sort-button
  {
-    background-color: #007bff;
+    background-color: rgba(16, 16, 226, 0.74);
     color: #fff;
     padding: 8px 16px;
     border: none;

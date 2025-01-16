@@ -91,11 +91,11 @@ export default function DataGridDemo() {
         justifyContent: "center", // Vertically center the content
         alignItems: "center", // Horizontally center the content
         margin: "auto", // Centers horizontally
-        backgroundColor: "#f5f5f5", // Optional: Add background color for better visibility
+        backgroundColor: "white", // Optional: Add background color for better visibility
       }}
     >
       {/* Title centered above the grid */}
-      <Typography variant="h6" sx={{ marginBottom: 2 }}>
+      <Typography variant="h6" sx={{ marginBottom: 2, color:"rgba(61, 76, 243, 0.582)" }}>
         Arhiva lekcija učitelja
       </Typography>
 
@@ -106,7 +106,7 @@ export default function DataGridDemo() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#fff", // Add background color for the grid area
+          backgroundColor: "rgba(61, 76, 243, 0.582)", // Add background color for the grid area
           borderRadius: 2, // Optional: Add rounded corners to the grid box
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Optional: Add box shadow to the grid box
         }}
