@@ -59,7 +59,7 @@ export default function DataGridDemo() {
             .filter((item) => item.status === "FINISHED")
             .map((item, index) => ({
               id: index + 1,
-              tName: item.uciteljName,
+              tName: item.ucenikName,
               timestampStart: dayjs(item.timestampPocetka)
                 .tz("Europe/Paris") // Convert to GMT+1 (Paris time zone)
                 .format("dddd, DD.MM.YYYY HH:mm"), // Adjust format if needed
