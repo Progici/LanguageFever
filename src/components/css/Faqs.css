@@ -1,5 +1,6 @@
 
 .faq-container {
+  margin-top: 15px;
     padding-top: 100px;
     padding-bottom: 30px;
     padding-left: 200px;
@@ -16,8 +17,8 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     padding-top: 40px;
     padding-bottom: 30px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
     background-color: rgba(61, 76, 243, 0.582);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     width: 78vw;
@@ -52,8 +53,64 @@
   .faq-answer {
     padding: 10px;
     background-color: rgba(250, 235, 215, 0.305);
-    
     margin-top: 10px;
     border-radius: 5px;
   }
+
+  
+  @media (max-width: 768px) {
+    .faq-container {
+      padding-top: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .faq-list {
+      padding-top: 1rem;
+      padding-bottom: 30px;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      border-radius: 2rem;
+    }
+
+    h1{
+      padding: 1rem;
+    }
+    
+    .faq-item{
+      font-size: 14px;
+    }
+  
+    .faq-answer {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .faq-container {
+      padding-top: 100px;
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+  
+    .faq-list {
+      width: 100%;
+      padding-top: 1rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      border-radius: 2rem;
+    }
+  
+    .faq-question {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .faq-answer {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+
+
   

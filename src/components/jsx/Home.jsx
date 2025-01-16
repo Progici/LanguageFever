@@ -1,13 +1,19 @@
-import teacherPhoto from "../../assets/images/teacherphoto.jpg";
+import teacherPhoto from "../../assets/images/teacherdefault.png";
 import homeImage from "../../assets/images/homeimage.png";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
 import "../css/Home.css";
+import { AppContext } from "../../AppContext";
 
 function Home() {
+  const { currentUser, active } = useContext(AppContext);
   return (
     <>
       <div className="home">
         <div className="home-section">
+          <h2 className="welcome-text">
+            {active && <>Dobrodošli, {currentUser?.name}!</>}
+          </h2>
           <section className="hero-section">
             <div className="home-picture-div">
               <img src={homeImage} className="home-picture" />
@@ -17,53 +23,39 @@ function Home() {
               <p>Povezujemo učenike i učitelje stranih jezika diljem svijeta</p>
             </section>
             <section className="hero-buttons">
-              <Link to="/login">
-                <button className="cta-button">Započni</button>
-              </Link>
-
-              <button className="cta-button">O nama</button>
+              {!active && (
+                <Link to="/login">
+                  <button className="cta-button">Započni</button>
+                </Link>
+              )}
             </section>
           </section>
 
           <section className="popular-section">
-            <h2>Popularni učitelji i jezici</h2>
-            <div className="popular-cards">
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★★</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★★</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>John Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
-              <div className="card">
-                <h3>Jane Doe</h3>
-                <img src={teacherPhoto} className="teach-photo" />
-                <p>★★★★☆</p>
-                <p>Jezik</p>
-              </div>
+            <div className="popular-content">
+              {active ? (
+                <div className="popular-text">
+                  <p>Vaša LanguageFever pustolovina počinje ovdje!</p>
+                  <p>
+                    Možete pretraživati učitelje, rezervirati lekcije ili se čak
+                    prijaviti kao učitelj kako biste podučavali druge korisnike.
+                    Iskoristite sve što LanguageFever nudi!
+                  </p>
+                </div>
+              ) : (
+                <div className="popular-text">
+                  <p>Dobrodošli u LanguageFever!</p>
+                  <p>
+                    Trenutno možete pregledavati učitelje, ali stvaranjem računa
+                    dobivate pristup punom iskustvu naše aplikacije:
+                  </p>
+                  <p>
+                    Pretražujte učitelje, rezervirajte lekcije ili sami
+                    postanite učitelj. Postanite član LanguageFever zajednice za
+                    pristup svim našim mogućnostima!
+                  </p>
+                </div>
+              )}
             </div>
           </section>
 

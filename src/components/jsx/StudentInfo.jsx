@@ -1,182 +1,283 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../AppContext";
 import { Link } from "react-router-dom";
 import "../css/StudentInfo.css";
 import { ApiConfig } from "../../config/api.config";
+import Select from "react-select";
+import TextareaAutosize from "react-textarea-autosize";
+import { toast } from "react-toastify";
 
 function StudentInfo() {
-  const [language, setLanguage] = useState(""); // Jedan jezik
-  const [level, setLevel] = useState(""); // Razina znanja
-  const [style, setStyle] = useState(""); // Stil učenja
-  const [goals, setGoals] = useState(""); // Ciljevi
+  const [language, setLanguage] = useState([]);
+  const [level, setLevel] = useState("");
+  const [style, setStyle] = useState("");
+  const [goals, setGoals] = useState("");
+  const [levelOptions, setLevelOptions] = useState([]);
+  const [teachingStyles, setTeachingStyles] = useState([]);
+  const [languageOptions, setLanguageOptions] = useState([]);
 
-  // Opcije za razinu znanja
-  const levelOptions = [
-    { value: "BEGINNER", label: "Početna" },
-    { value: "INTERMEDIATE", label: "Srednja" },
-    { value: "EXPERT", label: "Napredna" },
-  ];
+  // Dodavanje stanja za trenutnog učenika
+  const { currentStudent, setCurrentStudent, setSelected } =
+    useContext(AppContext);
 
-  // Opcije za stilove učenja
-  const teachingStyles = [
-    { value: "THE_DIRECT_METHOD", label: "Direktna metoda" },
-    {
-      value: "THE_GRAMMAR_TRANSLATION_METHOD",
-      label: "Metoda gramatičkog prevođenja",
-    },
-    { value: "THE_STRUCTURAL_APPROACH", label: "Strukturni pristup" },
-    { value: "SUGGESTOPEDIA", label: "Suggestopedia" },
-    { value: "TOTAL_PHYSICAL_RESPONSE", label: "Akcija i reakcija" },
-    { value: "COMMUNiCATIVE_LANGUAGE_TEACHING", label: "Poučavanje komunikacije i komuniciranja" },
-    { value: "THE_SILENT_WAY", label: "Tihi način učenja" },
-    { value: "THE_NATURAL_APPROACH", label: "Prirodni pristup usvajanju jezika" },
-    { value: "IMMERSION", label: "Uranjanje u jezik" },
-    { value: "THE_LEXICAL_SYLLABUS", label: "Vokabular" },
-  ];
+  useEffect(() => {
+    // Fetch current student data
+    const fetchCurrentStudent = async () => {
+      try {
+        const studentResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucenik",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-  // Opcije za jezike
-  const languageOptions = [
-    { value: "ENGLISH", label: "Engleski" },
-    { value: "GERMAN", label: "Njemački" },
-    { value: "SPANISH", label: "Španjolski" },
-  ];
+        if (studentResponse.ok) {
+          const studentData = await studentResponse.json();
+          setCurrentStudent(studentData);
+        }
+      } catch (error) {
+        console.error("Error fetching current student:", error);
+      }
+    };
+
+    fetchCurrentStudent();
+  }, [setCurrentStudent]);
+
+  useEffect(() => {
+    setLanguage(currentStudent?.jezici || []);
+    setLevel(currentStudent?.razina || "");
+    setStyle(currentStudent?.stilUcenja || "");
+    setGoals(currentStudent?.ciljevi || "");
+    console.log("CurrentStudent:", currentStudent);
+  }, [currentStudent]);
+
+  // Fetch podaci za jezike
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/jezici", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setLanguageOptions(data));
+  }, []);
+
+  // Fetch podaci za razine
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/razine", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setLevelOptions(data));
+  }, []);
+
+  // Fetch podaci za stilove učenja
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/stilovi", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setTeachingStyles(data));
+  }, []);
+
+  function HandleDelete() {
+    fetch(ApiConfig.API_URL + "/izbrisiucenika", {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        toast.success("Učenik uspješno izbrisan!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
+        console.log("Student successfully deleted");
+        setCurrentStudent(null);
+        setSelected(0);
+      })
+      .catch((error) => {
+        toast.error("Greška kod brisanja učenika.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
+        console.error("Error deleting student:", error);
+      });
+  }
 
   // Funkcija za provjeru jesu li svi podaci uneseni
   const isFormValid = () => {
-    return (
-      language && // Moraju biti odabrani jezici
-      level && // Moraju biti odabrana razina
-      style && // Moraju biti odabrani stil učenja
-      goals // Moraju biti uneseni ciljevi
-    );
+    return language.length > 0 && level && style && goals;
   };
 
-  // Funkcija za promjenu odabranog jezika
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value); // Sprema odabrani jezik
+  // Funkcija za promjenu odabranih jezika
+  const handleLanguageChange = (selectedOptions) => {
+    setLanguage(selectedOptions.map((option) => option.value));
   };
 
   // Funkcija za promjenu razine znanja
-  const handleLevelChange = (event) => {
-    setLevel(event.target.value); // Sprema odabranu razinu znanja
+  const handleLevelChange = (selectedOption) => {
+    setLevel(selectedOption ? selectedOption.value : "");
   };
 
-  // Funkcija za slanje podataka na server kada se forma pošalje
+  // Funkcija za promjenu stila učenja
+  const handleStyleChange = (selectedOption) => {
+    setStyle(selectedOption ? selectedOption.value : "");
+  };
+
+  // Funkcija za slanje podataka na server
   async function handleSubmit(event) {
     event.preventDefault();
 
     const data = {
-      jezici: [language], // Jedan jezik u nizu
-      razina: level, // Razina znanja
-      ciljevi: goals, // Ciljevi
-      stilUcenja: style, // Stil učenja
+      jezici: language,
+      razina: level,
+      ciljevi: goals,
+      stilUcenja: style,
     };
 
     const requestOptions = {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      credentials: "include",
     };
 
     try {
       const response = await fetch(
-        ApiConfig.API_URL + "/ucenici",
+        ApiConfig.API_URL + "/azurirajucenika",
         requestOptions
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json();
+      setCurrentStudent(data);
+      setSelected(1);
+      toast.success("Podaci o učeniku su uspješno ažurirani", {
+        position: "bottom-right",
+        autoClose: 3000, // 3 sekunde
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
+  // Opcije jezika za React Select
+  const languageSelectOptions = languageOptions.map((lang) => ({
+    value: lang,
+    label: lang,
+  }));
+
+  // Opcije razina za React Select
+  const levelSelectOptions = levelOptions.map((level) => ({
+    value: level,
+    label: level,
+  }));
+
+  // Opcije stilova za React Select
+  const styleSelectOptions = teachingStyles.map((style) => ({
+    value: style,
+    label: style.replace(/_/g, " "),
+  }));
+
   return (
     <>
+      <button
+        className="btn btn-secondary"
+        onClick={HandleDelete}
+        type="button"
+        disabled={!currentStudent}
+      >
+        Izbriši učenika
+      </button>
       <div className="student-info">
         <form className="template" onSubmit={handleSubmit}>
           <h3 id="text">Profil učenika</h3>
 
           <div className="name-container">
-            {/* Polje za odabir jezika */}
-            <div className="name-field floating-label">
-              <label>Jezik</label>
-              <select
-                className="form-control"
-                name="language"
-                value={language}
+            <div className="floating-label react-select-container">
+              <label>Jezici:</label>
+              <Select
+                isMulti
+                name="languages"
+                options={languageSelectOptions}
+                value={languageSelectOptions.filter((option) =>
+                  language.includes(option.value)
+                )}
                 onChange={handleLanguageChange}
-              >
-                <option value="">Izaberite jezik</option>
-                {languageOptions.map((lang) => (
-                  <option key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </option>
-                ))}
-              </select>
+                placeholder="Izaberite jezike"
+              />
             </div>
 
-            {/* Polje za odabir razine znanja */}
-            <div className="floating-label">
-              <select
-                className="form-control"
-                name="level"
-                value={level}
-                onChange={handleLevelChange}
-              >
-                <option value="">Izaberite razinu znanja</option>
-                {levelOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="level">Razina znanja</label>
-            </div>
-
-            {/* Polje za unos stila učenja */}
             <div className="name-field floating-label">
-              <select
-                className="form-control"
+              <label>Stil učenja:</label>
+              <Select
                 name="style"
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-              >
-                <option value="">Izaberite stil učenja</option>
-                {teachingStyles.map((method) => (
-                  <option key={method.value} value={method.value}>
-                    {method.label}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="style">Stil učenja</label>
+                options={styleSelectOptions}
+                value={
+                  style
+                    ? styleSelectOptions.find(
+                        (option) => option.value === style
+                      )
+                    : null
+                }
+                onChange={handleStyleChange}
+                placeholder="Izaberite stil učenja"
+              />
             </div>
 
-            {/* Polje za unos ciljeva */}
             <div className="floating-label">
-              <input
-                type="text"
+              <label>Razina znanja:</label>
+              <Select
+                name="level"
+                options={levelSelectOptions}
+                value={
+                  level
+                    ? levelSelectOptions.find(
+                        (option) => option.value === level
+                      )
+                    : null
+                }
+                onChange={handleLevelChange}
+                placeholder="Izaberite razinu znanja"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label htmlFor="goals">Ciljevi:</label>
+              <TextareaAutosize
                 name="goals"
-                className="form-control"
+                className="form-control textarea-autosize no-resize"
+                minRows={1}
+                maxRows={6}
                 value={goals}
                 onChange={(e) => setGoals(e.target.value)}
+                placeholder="Unesite ciljeve"
               />
-              <label htmlFor="goals">Ciljevi</label>
             </div>
           </div>
 
           <br />
 
           <div className="btns">
-            <Link to="/proba">
+            <Link to="/">
               <button className="btn">Natrag</button>
             </Link>
 
             <button
               className="btn btn-primary"
               type="submit"
-              disabled={!isFormValid()} // Onemogućujemo gumb dok forma nije valjana
+              disabled={!isFormValid()}
             >
               Spremi
             </button>

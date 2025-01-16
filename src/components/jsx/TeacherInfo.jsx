@@ -1,56 +1,100 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AppContext } from "../../AppContext";
 import { Link } from "react-router-dom";
 import "../css/TeacherInfo.css";
-import { useEffect } from "react";
 import { ApiConfig } from "../../config/api.config";
+import Select from "react-select";
+import TextareaAutosize from "react-textarea-autosize";
+import { toast } from "react-toastify";
 
 function TeacherInfo() {
-  // Definicija stanja za unos podataka o učitelju
-  const [language, setLanguage] = useState(""); // Drži informacije o jezicima koje učitelj govori
+  const [language, setLanguage] = useState([]); // Drži odabrane jezike
   const [years, setYears] = useState(""); // Drži informacije o godinama iskustva učitelja
   const [qualifications, setQualifications] = useState(""); // Drži informacije o kvalifikacijama učitelja
   const [style, setStyle] = useState(""); // Drži informacije o stilu podučavanja učitelja
   const [hourlyRate, setHourlyRate] = useState(""); // Drži informacije o satnici učitelja
 
-  // Definicija predviđenih vrijednosti za jezike, kvalifikacije i stilove podučavanja
-  const languages = [
-    { value: "ENGLISH", label: "ENGLESKI" },
-    { value: "GERMAN", label: "NJEMAČKI" },
-    { value: "SPANISH", label: "ŠPANJOLSKI" },
-  ];
+  // Opcije za jezike, kvalifikacije i stilove podučavanja
+  const [languageOptions, setLanguageOptions] = useState([]);
+  const [qualificationOptions, setQualificationOptions] = useState([]);
+  const [teachingStyles, setTeachingStyles] = useState([]);
 
-  const qualificationsList = [
-    { value: "BACHELORS_DEGREE", label: "Preddiplomski studij" },
-    { value: "POST_BACCALAUREATE_DIPLOMA", label: "Postdiplomski studij" },
-    { value: "MASTERS_DEGREE", label: "Magistarski studij" },
-    { value: "DOCTORATE", label: "Doktorski studij" },
-  ];
+  // Stanje za trenutnog učitelja
+  const { currentTeacher, setCurrentTeacher, setSelected } =
+    useContext(AppContext);
 
-  const teachingStyles = [
-    { value: "THE_DIRECT_METHOD", label: "Direktna metoda" },
-    {
-      value: "THE_GRAMMAR_TRANSLATION_METHOD",
-      label: "Metoda gramatičkog prevođenja",
-    },
-    { value: "THE_STRUCTURAL_APPROACH", label: "Strukturni pristup" },
-    { value: "SUGGESTOPEDIA", label: "Suggestopedia" },
-    { value: "TOTAL_PHYSICAL_RESPONSE", label: "Akcija i reakcija" },
-    { value: "COMMUNiCATIVE_LANGUAGE_TEACHING", label: "Poučavanje komunikacije i komuniciranja" },
-    { value: "THE_SILENT_WAY", label: "Tihi način učenja" },
-    { value: "THE_NATURAL_APPROACH", label: "Prirodni pristup usvajanju jezika" },
-    { value: "IMMERSION", label: "Uranjanje u jezik" },
-    { value: "THE_LEXICAL_SYLLABUS", label: "Vokabular" },
-  ];
+  useEffect(() => {
+    // Fetch current teacher data
+    const fetchCurrentTeacher = async () => {
+      try {
+        const teacherResponse = await fetch(
+          ApiConfig.API_URL + "/trenutniucitelj",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-  // Funkcija za provjeru da li su svi podaci uneseni
+        if (teacherResponse.ok) {
+          const teacherData = await teacherResponse.json();
+          setCurrentTeacher(teacherData);
+        }
+      } catch (error) {
+        console.error("Error fetching current teacher:", error);
+      }
+    };
+
+    fetchCurrentTeacher();
+  }, [setCurrentTeacher]);
+
+  useEffect(() => {
+    setLanguage(currentTeacher?.jezici || []);
+    setYears(currentTeacher?.godineIskustva || "");
+    setQualifications(currentTeacher?.kvalifikacija || "");
+    setStyle(currentTeacher?.stilPoducavanja || "");
+    setHourlyRate(currentTeacher?.satnica || "");
+    console.log("CurrentTeacher", currentTeacher);
+  }, [currentTeacher]);
+
+  // Fetch podaci za jezike
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/jezici", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setLanguageOptions(data));
+  }, []);
+
+  // Fetch podaci za kvalifikacije
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/kvalifikacije", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setQualificationOptions(data));
+  }, []);
+
+  // Fetch podaci za stilove podučavanja
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/stilovi", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setTeachingStyles(data));
+  }, []);
+
+  // Funkcija za provjeru jesu li svi podaci uneseni
   const isFormValid = () => {
     const isYearsValid =
       Number.isInteger(parseInt(years)) && parseInt(years) > 0;
     const isHourlyRateValid =
-      Number.isInteger(parseInt(hourlyRate)) && parseInt(hourlyRate) > 0;
+      !isNaN(parseFloat(hourlyRate)) && parseFloat(hourlyRate) > 0;
 
     return (
-      language &&
+      language.length > 0 &&
       years &&
       qualifications &&
       style &&
@@ -60,153 +104,220 @@ function TeacherInfo() {
     );
   };
 
-  // Funkcija za slanje podataka na server kada se forma pošalje
+  function HandleDelete() {
+    fetch(ApiConfig.API_URL + "/izbrisiucitelja", {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        toast.success("Učitelj uspješno izbrisan!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
+        console.log("Teacher successfully deleted");
+        setCurrentTeacher(null);
+        setSelected(0);
+      })
+      .catch((error) => {
+        toast.error("Greška kod brisanja učitelja.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+        });
+        console.error("Error deleting teacher:", error);
+      });
+  }
+
+  // Funkcija za promjenu odabranih jezika
+  const handleLanguageChange = (selectedOptions) => {
+    setLanguage(selectedOptions.map((option) => option.value)); // Ažuriraj stanje s nizom odabranih jezika
+  };
+
+  // Funkcija za promjenu kvalifikacija
+  const handleQualificationsChange = (selectedOption) => {
+    setQualifications(selectedOption ? selectedOption.value : ""); // Sprema odabrane kvalifikacije
+  };
+
+  // Funkcija za promjenu stila podučavanja
+  const handleStyleChange = (selectedOption) => {
+    setStyle(selectedOption ? selectedOption.value : ""); // Sprema odabrani stil
+  };
+
+  // Funkcija za slanje podataka na server
   async function handleSubmit(event) {
     event.preventDefault();
 
-    // Parsiramo podatke o godinama iskustva i satnici u brojčane vrijednosti
     const parsedYears = parseInt(years);
-    const parsedHourlyRate = parseInt(hourlyRate);
+    const parsedHourlyRate = parseFloat(hourlyRate);
 
     const data = {
-      jezici: [language], // Prebacujemo uneseni jezik u niz
-      godineIskustva: parsedYears, // Parsirani broj
+      jezici: language,
+      godineIskustva: parsedYears,
       kvalifikacija: qualifications,
       stilPoducavanja: style,
-      satnica: parsedHourlyRate, // Parsirani broj
+      satnica: parsedHourlyRate,
     };
 
-    // Opcije za fetch zahtjev (POST metoda)
     const requestOptions = {
-      method: "POST", // Definiramo HTTP metodu kao POST
-      headers: { "Content-Type": "application/json" }, // Postavljamo Content-Type header na JSON
-      body: JSON.stringify(data), // Podaci koje šaljemo u tijelu zahtjeva, pretvoreni u JSON
-      credentials: "include", // Uključujemo kolačiće za autentifikaciju ako je potrebno
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     };
 
     try {
-      // Pokrećemo fetch zahtjev za slanje podataka na API
       const response = await fetch(
-        ApiConfig.API_URL + "/ucitelji",
+        ApiConfig.API_URL + "/azurirajucitelja",
         requestOptions
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const result = await response.json(); // Parsiramo odgovor u JSON
+      setCurrentTeacher(data);
+      setSelected(2);
+      toast.success("Podaci o učitelju su uspješno ažurirani", {
+        position: "bottom-right",
+        autoClose: 3000, // 3 sekunde
+        hideProgressBar: true,
+        closeOnClick: true,
+      });
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
+  // Opcije jezika za React Select
+  const languageSelectOptions = languageOptions.map((lang) => ({
+    value: lang,
+    label: lang,
+  }));
+
+  // Opcije kvalifikacija za React Select
+  const qualificationSelectOptions = qualificationOptions.map(
+    (qualification) => ({
+      value: qualification,
+      label: qualification.replace(/_/g, " "),
+    })
+  );
+
+  // Opcije stilova za React Select
+  const styleSelectOptions = teachingStyles.map((style) => ({
+    value: style,
+    label: style.replace(/_/g, " "),
+  }));
+
   return (
     <>
-      <div className="teacher-info">
+      <button
+        className="btn btn-secondary"
+        onClick={HandleDelete}
+        type="button"
+        disabled={!currentTeacher}
+      >
+        Izbriši učitelja
+      </button>
+      <div className="teacher-info2">
         <form className="template" onSubmit={handleSubmit}>
           <h3 id="text">Profil učitelja</h3>
 
           <div className="name-container">
-            {/* Polje za odabir jezika */}
-            <div className="name-field floating-label">
-              <select
-                name="jezici"
-                className="form-control"
-                id="language"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-              >
-                <option value="">Izaberite jezik</option>
-                {languages.map((lang) => (
-                  <option key={lang.value} value={lang.value}>
-                    {lang.label} {/* Prikazujemo prijevod na HR */}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="language">Jezici</label>
+            <div className="floating-label react-select-container">
+              <label>Jezici:</label>
+              <Select
+                isMulti
+                name="languages"
+                options={languageSelectOptions}
+                value={languageSelectOptions.filter((option) =>
+                  language.includes(option.value)
+                )}
+                onChange={handleLanguageChange}
+                placeholder="Izaberite jezike"
+              />
             </div>
 
-            {/* Polje za unos godina iskustva */}
-            <div className="name-field floating-label">
-              <input
-                type="text"
+            <div className="floating-label">
+              <label>Stil podučavanja:</label>
+              <Select
+                name="style"
+                options={styleSelectOptions}
+                value={
+                  style
+                    ? styleSelectOptions.find(
+                        (option) => option.value === style
+                      )
+                    : null
+                }
+                onChange={handleStyleChange}
+                placeholder="Izaberite stil podučavanja"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Kvalifikacije:</label>
+              <Select
+                name="kvalifikacije"
+                options={qualificationSelectOptions}
+                value={
+                  qualifications
+                    ? qualificationSelectOptions.find(
+                        (option) => option.value === qualifications
+                      )
+                    : null
+                }
+                onChange={handleQualificationsChange}
+                placeholder="Izaberite kvalifikacije"
+              />
+            </div>
+
+            <div className="floating-label">
+              <label>Godine iskustva:</label>
+              <TextareaAutosize
                 name="godineIskustva"
-                placeholder=" "
-                className="form-control"
-                id="years"
+                className="form-control textarea-autosize no-resize full-width"
+                minRows={1}
+                maxRows={1}
                 value={years}
                 onChange={(e) => setYears(e.target.value)}
+                maxLength={15}
+                placeholder="Unesite godine iskustva"
               />
-              <label htmlFor="years">Godine iskustva</label>
+            </div>
+
+            <div className="floating-label">
+              <label>Satnica:</label>
+              <TextareaAutosize
+                name="satnica"
+                className="form-control textarea-autosize no-resize full-width"
+                minRows={1}
+                maxRows={1}
+                value={hourlyRate}
+                onChange={(e) => setHourlyRate(e.target.value)}
+                maxLength={15}
+                placeholder="Unesite satnicu"
+              />
             </div>
           </div>
-
-          {/* Polje za odabir kvalifikacija */}
-          <div className="floating-label">
-            <select
-              name="kvalifikacija"
-              className="form-control"
-              id="qualifications"
-              value={qualifications}
-              onChange={(e) => setQualifications(e.target.value)}
-            >
-              <option value="">Izaberite kvalifikacije</option>
-              {qualificationsList.map((qualification) => (
-                <option key={qualification.value} value={qualification.value}>
-                  {qualification.label} {/* Prikazujemo prijevod na HR */}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="qualifications">Kvalifikacije</label>
-          </div>
-
-          {/* Polje za odabir stila podučavanja */}
-          <div className="floating-label">
-            <select
-              name="stilPoducavanja"
-              className="form-control"
-              id="style"
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-            >
-              <option value="">Izaberite stil podučavanja</option>
-              {teachingStyles.map((method) => (
-                <option key={method.value} value={method.value}>
-                  {method.label} {/* Prikazujemo prijevod na HR */}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="style">Stil podučavanja</label>
-          </div>
-
-          {/* Polje za unos satnice */}
-          <div className="floating-label">
-            <input
-              type="text"
-              name="satnica"
-              placeholder=" "
-              className="form-control"
-              id="money"
-              value={hourlyRate}
-              onChange={(e) => setHourlyRate(e.target.value)}
-            />
-            <label htmlFor="money">Satnica</label>
-          </div>
-
-          <br />
 
           <div className="btns">
             <Link to="/">
               <button className="btn">Natrag</button>
             </Link>
+
             <button
               className="btn btn-primary"
               type="submit"
-              disabled={!isFormValid()} // Onemogućujemo gumb dok forma nije valjana
+              disabled={!isFormValid()}
             >
               Spremi
             </button>
           </div>
-          <br />
         </form>
       </div>
     </>

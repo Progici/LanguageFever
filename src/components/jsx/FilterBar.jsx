@@ -1,176 +1,373 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
+import { useSearchParams } from "react-router-dom";
 import "../css/FilterBar.css";
+import { ApiConfig } from "../../config/api.config";
 
-const FilterBar = ({ onFilterChange, onSortChange }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false); // Stanje za otvaranje/zatvaranje filtera
-  const [isSortOpen, setIsSortOpen] = useState(false); // Stanje za otvaranje/zatvaranje sort funkcionalnosti
-  const [selectedLanguage, setSelectedLanguage] = useState(null); // Stanje za odabrani jezik
-  const [rating, setRating] = useState(""); // Stanje za ocjenu (nije trenutno korišteno)
-  const [selectedSortOption, setSelectedSortOption] = useState(null); // Stanje za odabranu opciju sortiranja
+const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-  // Referenciranje elemenata za upravljanje klikovima izvan komponenti
+  // Filter states
+  const [selectedLanguage, setSelectedLanguage] = useState(searchParams.get("jezik") || null);
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+  const [qualification, setQualification] = useState(searchParams.get("kvalifikacija") || null);
+  const [style, setStyle] = useState(searchParams.get("stil") || null);
+  const [minRating, setMinRating] = useState(searchParams.get("minAverageOcjena") || "");
+  const [minReviewCount, setMinReviewCount] = useState(searchParams.get("minCountOcjena") || "");
+  const [selectedSortOption, setSelectedSortOption] = useState(searchParams.get("sort") || null);
+  const [languageOptions, setLanguageOptions] = useState([]);
+  const [qualificationOptions, setQualificationOptions] = useState([]);
+  const [styleOptions, setStyleOptions] = useState([]);
+
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/jezici", {
+      method: "GET",
+      credentials:"include"
+    })
+      .then(response => response.json())
+      .then(data => {
+        const options = data.map((language) => ({
+          value: language,  // pretpostavljamo da je "naziv" naziv jezika
+          label: language,  // isto kao za label
+        }));
+        setLanguageOptions(options);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/kvalifikacije", {
+      method: "GET",
+      credentials:"include"
+    })
+      .then(response => response.json())
+      .then(data => {
+        const options = data.map((qualification) => ({
+          value: qualification,
+          label: qualification.replace(/_/g, " ") 
+        }));
+        setQualificationOptions(options);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(ApiConfig.API_URL + "/enums/stilovi", {
+      method: "GET",
+      credentials:"include"
+    })
+      .then(response => response.json())
+      .then(data => {
+        const options = data.map((style) => ({
+          value: style,
+          label: style.replace(/_/g, " ") 
+        }));
+        setStyleOptions(options);
+      });
+  }, []);
+
+  // Ref za praćenje promjena
+  const filterStateRef = useRef({
+    selectedLanguage,
+    minPrice,
+    maxPrice,
+    qualification,
+    style,
+    minRating,
+    minReviewCount,
+    selectedSortOption,
+  });
+
   const filterRef = useRef(null);
   const sortRef = useRef(null);
   const filterButtonRef = useRef(null);
   const sortButtonRef = useRef(null);
 
-  // Funkcija koja detektira klikove izvan filtera i sort opcija kako bi ih zatvorila
   const handleClickOutside = (event) => {
-    if (
-      filterRef.current &&
-      !filterRef.current.contains(event.target) &&
-      !filterButtonRef.current.contains(event.target) &&
-      isFilterOpen
-    ) {
-      setIsFilterOpen(false); // Zatvara filter ako kliknemo izvan njega
+    if (isSelectOpen) return; // Ako je React Select otvoren, ne zatvori filter/sortiranje
+  
+    // Provjeri klikne li se izvan filtera
+    if (!event.target.closest(".filter-options") && !event.target.closest(".filter-button") && isFilterOpen) {
+      setIsFilterOpen(false);
+      updateSearchParams();  // Ažuriraj query string kad se filter zatvori
     }
-    if (
-      sortRef.current &&
-      !sortRef.current.contains(event.target) &&
-      !sortButtonRef.current.contains(event.target) &&
-      isSortOpen
-    ) {
-      setIsSortOpen(false); // Zatvara sortiranje ako kliknemo izvan njega
+  
+    // Provjeri klikne li se izvan sortiranja
+    if (!event.target.closest(".sort-options") && !event.target.closest(".sort-button") && isSortOpen) {
+      setIsSortOpen(false);
+      updateSearchParams();  // Ažuriraj query string kad se sortiranje zatvori
     }
   };
 
-  // postavljamo event listener za klikove izvan komponente kad je komponenta montirana
+  const updateSearchParams = () => {
+    const newParams = new URLSearchParams();
+
+    if (filterStateRef.current.selectedLanguage) newParams.set("jezik", filterStateRef.current.selectedLanguage);
+    if (filterStateRef.current.minPrice) newParams.set("minPrice", filterStateRef.current.minPrice);
+    if (filterStateRef.current.maxPrice) newParams.set("maxPrice", filterStateRef.current.maxPrice);
+    if (filterStateRef.current.qualification) newParams.set("kvalifikacija", filterStateRef.current.qualification);
+    if (filterStateRef.current.style) newParams.set("stil", filterStateRef.current.style);
+    if (filterStateRef.current.minRating) newParams.set("minAverageOcjena", filterStateRef.current.minRating);
+    if (filterStateRef.current.minReviewCount) newParams.set("minCountOcjena", filterStateRef.current.minReviewCount);
+
+    if (filterStateRef.current.selectedSortOption) {
+      let sortBy, sortOrder;
+      switch (filterStateRef.current.selectedSortOption) {
+        case "experience":
+          sortBy = "experience";
+          sortOrder = "desc";
+          break;
+        case "priceAsc":
+          sortBy = "price";
+          sortOrder = "asc";
+          break;
+        case "priceDesc":
+          sortBy = "price";
+          sortOrder = "desc";
+          break;
+        case "averageRating":
+          sortBy = "averageOcjena";
+          sortOrder = "desc";
+          break;
+        case "countOcjena":
+          sortBy = "countOcjena";
+          sortOrder = "desc";
+          break;
+        default:
+          break;
+      }
+      if (sortBy && sortOrder) {
+        newParams.set("sortBy", sortBy);
+        newParams.set("sortOrder", sortOrder);
+      }
+    }
+
+    setSearchParams(newParams);
+  };
+
+  const resetFilters = () => {
+    setQualification(null);
+    setStyle(null);
+    setSelectedLanguage(null);
+    setMinPrice("");
+    setMaxPrice("");
+    setMinRating("");
+    setMinReviewCount("");
+  
+    filterStateRef.current = {
+      selectedLanguage: null,
+      minPrice: "",
+      maxPrice: "",
+      qualification: null,
+      style: null,
+      minRating: "",
+      minReviewCount: "",
+      selectedSortOption: filterStateRef.current.selectedSortOption, // Ostavljamo sortiranje netaknuto
+    };
+  
+    onFilterChange({
+      jezik: null,
+      minPrice: "",
+      maxPrice: "",
+      kvalifikacija: null,
+      stil: null,
+      minAverageOcjena: "",
+      minCountOcjena: "",
+    });
+  };
+  
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside); // Uklanja event listener kad se komponenta demontira
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isFilterOpen, isSortOpen]); // Pratimo promjene u isFilterOpen i isSortOpen
+  }, [isFilterOpen, isSortOpen, isSelectOpen]);
+
+  useEffect(() => {
+    const filters = {
+      jezik: selectedLanguage,
+      minPrice,
+      maxPrice,
+      kvalifikacija: qualification,
+      stil: style,
+      minAverageOcjena: minRating,
+      minCountOcjena: minReviewCount,
+    };
+    onFilterChange(filters);
+  }, [selectedLanguage, minPrice, maxPrice, qualification, style, minRating, minReviewCount]);
 
   const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen); // Prebacuje stanje filtera
+    setIsFilterOpen(!isFilterOpen);
     if (isSortOpen) setIsSortOpen(false);
   };
 
   const toggleSort = () => {
-    setIsSortOpen(!isSortOpen); // Prebacuje stanje sortiranja
+    setIsSortOpen(!isSortOpen);
     if (isFilterOpen) setIsFilterOpen(false);
   };
 
-  // Opcije za jezik koje se prikazuju u dropdownu
-  const languageOptions = [
-    { value: "English", label: "Engleski" },
-    { value: "Spanish", label: "Španjolski" },
-    { value: "German", label: "Njemački" },
-  ];
-
-  // Opcije za sortiranje koje se prikazuju u dropdownu
   const sortOptions = [
     { value: "experience", label: "Godine iskustva" },
     { value: "priceAsc", label: "Cijena uzlazno" },
     { value: "priceDesc", label: "Cijena silazno" },
+    { value: "averageRating", label: "Prosječna ocjena" },
+    { value: "countOcjena", label: "Broj ocjena" },
   ];
 
   return (
     <div className="filter-bar-container">
       <div className="filter-bar">
         <div className="toggle-buttons">
-          <button
-            ref={filterButtonRef}
-            className="filter-button"
-            onClick={toggleFilter} // Poziva funkciju za otvaranje/zatvaranje filtera
-          >
+          <button ref={filterButtonRef} className="filter-button" onClick={toggleFilter}>
             Filter
           </button>
-          <button
-            ref={sortButtonRef}
-            className="sort-button"
-            onClick={toggleSort} // Poziva funkciju za otvaranje/zatvaranje sortiranja
-          >
+          <button ref={sortButtonRef} className="sort-button" onClick={toggleSort}>
             Sortiranje
           </button>
         </div>
 
-        {/* Prikazivanje filter opcija kad je filter otvoren */}
         {isFilterOpen && (
-          <div ref={filterRef} className="filter-options">
+          <div ref={filterRef} className="filter-options"   
+                onMouseDown={e => e.stopPropagation()}
+                onTouchStart={e => e.stopPropagation()}
+          >
             <label>
               Jezik:
               <Select
                 options={languageOptions}
-                value={selectedLanguage}
+                value={languageOptions.find((option) => option.value === selectedLanguage) || null}
                 onChange={(selectedOption) => {
-                  setSelectedLanguage(selectedOption); // Ažurira odabrani jezik u stanju
-                  if (selectedOption) {
-                    onFilterChange("language", selectedOption.value);
-                  } else {
-                    onFilterChange("language", null);
-                  }
+                  setSelectedLanguage(selectedOption ? selectedOption.value : null);
+                  filterStateRef.current.selectedLanguage = selectedOption ? selectedOption.value : null;
                 }}
                 placeholder="Odaberite jezik"
-                isClearable // Omogućuje brisanje odabira
-                styles={{
-                  // Stil za okvire Select inputa
-                  control: (base) => ({
-                    ...base,
-                    borderRadius: "24px",
-                    borderColor: "#007bff",
-                    padding: "2px",
-                  }),
-                  option: (base) => ({
-                    ...base,
-                    color: "#333",
-                    borderRadius: "24px",
-                    marginTop: "5px",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    borderRadius: "14px",
-                    padding: "10px",
-                    border: "2px solid #007bff",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                  }),
-                }}
+                isClearable
+                onMenuOpen={() => setIsSelectOpen(true)}
+                onMenuClose={() => setIsSelectOpen(false)}
+                onClick={(e) => e.stopPropagation()}
               />
             </label>
+
+            <label>
+              Cijena:
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  className="unosBroja"
+                  type="number"
+                  value={minPrice}
+                  min="0"
+                  max={maxPrice}
+                  onChange={(e) => {
+                    setMinPrice(e.target.value);
+                    filterStateRef.current.minPrice = e.target.value;
+                  }}
+                  placeholder="Min cijena"
+                />
+                <span>do</span>
+                <input 
+                  className="unosBroja"
+                  type="number"
+                  value={maxPrice}
+                  min={minPrice || "0"}
+                  onChange={(e) => {
+                    setMaxPrice(e.target.value);
+                    filterStateRef.current.maxPrice = e.target.value;
+                  }}
+                  placeholder="Max cijena"
+                />
+              </div>
+            </label>
+
+            <label>
+              Kvalifikacija:
+              <Select
+                options={qualificationOptions}
+                value={qualificationOptions.find((option) => option.value === qualification) || null}
+                onChange={(selectedOption) => {
+                  setQualification(selectedOption ? selectedOption.value : null);
+                  filterStateRef.current.qualification = selectedOption ? selectedOption.value : null;
+                }}
+                placeholder="Odaberite kvalifikaciju"
+                isClearable
+                onMenuOpen={() => setIsSelectOpen(true)}
+                onMenuClose={() => setIsSelectOpen(false)}
+              />
+            </label>
+
+            <label>
+              Stil:
+              <Select
+                options={styleOptions}
+                value={styleOptions.find((option) => option.value === style) || null}
+                onChange={(selectedOption) => {
+                  setStyle(selectedOption ? selectedOption.value : null);
+                  filterStateRef.current.style = selectedOption ? selectedOption.value : null;
+                }}
+                placeholder="Odaberite stil"
+                isClearable
+                onMenuOpen={() => setIsSelectOpen(true)}
+                onMenuClose={() => setIsSelectOpen(false)}
+              />
+            </label>
+
+            <label>
+              Minimalna ocjena:
+              <input
+                className="unosBrojaVeci"
+                type="number"
+                value={minRating}
+                onChange={(e) => {
+                  setMinRating(e.target.value);
+                  filterStateRef.current.minRating = e.target.value;
+                }}
+                placeholder="Min ocjena"
+                min="1"
+                max="5"
+                step="0.1"
+              />
+            </label>
+
+            <label>
+              Minimalni broj ocjena:
+              <input
+                className="unosBrojaVeci"
+                type="number"
+                value={minReviewCount}
+                onChange={(e) => {
+                  setMinReviewCount(e.target.value);
+                  filterStateRef.current.minReviewCount = e.target.value;
+                }}
+                placeholder="Min broj ocjena"
+                min="0"
+              />
+            </label>
+
+            <button className="reset-filter-button" onClick={resetFilters} >Resetiraj sve filtere</button>
           </div>
         )}
 
         {isSortOpen && (
-          <div ref={sortRef} className="sort-options">
+          <div ref={sortRef} className="sort-options"
+                onMouseDown={e => e.stopPropagation()}
+                onTouchStart={e => e.stopPropagation()}
+          >
             <label>
               Sortiraj po:
               <Select
                 options={sortOptions}
-                value={selectedSortOption}
+                value={sortOptions.find((option) => option.value === selectedSortOption) || null}
                 onChange={(selectedOption) => {
-                  setSelectedSortOption(selectedOption);
-                  if (selectedOption) {
-                    onSortChange(selectedOption.value);
-                  } else {
-                    onSortChange(null);
-                  }
+                  setSelectedSortOption(selectedOption ? selectedOption.value : null);
+                  filterStateRef.current.selectedSortOption = selectedOption ? selectedOption.value : null;
+                  onSortChange(selectedOption ? selectedOption.value : null);
                 }}
                 placeholder="Odaberite kriterij"
-                isClearable // Omogućuje brisanje odabira
-                styles={{
-                  // Stil za okvire Select inputa
-                  control: (base) => ({
-                    ...base,
-                    borderRadius: "24px", // Stil za okvire Select inputa
-                    borderColor: "#007bff",
-                    padding: "2px",
-                  }),
-                  option: (base) => ({
-                    ...base,
-                    color: "#333",
-                    borderRadius: "24px",
-                    marginTop: "5px",
-                  }),
-                  menu: (base) => ({
-                    ...base,
-                    borderRadius: "14px",
-                    padding: "10px",
-                    border: "2px solid #007bff",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-                  }),
-                }}
+                isClearable
+                onMenuOpen={() => setIsSelectOpen(true)}
+                onMenuClose={() => setIsSelectOpen(false)}
               />
             </label>
           </div>
