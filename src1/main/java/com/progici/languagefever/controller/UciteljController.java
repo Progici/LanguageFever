@@ -145,9 +145,9 @@ public class UciteljController {
       }
     }
 
-    if (uvjet) return korisnikController
-      .getKorisnikById(idKorisnikaUcitelja)
-      .getEmail(); else {
+    if (uvjet) {
+      return ucitelj.getKorisnik().getEmail();
+    } else {
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCESS DENIED");
     }
   }
