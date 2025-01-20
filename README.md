@@ -12,7 +12,7 @@ Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Faku
 Link za aplikaciju: https://progici2front-62a5e06d95e8.herokuapp.com
 
 # Opis projekta
-Ovaj projekt je reultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
+Ovaj projekt je rezultat timskog rada u sklopu projektnog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
 Cilj je	stvoriti funkcionalnu	platformu	za spajanje	učitelja stranih	jezika	s	pojedincima	koji	žele	naučiti	novi	jezik. 
 Aplikacija omogućuje učiteljima	i	učenicima alat	za	pretraživanje,	komunikaciju i	raspored lekcija.
@@ -26,7 +26,7 @@ Registracija korisnika, te ovisno o vrsti profila (učenik ili učitelj), uređi
 
 Učenik može filtrirati učitelja po jezicima, kvalifikacijama, dostupnosti i stilu. Učenik šalje zahtjev za lekcijom, i ukoliko je ona prihvaćena od strane učitelja, uspostavlja se kontakt.
 
-Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentirati i ocijeniti učitelja. Učitelj također može registrirati novi jezik.
+Učenik i učitelj imaju mogućnost pregleda aktivnosti i povijest lekcija, a nakon odrađene  lekcije učenik može komentirati i ocijeniti učitelja. 
 
 Administrator održava platformu te upravlja korisnicima.
 
@@ -47,7 +47,7 @@ Upute za instalaciju će biti dodane kada projekt bude završen.
 > | Mislav Kukina   | @mk55225 | frontend|
 > | Matej Marić   |  @mm55104 | frontend |
 > | Josip Pavić  | @jp549576 | baze/backend/deploy |
-> | Dario Sučevac   | @Dario776 | backend |
+> | Dario Sučevac   | @Dario776 | full-stack |
 > | Patrik Vranješ | @patrik433 | dokumentacija |
 > 
 
