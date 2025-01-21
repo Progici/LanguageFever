@@ -4,10 +4,6 @@ Web aplikacija za za spajanje učitelja stranih jezika s pojedincima koji žele 
 
 Ova aplikacija je razvijena u sklopu kolegija "Programsko inženjerstvo" na Fakultetu elektrotehnike i računarstva, grupa TG17.3, akademska godina 2024/2025.
 
-> Ime projekta u naslovu ima cilj opisati namjenu projekta te pomoći u podizanju početnog interesa za projekt prezentirajući osnovnu svrhu projekta.
-> Isključivo ovisi o Vama!
-> 
-
 # Deploy
 Link za aplikaciju: https://progici2front-62a5e06d95e8.herokuapp.com
 
@@ -36,13 +32,26 @@ Frontend je izrađen pomoću JavaScript ReactJS-a, a backend pomoću Spring Boot
 Baze napravljene u PostgreSQL-u.
 Puštanje u pogon putem Heroku.
 
-Upute za instalaciju će biti dodane kada projekt bude završen.
+### Pokretanje frontend-a
+Kako biste pokrenuli frontend, prvo morate imati instaliran Node.js i npm (https://nodejs.org/en).
+Zatim je potrebno pozicionirati se u željeni frontend direktorij gdje izvršavate sljedeću naredbu:
+```bash
+   npm install
+```
+Time ste instalirali potrebne ovisnosti za rad aplikacije.
+
+Kako biste pokrenuli frontend server, izvršite sljedeću naredbu:
+```bash
+   npm run dev
+```
+### Pokretanje backend-a
+
 
 # Članovi tima 
-> Popis članova tima/linkovi/ glavni doprinos
+
 > |     Član      |     Git   |     Zadatak   |
 > | ------------- | ------------- | ------------- |
-> | Lucija Bajza  | @LucijaBajza | frontend |
+> | Lucija Bajza  | @LucijaBajza | frontend/voditeljica |
 > | Tomislav Kragujević | @tk54015| backend|
 > | Mislav Kukina   | @mk55225 | frontend|
 > | Matej Marić   |  @mm55104 | frontend |
