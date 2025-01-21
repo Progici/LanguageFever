@@ -45,7 +45,7 @@ Kako biste pokrenuli frontend server, izvršite sljedeću naredbu:
    npm run dev
 ```
 ### Pokretanje backend-a
-
+Dario tenkju :)
 
 # Članovi tima 
 
@@ -61,7 +61,7 @@ Kako biste pokrenuli frontend server, izvršite sljedeću naredbu:
 > 
 
 # Kontribucije
->Pravila ovise o organizaciji tima i su često izdvojena u CONTRIBUTING.md
+Pogledati [CONTRIBUTING.md](https://github.com/Progici/LanguageFever/blob/master/CONTRIBUTING.md)
 
 
 
