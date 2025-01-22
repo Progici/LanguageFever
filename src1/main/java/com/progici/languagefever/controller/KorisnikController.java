@@ -1,14 +1,8 @@
 package com.progici.languagefever.controller;
 
-import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.model.Ucenik;
-import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.enums.Role;
-import com.progici.languagefever.service.KorisnikService;
-import com.progici.languagefever.service.UcenikService;
-import com.progici.languagefever.service.UciteljService;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.enums.Role;
+import com.progici.languagefever.service.KorisnikService;
+import com.progici.languagefever.service.UcenikService;
+import com.progici.languagefever.service.UciteljService;
 
 @RestController
 public class KorisnikController {
@@ -38,6 +40,11 @@ public class KorisnikController {
   //
   //  USER ENDPOINTS
   //
+
+  public boolean isCurrentUserUcenik(OAuth2AuthenticationToken authentication) {
+    Korisnik korisnik = getCurrentUser(authentication);
+    return ucenikService.getUcenikByKorisnikId(korisnik.getId()) != null;
+}
 
   @GetMapping("/trenutnikorisnik")
   public Korisnik getCurrentUser(OAuth2AuthenticationToken authentication) {

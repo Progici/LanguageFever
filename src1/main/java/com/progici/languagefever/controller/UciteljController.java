@@ -30,6 +30,7 @@ import com.progici.languagefever.model.enums.Kvalifikacija;
 import com.progici.languagefever.model.enums.Stil;
 import com.progici.languagefever.service.LekcijaService;
 import com.progici.languagefever.service.OcjenaService;
+import com.progici.languagefever.service.UcenikJeziciService;
 import com.progici.languagefever.service.UciteljJeziciService;
 import com.progici.languagefever.service.UciteljService;
 
@@ -53,6 +54,12 @@ public class UciteljController {
 
   @Autowired
   private KorisnikController korisnikController;
+
+  @Autowired
+  private UcenikController ucenikController;
+
+  @Autowired
+  private UcenikJeziciService ucenikJeziciService;
 
   //
   //  USER ENDPOINTS
@@ -386,6 +393,35 @@ public class UciteljController {
       ucitelji.size()
     );
   }
+
+  @GetMapping("/ucitelji/sorted")
+public List<UciteljDTO> getSortedUcitelji(OAuth2AuthenticationToken authentication) {
+    List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+
+    if (korisnikController.isCurrentUserUcenik(authentication)) {
+        Ucenik ucenik = ucenikController.getCurrentUcenik(authentication);
+        List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
+
+        ucitelji.sort(Comparator.comparingInt(ucitelj -> {
+            List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(((Ucitelj) ucitelj).getId());
+            return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
+        }).reversed());
+    }
+
+    return ucitelji.stream().map(ucitelj -> new UciteljDTO(
+        ucitelj.getKorisnik().getId(),
+        ucitelj.getKorisnik().getName(),
+        ucitelj.getKorisnik().getPicture(),
+        uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()),
+        ucitelj.getGodineIskustva(),
+        ucitelj.getKvalifikacija(),
+        ucitelj.getStilPoducavanja(),
+        ucitelj.getSatnica(),
+        ocjenaController.getProsjecnaOcjenaByUciteljId(ucitelj.getId()),
+        getPoducavaniUceniciBrojByUciteljId(ucitelj.getId()),
+        getDovrseneLekcijeBrojByUciteljId(ucitelj.getId())
+    )).collect(Collectors.toList());
+}
 
   // HELPER FUNCTIONS
 
