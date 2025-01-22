@@ -47,7 +47,7 @@ function Home() {
                   <p>Dobrodošli u LanguageFever!</p>
                   <p>
                     Trenutno možete pregledavati učitelje, ali stvaranjem računa
-                    dobivate pristup punom iskustvu naše aplikacije:
+                    dobivate pristup punom iskustvu naše aplikacije.
                   </p>
                   <p>
                     Pretražujte učitelje, rezervirajte lekcije ili sami
@@ -68,7 +68,9 @@ function Home() {
           </section>
 
           <footer className="footer">
-            <p>&copy; 2024 LanguageFever. All rights reserved.</p>
+            <p style={{ margin: "0", padding: "1rem" }}>
+              &copy; 2024 LanguageFever. All rights reserved.
+            </p>
           </footer>
         </div>
       </div>

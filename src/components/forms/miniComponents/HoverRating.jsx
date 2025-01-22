@@ -24,8 +24,8 @@ export default function HoverRating({ rating, setRating, readOnly }) {
       sx={{
         width: 200,
         display: "flex",
-        alignItems: "center",
-        flexWrap: "wrap",
+        flexDirection: "column", // Promena sa "row" na "column" da bi label bio ispod
+        alignItems: "center", // Poravnavanje elemenata centrirano
       }}
     >
       <Rating
@@ -45,7 +45,7 @@ export default function HoverRating({ rating, setRating, readOnly }) {
       {value !== null && (
         <Box
           sx={{
-            ml: 2,
+            mt: 1, // Malo povećanje razmaka između zvjezdica i teksta
           }}
         >
           {labels[hover !== -1 ? hover : rating]}

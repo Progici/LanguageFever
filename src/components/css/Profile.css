@@ -94,13 +94,13 @@
 
 /* Focus state for input fields */
 .textarea-autosize:focus {
-  border-color: #8989f3; /* Blue border on focus */
+  border-color: #716ef6; /* Blue border on focus */
   box-shadow: 0 0 5px #5f5fc9; /* Glow effect */
 }
 
 /* Submit button */
 .name-change-form .btn-primary {
-  background-color: #8989f3; /* Blue background */
+  background-color: #716ef6; /* Blue background */
   color: #fff; /* White text */
   font-size: 1rem;
   padding: 10px 15px;
@@ -156,15 +156,15 @@
 
 .tab ul li:hover {
   color: black;
-  border: 2px solid rgb(137, 137, 243);
+  border: 2px solid #716ef6;
   transition: box-shadow 0.25s;
   box-shadow: 0px 0px 10px 2px #5f5fc9;
 }
 
 .tab ul li.active-tab {
-  background-color: rgb(137, 137, 243);
+  background-color: #716ef6;
   color: white;
-  border: 2px solid rgb(137, 137, 243);
+  border: 2px solid #716ef6;
 }
 
 .content-area {

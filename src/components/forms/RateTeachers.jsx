@@ -93,10 +93,10 @@ export default function rateTeacher({ teacher, id, setPost }) {
         display: "flex",
         justifyContent: "center", // Horizontalno centriranje
         alignItems: "center", // Vertikalno centriranje
-        backgroundColor: "background.default",
+        backgroundColor: "#F8F9FA",
         p: "2rem",
         borderRadius: "2rem",
-        boxShadow: "0px 10px 10px  #8989F3",
+        boxShadow: "0px 10px 10px #918aff",
       }}
     >
       <CardContent
@@ -131,7 +131,7 @@ export default function rateTeacher({ teacher, id, setPost }) {
             variant="contained"
             onClick={handleSubmit}
             sx={{
-              backgroundColor: "rgba(61, 76, 243, 0.582)",
+              backgroundColor: "#6C63FF",
               color: "antiquewhite",
             }}
           >

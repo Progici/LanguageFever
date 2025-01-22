@@ -23,7 +23,7 @@
 .filter-button,
 .sort-button {
   /* background-color: rgba(16, 16, 226, 0.74); */
-  background-color: #1976d2;
+  background-color: #6c63ff;
   color: #fff;
   padding: 8px 16px;
   border: none;
@@ -34,7 +34,7 @@
 }
 
 .reset-filter-button {
-  background-color: black;
+  background-color: #333;
   color: #fff;
   padding: 8px 16px;
   border: none;
@@ -68,14 +68,14 @@ label {
 
 .react-select__control {
   border-radius: 14px !important;
-  border-color: #007bff !important;
+  border-color: #6c63ff !important;
   padding: 2px !important;
 }
 
 input[type="number"] {
   padding: 8px 16px;
   border-radius: 14px;
-  border: 1px solid #007bff;
+  border: 1px solid #6c63ff;
   width: 25%;
   font-size: 14px;
   box-sizing: border-box;

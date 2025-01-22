@@ -178,23 +178,118 @@ const TeacherProfile = () => {
                     style={{ textAlign: "center", margin: "2rem" }}
                   />
                   <div className="teacher-details">
-                    <p>Ime: {teacher.name}</p>
-                    <p>Jezici: {teacher.jezici?.join(", ")}</p>
-                    <p>Iskustvo: {teacher.godineIskustva} godina</p>
-                    <p>
-                      Kvalifikacije: {teacher.kvalifikacija.replace(/_/g, " ")}{" "}
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Ime
+                      <p
+                        style={{
+                          fontSize: "22px",
+                          fontWeight: "normal",
+                        }}
+                      >
+                        {teacher.name}
+                      </p>
                     </p>
-                    <p>Satnica: {teacher.satnica} eura</p>
-                    <p>
-                      Stil podučavanja:
-                      {teacher.stilPoducavanja.replace(/_/g, " ")}
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Jezici
+                      <p
+                        style={{
+                          fontSize: "22px",
+                          fontWeight: "normal",
+                          fontStyle: "none",
+                        }}
+                      >
+                        {" "}
+                        {teacher.jezici?.join(", ")}
+                      </p>
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Iskustvo{" "}
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.godineIskustva} godina
+                      </p>
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Kvalifikacije
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.kvalifikacija.replace(/_/g, " ")}{" "}
+                      </p>
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Satnica{" "}
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.satnica} eura
+                      </p>
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Stil podučavanja
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.stilPoducavanja.replace(/_/g, " ")}
+                      </p>
                     </p>
                     {/* Placeholder for dynamic rating */}
-                    <p>Ocjena: {parseFloat(teacher.rating).toFixed(2)}</p>
-                    <p>
-                      Broj podučavanih učenika: {teacher.poducavaniUceniciBroj}{" "}
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Ocjena{" "}
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {parseFloat(teacher.rating).toFixed(2)}
+                      </p>
                     </p>
-                    <p>Broj dovršenih lekcija: {teacher.dovrseneLekcijeBroj}</p>{" "}
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Broj podučavanih učenika{" "}
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.poducavaniUceniciBroj}{" "}
+                      </p>
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Broj dovršenih lekcija{" "}
+                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                        {teacher.dovrseneLekcijeBroj}
+                      </p>
+                    </p>{" "}
                   </div>
                 </div>
               </Box>
@@ -204,9 +299,18 @@ const TeacherProfile = () => {
 
         <Container maxWidth="md" className="teacher.calendar">
           <div id="item" className="teacher-calendar">
-            <h2 style={{ textAlign: "center", paddingTop: "100px" }}>
+            <h2
+              style={{
+                textAlign: "center",
+                paddingTop: "100px",
+              }}
+            >
               Kalendar dostupnosti lekcija
             </h2>
+            <p style={{ textAlign: "center" }}>
+              Kao učenik, možete rezervirati samo plave lekcije, jer su one
+              jedine dostupne.
+            </p>
             <CalendarDynamicTeacher
               idKorisnika={idKorisnika}
               post={post}
@@ -214,6 +318,7 @@ const TeacherProfile = () => {
             />
           </div>
         </Container>
+
         <Container
           maxWidth="md"
           sx={{
@@ -222,7 +327,7 @@ const TeacherProfile = () => {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             height: "auto",
             marginTop: "30px",
-            backgroundColor: "rgba(61, 76, 243, 0.582)",
+            backgroundColor: "#918aff",
             color: "antiquewhite",
           }}
         >

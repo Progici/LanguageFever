@@ -140,11 +140,11 @@ function HeaderMain() {
                 <div style={{ position: "relative", display: "inline-block" }}>
                   <Badge
                     badgeContent={newRequests}
-                    color="primary"
+                    color="secondary"
                     style={{
                       position: "absolute",
                       top: 0,
-                      right: 1.55,
+                      right: 1.6,
                       transform: "translate(-50%, 50%)",
                     }}
                   />
@@ -204,14 +204,14 @@ function HeaderMain() {
                 <li className="d-grid">
                   <Link to="/calendar">
                     <button className="btn btn-primary" id="logout">
-                      Kalendar
+                      Moj kalendar
                     </button>
                   </Link>
                 </li>
                 <li className="d-grid">
                   <Link to="/logout">
                     <button className="btn btn-primary" id="logout">
-                      Log Out
+                      Odjavi se
                     </button>
                   </Link>
                 </li>
@@ -221,7 +221,7 @@ function HeaderMain() {
         ) : (
           <div className="login-button">
             <Link to="/login">
-              <Button className="btn-login">Log In</Button>
+              <Button className="btn-login">Prijavi se</Button>
             </Link>
           </div>
         )}
@@ -293,7 +293,7 @@ function HeaderMain() {
                     <li className="d-grid">
                       <Link to="/login" className="link-underline-opacity-0">
                         <button className="btn btn-primary" id="logout2">
-                          Log In
+                          Prijavi se
                         </button>
                       </Link>
                     </li>
@@ -303,18 +303,21 @@ function HeaderMain() {
                 {active && currentUser && (
                   <>
                     <li className="d-grid">
-                      <button
+                      <div
                         id="profile-pic"
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          margin: "0px",
+                          margin: "0",
+                          padding: "1rem",
                         }}
                       >
                         <Avatar
                           src={currentUser.picture || teacherdefault}
-                        ></Avatar>
-                      </button>
+                          style={{ height: "75px", width: "75px" }}
+                        />
+                      </div>
+
                       <div className="burger-profile">
                         {selected === 1 && "Učenik"}
                         {selected === 2 && "Učitelj"}
@@ -334,14 +337,14 @@ function HeaderMain() {
                     <li className="d-grid">
                       <Link to="/calendar">
                         <button className="btn btn-primary" id="logout2">
-                          Kalendar
+                          Moj kalendar
                         </button>
                       </Link>
                     </li>
                     <li className="d-grid">
                       <Link to="/logout">
                         <button className="btn btn-primary" id="logout2">
-                          Log Out
+                          Odjavi se
                         </button>
                       </Link>
                     </li>

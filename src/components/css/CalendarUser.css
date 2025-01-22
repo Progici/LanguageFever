@@ -1,16 +1,16 @@
 .calendar-container {
   display: flex;
   justify-content: center; /* Centriranje horizontalno */
-  align-items: center;     /* Centriranje vertikalno */
-  height: 100vh;          /* Puni visinu ekrana */
-  padding-top: 155px;     /* Gornja margina od 20px */
+  align-items: center; /* Centriranje vertikalno */
+  height: 100vh; /* Puni visinu ekrana */
+  padding-top: 155px; /* Gornja margina od 20px */
 }
 
 .fc-toolbar {
-  background-color: rgba(61, 76, 243, 0.582); /* Tamnoplava boja */
+  background-color: #918aff; /* Tamnoplava boja */
   color: white;
   padding: 10px;
-  border-radius: 8px; 
+  border-radius: 8px;
   display: flex;
   justify-content: space-between; /* Gumbi se raspoređuju lijevo i desno */
   align-items: center; /* Poravnanje gumba po vertikalnoj osi */
@@ -19,73 +19,91 @@
   margin-top: -100px;
 }
 
-.fc-toolbar .fc-button{
-  background-color: rgba(61, 76, 243, 0.582);
-  margin: 5px
+.fc-toolbar .fc-button {
+  background-color: #6c63ff;
+  margin: 5px;
 }
 
 .fc {
-  max-width: 1000px;        /* Maksimalna širina kalendara */
-  width: 85%;               /* Širina kalendara će biti 85% širine prozora */
-  max-height: 900px;        /* Povećana maksimalna visina kalendara */
-  height: 85%; 
+  max-width: 1000px; /* Maksimalna širina kalendara */
+  width: 85%; /* Širina kalendara će biti 85% širine prozora */
+  max-height: 900px; /* Povećana maksimalna visina kalendara */
+  height: 85%;
 }
 
 /* Stiliziranje broja dana u kalendaru */
 .fc-daygrid-day-number {
-  text-transform: uppercase;  /* Stavite brojeve dana u velika slova */
-  color: black;  /* Promijenite boju broja dana (koristite željenu boju) */
-  font-weight: bold;  /* Opcionalno: učinite tekst podebljanim */
+  text-transform: uppercase; /* Stavite brojeve dana u velika slova */
+  color: #333; /* Promijenite boju broja dana (koristite željenu boju) */
+  font-weight: bold; /* Opcionalno: učinite tekst podebljanim */
+  text-decoration: none;
+}
+
+a {
+  color: #6c63ff;
   text-decoration: none;
 }
 
 /* Stiliziranje cijele ćelije dana */
 .fc-daygrid-day {
-  cursor: pointer;  /* Osigurava da se može kliknuti na dan */
+  cursor: pointer; /* Osigurava da se može kliknuti na dan */
 }
 
 /* Stiliziranje dana u tjednu u zaglavlju */
 .fc-col-header-cell {
-  text-transform: uppercase;  /* Stavite imena dana u velika slova */
+  text-transform: uppercase; /* Stavite imena dana u velika slova */
 }
 
-.fc-daygrid-day.fc-day-today .fc-daygrid-day-number{
+.fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
   color: red;
 }
 
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: #333;
+}
 
+.fc .fc-button-primary {
+  border-color: #6c63ff;
+}
 
+.fc .fc-button-primary:hover {
+  border-color: #6c63ff;
+}
 
-/*za lekcije, idk*/
 .event-available {
-  background-color: blue  !important;
+  background-color: blue !important;
+  border: 2px solid blue !important;
   color: white !important;
 }
 
 .event-pending {
   background-color: orange !important;
+  border: 2px solid orange !important;
   color: white !important;
 }
 
 .event-denied {
   background-color: red !important;
+  border: 2px solid red !important;
   color: white !important;
 }
 
 .event-accepted {
   background-color: green !important;
+  border: 2px solid green !important;
   color: white !important;
 }
 
 .event-finished {
   background-color: gray !important;
+  border: 2px solid gray !important;
   color: white !important;
 }
 
 @media (max-width: 767px) {
   .fc-toolbar {
     font-size: 0.8rem;
-    
   }
   .fc-daygrid-day-number {
     font-size: 0.8rem;
@@ -94,7 +112,7 @@
     font-size: 0.8rem;
   }
 
-  .fc-toolbar .fc-button{
+  .fc-toolbar .fc-button {
     width: auto;
     font-size: 0.7rem;
   }
