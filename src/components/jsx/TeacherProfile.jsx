@@ -185,7 +185,12 @@ const TeacherProfile = () => {
                       }}
                     >
                       Ime
-                      <p style={{ fontSize: "22px", fontWeight: "normal" }}>
+                      <p
+                        style={{
+                          fontSize: "22px",
+                          fontWeight: "normal",
+                        }}
+                      >
                         {teacher.name}
                       </p>
                     </p>
@@ -322,7 +327,7 @@ const TeacherProfile = () => {
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             height: "auto",
             marginTop: "30px",
-            backgroundColor: "rgba(61, 76, 243, 0.582)",
+            backgroundColor: "#918aff",
             color: "antiquewhite",
           }}
         >

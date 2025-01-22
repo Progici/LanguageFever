@@ -111,6 +111,7 @@ export default function AdminDel({ idKorisnika, setPost, role }) {
   return (
     <Stack direction="row" spacing={2}>
       <Button
+        style={{ ":hover": { borderColor: "#6C63FF" } }}
         variant="contained"
         color={role === "ROLE_ADMIN" ? "success" : "primary"} // Change color based on role
         onClick={role === "ROLE_USER" ? handleAdmin : handleUser} // Handle role toggle
@@ -118,7 +119,12 @@ export default function AdminDel({ idKorisnika, setPost, role }) {
         {role === "ROLE_ADMIN" ? "Postavi Usera" : "Postavi Admina"}{" "}
         {/* Change button text based on role */}
       </Button>
-      <Button variant="outlined" color="error" onClick={() => handleDelete()}>
+      <Button
+        variant="outlined"
+        color="error"
+        style={{ ":hover": { borderColor: "#6C63FF" } }}
+        onClick={() => handleDelete()}
+      >
         Briši
       </Button>
     </Stack>

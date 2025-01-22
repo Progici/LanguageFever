@@ -17,9 +17,8 @@
   align-items: center;
   width: auto;
   height: auto;
-  /* background-color: rgba(61, 76, 243, 0.582); */
-  background-color: rgba(61, 76, 243, 0.582);
-  border: 2px solid antiquewhite;
+  background-color: #918aff;
+  border: 2px solid #918aff;
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -44,7 +43,7 @@
 #text {
   text-align: center;
   padding: 5px;
-  color: rgba(61, 76, 243, 0.582);
+  color: #716ef6;
 }
 
 #option {
@@ -83,7 +82,7 @@
 #calendar-btn:hover,
 #profilePic-btn:hover {
   background-color: rgba(251, 248, 248, 0.995);
-  border: 2px solid rgba(104, 104, 255, 0.74);
+  border: 2px solid #716ef6;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -108,7 +107,7 @@
 }
 
 form.template .btn-primary {
-  background-color: #8989f3;
+  background-color: #716ef6;
   color: #fff; /* White text */
   font-size: 1rem;
   padding: 10px 15px;
@@ -118,8 +117,18 @@ form.template .btn-primary {
   transition: background-color 0.3s ease;
 }
 
+form.template .btn:hover {
+  background: none;
+}
 form.template .btn-primary:hover {
-  background-color: #5f5fc9; /* Darker blue */
+  background-color: #5f5fc9;
+}
+.btn-secondary {
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #333;
 }
 
 /* Disabled button state */

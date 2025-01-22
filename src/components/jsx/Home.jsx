@@ -68,7 +68,9 @@ function Home() {
           </section>
 
           <footer className="footer">
-            <p>&copy; 2024 LanguageFever. All rights reserved.</p>
+            <p style={{ margin: "0", padding: "1rem" }}>
+              &copy; 2024 LanguageFever. All rights reserved.
+            </p>
           </footer>
         </div>
       </div>

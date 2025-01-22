@@ -128,10 +128,7 @@ export default function DataGridDemo() {
       }}
     >
       {/* Title centered above the grid */}
-      <Typography
-        variant="h6"
-        sx={{ marginBottom: 2, color: "rgba(61, 76, 243, 0.582)" }}
-      >
+      <Typography variant="h6" sx={{ marginBottom: 2, color: "#6C63FF" }}>
         Novi zahtjevi
       </Typography>
 

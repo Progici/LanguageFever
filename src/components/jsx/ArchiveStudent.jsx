@@ -95,8 +95,8 @@ export default function DataGridDemo() {
       }}
     >
       {/* Title centered above the grid */}
-      <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Arhiva lekcija učenika
+      <Typography variant="h6" sx={{ marginBottom: 2, color: "#6C63FF" }}>
+        <b>Arhiva lekcija učenika</b>
       </Typography>
 
       <Box

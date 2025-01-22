@@ -53,7 +53,7 @@ export default function DeleteModal({
         handleClose(); // Close modal after successful submission
       })
       .catch((error) => {
-        toast.success("Lekcija se nije uspjela izbrisati.", {
+        toast.error("Lekcija se nije uspjela izbrisati.", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: true,

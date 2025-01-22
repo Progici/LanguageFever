@@ -1,365 +1,354 @@
-
 .home {
-    
-    padding-top: 8rem;
-    padding-bottom: 3rem;
-    padding-left: 14rem;
-    padding-right: 14rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-  }
-
-  .home-section{
-    border-radius: 4rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    padding-left: 7rem;
-    padding-right: 7rem;
-    background-color: rgba(61, 76, 243, 0.582);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  }
-
-  .welcome-text{
-    color: antiquewhite;
-    font-size: 2.5rem;
-    
-  }
-  
-  .hero-section {
-    display: flex;
-    flex-direction: row;
-    border-radius: 20px;
-    padding: 3rem 1.5rem;
-    text-align:left;
-    padding-right: 6rem;
-  }
-
-  .home-picture-div{
-    padding-right: 2rem;
-  }
-  .home-picture  {
-    width: 90%;
-  }
-
-  .hero-text{
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hero-text p{
-    width: 70%
-  }
-
-  .hero-buttons{
-    margin-top: 7rem;
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-  }
-  
-  .hero-section h1 {
-    font-size: 3.5em;
-    color:whitesmoke;
-    padding-bottom: 3rem;
-    width: 80%;
-  }
-  
-  .hero-section p {
-    font-size: 1.5em;
-    color:aliceblue;
-  }
-  
-  .cta-button {
-    margin-top: 1.3rem;
-    padding: 1rem 1rem;
-    font-size: 1.rem;
-    color: antiquewhite;
-    background-color:rgba(61, 76, 243, 0.582);
-    box-shadow:0 8px 16px rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    border-radius: 1rem;
-    width: 6rem;
-  }
-  .cta-button:hover {
-    background-color:rgba(61, 76, 243, 0.227);
-    border: 0.5px solid rgba(255, 255, 255, 0.693);
-  }
-  
-  .popular-section {
-    padding-top: 30px;
-    padding-bottom: 50px;
-  }
-
-  .popular-section h2{
-    color: antiquewhite;
-  }
-
-  .popular-text {
-    padding: 1rem;
-    color: antiquewhite;
-    font-size: 2.2rem;
-    line-height: 1.8; /* Povećava razmak između redaka */
-    text-align: center; /* Poravnava tekst centrirano */
-    margin: 1.5rem auto; /* Dodaje vertikalni razmak */
-    max-width: 80%; /* Ograničava širinu na velikim ekranima */
+  padding-top: 8rem;
+  padding-bottom: 3rem;
+  padding-left: 14rem;
+  padding-right: 14rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
 
-  
-  .popular-cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .card {
-    width: 200px;
-    height: 300px;
-    padding: 20px;
-    background-color: rgba(61, 76, 243, 0.582);
-    border-radius: 8px;
-    border: none;
-  }
+.home-section {
+  border-radius: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 7rem;
+  padding-right: 7rem;
+  background-color: #918aff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
 
-  .card h3{
-    color: antiquewhite;
-    text-align: center;
-  }
+.welcome-text {
+  color: antiquewhite;
+  font-size: 2.5rem;
+}
 
-  .card p{
-    text-align: center;
-    font-size: larger;
-    color: antiquewhite;
-  }
+.hero-section {
+  display: flex;
+  flex-direction: row;
+  border-radius: 20px;
+  padding: 3rem 1.5rem;
+  text-align: left;
+  padding-right: 6rem;
+}
 
-  .teacher-list{
-    color: antiquewhite;
-    text-align: end;
-    padding-top: 15px;
-  }
-  .teacher-list-link {
-    text-decoration: none;
-  }
-  .teacher-list-link:hover {
-    text-decoration: underline;
-    text-decoration-color: antiquewhite;
-  }
-  
-  /* Testimonijali */
-  .testimonials-section {
-    background-color: rgba(61, 76, 243, 0.582);
-    border-radius: 8px;
-    padding: 20px 20px;
-    color: antiquewhite;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .testimonial {
-    font-style: italic;
-    color: antiquewhite;
-    margin: 20px 0;
-  }
-  
-  /* Footer */
-  .footer {
-    width: 100%; 
-    /*padding: 20px; */
-    background-color: #333;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center; 
-    border-radius: 8px;
-  }
+.home-picture-div {
+  padding-right: 2rem;
+}
+.home-picture {
+  width: 90%;
+}
 
+.hero-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-text p {
+  width: 70%;
+}
+
+.hero-buttons {
+  margin-top: 7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-section h1 {
+  font-size: 3.5em;
+  color: whitesmoke;
+  padding-bottom: 3rem;
+  width: 80%;
+}
+
+.hero-section p {
+  font-size: 1.5em;
+  color: aliceblue;
+}
+
+.cta-button {
+  margin-top: 1.3rem;
+  padding: 1rem 1rem;
+  font-size: 1rem;
+  color: antiquewhite;
+  background-color: #6c63ff;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  border-radius: 1rem;
+  width: 6rem;
+}
+.cta-button:hover {
+  background-color: #7f77ff;
+  border: 0.5px solid rgba(255, 255, 255, 0.693);
+}
+
+.popular-section {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+
+.popular-section h2 {
+  color: antiquewhite;
+}
+
+.popular-text {
+  padding: 1rem;
+  color: antiquewhite;
+  font-size: 2.2rem;
+  line-height: 1.8; /* Povećava razmak između redaka */
+  text-align: center; /* Poravnava tekst centrirano */
+  margin: 1.5rem auto; /* Dodaje vertikalni razmak */
+  max-width: 80%; /* Ograničava širinu na velikim ekranima */
+}
+
+.popular-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card {
+  width: 200px;
+  height: 300px;
+  padding: 20px;
+  background-color: #afabfa;
+  border-radius: 8px;
+  border: none;
+}
+
+.card h3 {
+  color: antiquewhite;
+  text-align: center;
+}
+
+.card p {
+  text-align: center;
+  font-size: larger;
+  color: antiquewhite;
+}
+
+.teacher-list {
+  color: antiquewhite;
+  text-align: end;
+  padding-top: 15px;
+}
+.teacher-list-link {
+  text-decoration: none;
+}
+.teacher-list-link:hover {
+  text-decoration: underline;
+  text-decoration-color: antiquewhite;
+}
+
+/* Testimonijali */
+.testimonials-section {
+  background-color: #6c63ff;
+  border-radius: 8px;
+  padding: 20px 20px;
+  color: antiquewhite;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.testimonial {
+  font-style: italic;
+  color: antiquewhite;
+  margin: 20px 0;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  /*padding: 20px; */
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 8px;
+}
 
 @media (min-width: 768px) and (max-width: 1600px) {
   .home {
-      padding: 9rem;
-      padding-top: 7rem;
-      padding-bottom: 3rem;
+    padding: 9rem;
+    padding-top: 7rem;
+    padding-bottom: 3rem;
   }
 
-  .welcome-text{
+  .welcome-text {
     font-size: 1.5rem;
   }
 
   .home-section {
-      padding: 2rem;
-      border-radius: 4rem;
+    padding: 2rem;
+    border-radius: 4rem;
   }
 
   .hero-section {
-      flex-direction: column;
-      padding: 30px 20px;
-      
+    flex-direction: column;
+    padding: 30px 20px;
   }
 
   .home-picture-div {
-      padding-right: 0;
-      text-align: center; 
+    padding-right: 0;
+    text-align: center;
   }
 
   .home-picture {
-      width: 40%;
+    width: 40%;
   }
 
   .hero-text {
-      align-items: center;
-      text-align: center;
-      margin-top: 20px;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
   }
 
   .hero-text h1 {
-      font-size: 2.5em; 
-      
+    font-size: 2.5em;
   }
 
   .hero-text p {
-      font-size: 1.2em; 
-      width: 100%;
+    font-size: 1.2em;
+    width: 100%;
   }
 
   .hero-buttons {
-      margin-top: 30px;
-      flex-direction: row;
-      align-items: center;
-      gap: 15px;
-      justify-content: center;
+    margin-top: 30px;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
   }
 
   .cta-button {
-      font-size: 0.9em;
-      margin: 10px 0;
+    font-size: 0.9em;
+    margin: 10px 0;
   }
 
-  .popular-text{
+  .popular-text {
     font-size: 1.5rem;
   }
 
   .popular-section {
-      padding: 20px 0;
+    padding: 20px 0;
   }
 
   .popular-section h2 {
-      font-size: 1.8em; 
-      text-align: center;
+    font-size: 1.8em;
+    text-align: center;
   }
 
   .popular-cards {
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
   }
 
   .card {
-      width: 30%;
-      padding: 15px;
-      align-items: center;
-      height: auto;
+    width: 30%;
+    padding: 15px;
+    align-items: center;
+    height: auto;
   }
 
-  .teach-photo{
+  .teach-photo {
     width: 80%;
   }
 
   .testimonials-section {
-      padding: 20px;
-      border-radius: 5px;
-      font-size: 1em; 
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 1em;
   }
 
   .testimonial {
-      margin: 15px 0;
-      text-align: center; 
+    margin: 15px 0;
+    text-align: center;
   }
 
   .footer {
-      padding: 15px;
-      font-size: 0.9em;
+    padding: 15px;
+    font-size: 0.9em;
   }
 }
-    
 
 /* Mobitel (Širina manja od 768px) */
 @media (max-width: 767px) {
-    .home {
-        padding: 20px;
-        padding-top: 100px;
-    }
+  .home {
+    padding: 20px;
+    padding-top: 100px;
+  }
 
-    .home-section {
-        padding: 2rem;
-        border-radius: 4rem;
-    }
+  .home-section {
+    padding: 2rem;
+    border-radius: 4rem;
+  }
 
-    .hero-section {
-        padding-top: 20px;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-    }
+  .hero-section {
+    padding-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
 
-    .home-picture {
-        width: 80%;
-        max-width: 300px;
-        margin-top: 10px;
-    }
-    
-    .home-picture-div{
-      padding-right: 0px;
-    }
-    
-    .hero-text{
-      align-items: center;
-    }
+  .home-picture {
+    width: 80%;
+    max-width: 300px;
+    margin-top: 10px;
+  }
 
-    .hero-text h1 {
-        font-size: 1.8em;
-    }
+  .home-picture-div {
+    padding-right: 0px;
+  }
 
-    .hero-text p {
-        font-size: 1.1em;
-    }
+  .hero-text {
+    align-items: center;
+  }
 
-    .hero-buttons {
-        height: 10px;
-        flex-direction: row;
-        gap: 10px;
-        margin-top: 20px;
-        padding-bottom: 30px;
-    }
+  .hero-text h1 {
+    font-size: 1.8em;
+  }
 
-    .welcome-text{
-      font-size: 1.5rem;
-    }
+  .hero-text p {
+    font-size: 1.1em;
+  }
 
-    .popular-text{
-      font-size: 1.3rem;
-      
-    }
+  .hero-buttons {
+    height: 10px;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 20px;
+    padding-bottom: 30px;
+  }
 
-    .popular-cards {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;  
-    }
+  .welcome-text {
+    font-size: 1.5rem;
+  }
 
-    .card {
-        width: 70%;
-        max-width: 300px;
-        align-items: center;
-        height: auto;
-    }
+  .popular-text {
+    font-size: 1.3rem;
+  }
 
-    .teach-photo{
-      width: 70%;
-    }
+  .popular-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .card {
+    width: 70%;
+    max-width: 300px;
+    align-items: center;
+    height: auto;
+  }
+
+  .teach-photo {
+    width: 70%;
+  }
 }
-
-
