@@ -36,7 +36,6 @@ function HeaderMain() {
             }
           );
           if (!response.ok) {
-            setCurrentUser("");
             throw new Error("Network response was not ok");
           }
           const data = await response.json();
@@ -134,7 +133,9 @@ function HeaderMain() {
               <Nav.Link
                 as={Link}
                 to="/new-requests"
-                className={isActive("/new-requests") ? "active-link" : "nav-link"}
+                className={
+                  isActive("/new-requests") ? "active-link" : "nav-link"
+                }
               >
                 <div style={{ position: "relative", display: "inline-block" }}>
                   <Badge
@@ -174,11 +175,15 @@ function HeaderMain() {
           ) : null}
         </Nav>
 
-
         {/* Profile icon for logged-in user */}
         {active && currentUser ? (
           <div className="profile-container1">
             <button id="profile-pic">
+              <img
+                src={currentUser.picture}
+                referrerPolicy="no-referrer"
+                style={{ display: "none" }}
+              />
               <Avatar src={currentUser.picture || teacherdefault} />{" "}
               {/* Check if data.picture exists */}
             </button>
@@ -255,15 +260,15 @@ function HeaderMain() {
                   </li>
                 )}
                 {active && (
-                <li className="d-grid">
-                  <Link to="/new-requests">
-                    <button className="btn btn-primary" id="logout2">
-                      <Badge badgeContent={newRequests} color="primary">
-                        Zahtjevi
-                      </Badge>
-                    </button>
-                  </Link>
-                </li>
+                  <li className="d-grid">
+                    <Link to="/new-requests">
+                      <button className="btn btn-primary" id="logout2">
+                        <Badge badgeContent={newRequests} color="primary">
+                          Zahtjevi
+                        </Badge>
+                      </button>
+                    </Link>
+                  </li>
                 )}
                 <li className="d-grid">
                   <Link to="/faqs">
@@ -300,13 +305,17 @@ function HeaderMain() {
                     <li className="d-grid">
                       <button
                         id="profile-pic"
-                        style={{ display: "flex", justifyContent: "center", margin:"0px" }}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          margin: "0px",
+                        }}
                       >
                         <Avatar
                           src={currentUser.picture || teacherdefault}
                         ></Avatar>
                       </button>
-                      <div className = "burger-profile" >
+                      <div className="burger-profile">
                         {selected === 1 && "Učenik"}
                         {selected === 2 && "Učitelj"}
                         {selected === 0 && "Odaberi"}
