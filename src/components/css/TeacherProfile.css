@@ -1,11 +1,13 @@
 .teacher-box {
-  display: flex; /* Prikazuje elemente u redu */
-  flex-wrap: wrap; /* Omogućava prelazak na novi red */
-  justify-content: center;
-  gap: 50px; /* Dodaje razmak između elemenata */
-  padding: 20px; /* Dodaje unutarnji razmak */
-  width: 100%;
+  width: 100%; /* Ili neka druga vrijednost prema željenoj širini */
+  max-width: 1000px; /* Postavite maksimalnu širinu ako je potrebno */
+  margin: 0 auto; /* Centriranje */
+  padding: 1rem; /* Dodavanje unutarnjeg razmaka */
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px; /* Zaobljeni rubovi */
 }
+
 
 .teacher-container {
   padding: 0px;
@@ -16,25 +18,26 @@
   width: 100%;
 }
 
-.teacher-info img {
-  width: 150px; /* Definiraj širinu slike učitelja */
-  height: 150px; /* Definiraj visinu slike učitelja */
-  border-radius: 50%; /* Zaokruži sliku */
-  object-fit: cover; /* Slika će se prilagoditi unutar kvadratnog okvira */
-  margin-right: 1.5rem;
-}
-
 .teacher-info {
-  display: flex; /* Prikazuje elemente u redu */
-  flex-wrap: wrap; /* Omogućava prelazak na novi red */
-  justify-content: space-between; /* Poravnava elemente u sredini */
-
+  display: flex; /* Elementi u redu */
+  align-items: center; /* Vertikalno centriranje */
   color: antiquewhite; /* Boja teksta */
-  padding: 50px; /* Dodaje unutarnji razmak */
+  padding: 50px; /* Unutarnji razmak */
   font-size: 1.4rem;
   border: 2px solid antiquewhite;
   border-radius: 2rem;
+  gap: 50px; /* Razmak između slike i teksta */
 }
+
+.teacher-info img {
+  width: 150px; /* Širina slike */
+  height: 150px; /* Visina slike */
+  border-radius: 50%; /* Zaobljeni rubovi */
+  object-fit: cover; /* Slika će se prilagoditi unutar kvadratnog okvira */
+  margin-left: 50px; /* Pomak slike ulijevo */
+  
+}
+
 
 .teacher-calendar {
   background-color: white;
@@ -62,12 +65,17 @@
     flex-direction: column; /* Prikazuje elemente jedan ispod drugog */
     align-items: center; /* Poravnava elemente u sredini */
   }
+  
   .teacher-info {
+    flex-direction: column; /* Slika iznad teksta */
+    align-items: center; /* Centrirano poravnanje */
     font-size: 0.8rem;
   }
 
   .teacher-info img {
-    width: 100px; /* Definiraj širinu slike učitelja */
-    height: 100px; /* Definiraj visinu slike učitelja */
+    width: 100px; /* Manja širina slike za mobilne uređaje */
+    height: 100px; /* Manja visina slike */
+    margin-right: 0; /* Uklanja desni razmak */
+    margin-bottom: 20px; /* Dodaje razmak ispod slike */
   }
 }

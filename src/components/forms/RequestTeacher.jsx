@@ -46,10 +46,19 @@ const columns = [
     editable: false,
     renderCell: (params) => {
       return (
-        <LessonAccDen
-          lessonId={params.row.lessonId}
-          setPost={params.row.setPost}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <LessonAccDen
+            lessonId={params.row.lessonId}
+            setPost={params.row.setPost}
+          />
+        </div>
       );
     },
   },

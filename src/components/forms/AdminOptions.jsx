@@ -43,11 +43,20 @@ const columns = [
     editable: false,
     renderCell: (params) => {
       return (
-        <AdminDel
-          idKorisnika={params.row.userId}
-          setPost={params.row.setPost}
-          role={params.row.role}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <AdminDel
+            idKorisnika={params.row.userId}
+            setPost={params.row.setPost}
+            role={params.row.role}
+          />
+        </div>
       );
     },
   },
