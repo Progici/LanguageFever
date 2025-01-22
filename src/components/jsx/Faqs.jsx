@@ -58,11 +58,6 @@ const faqData = [
     question: "Učitelj mi ne odgovara na poruke. Što da radim?",
     answer: "Ukoliko učitelj ne odgovara na poruke, kontaktirajte podršku.",
   },
-  {
-    question: "Mogu li ocijeniti učitelja nakon lekcije?",
-    answer:
-      "Da, nakon svake odrađene lekcije možete ocijeniti učitelja na njihovim profilima i ostaviti povratnu informaciju, što pomaže drugim korisnicima pri odabiru.",
-  },
 ];
 
 const Faqs = () => {

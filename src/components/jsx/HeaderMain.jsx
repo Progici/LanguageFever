@@ -204,7 +204,7 @@ function HeaderMain() {
                 <li className="d-grid">
                   <Link to="/calendar">
                     <button className="btn btn-primary" id="logout">
-                      Kalendar
+                      Moj kalendar
                     </button>
                   </Link>
                 </li>
@@ -334,7 +334,7 @@ function HeaderMain() {
                     <li className="d-grid">
                       <Link to="/calendar">
                         <button className="btn btn-primary" id="logout2">
-                          Kalendar
+                          Moj kalendar
                         </button>
                       </Link>
                     </li>

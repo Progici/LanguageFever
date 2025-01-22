@@ -151,6 +151,7 @@ export default function AdminOptions() {
       sx={{
         height: "100vh",
         display: "flex",
+        paddingTop: "100px",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
@@ -159,7 +160,14 @@ export default function AdminOptions() {
       }}
     >
       {/* Navigation Buttons */}
-      <Box sx={{ display: "flex", gap: 2, marginBottom: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+          marginBottom: 3,
+        }}
+      >
         <Button
           variant={activeSection === "add" ? "contained" : "outlined"}
           onClick={() => setActiveSection("add")}
@@ -177,7 +185,10 @@ export default function AdminOptions() {
       {/* Active Section Display */}
       {activeSection === "manage" && (
         <>
-          <Typography variant="h6" sx={{ marginBottom: 2 }}>
+          <Typography
+            variant="h6"
+            sx={{ marginBottom: 2, textAlign: "center" }}
+          >
             Postavi ulogu korisnika kao Admin ili User ili ga obriši
           </Typography>
           <Box

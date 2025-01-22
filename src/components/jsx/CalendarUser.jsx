@@ -159,15 +159,20 @@ function CalendarUser() {
         const data = await response.json();
 
         // Map lessons
-        const mappedLessons = data.map((lesson) => ({
-          ucenikName: lesson.ucenikName,
-          uciteljName: lesson.uciteljName,
-          id: lesson.id,
-          title: "Lekcija",
-          start: lesson.timestampPocetka,
-          end: lesson.timestampZavrsetka,
-          className: getEventClassName(lesson.status),
-        }));
+        const mappedLessons = data.map((lesson) => {
+          const participantName =
+            selected === 1 ? lesson.uciteljName : lesson.ucenikName; // Determine whether to show teacher or student name
+
+          return {
+            ucenikName: lesson.ucenikName,
+            uciteljName: lesson.uciteljName,
+            id: lesson.id,
+            title: participantName ? `Lekcija - ${participantName}` : "Lekcija", // Add participant's name to the title
+            start: lesson.timestampPocetka,
+            end: lesson.timestampZavrsetka,
+            className: getEventClassName(lesson.status),
+          };
+        });
 
         setLessons(mappedLessons);
       } catch (error) {

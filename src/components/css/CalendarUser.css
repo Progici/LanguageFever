@@ -56,29 +56,34 @@
 
 
 
-/*za lekcije, idk*/
+
 .event-available {
   background-color: blue  !important;
+  border: 2px solid blue !important;
   color: white !important;
 }
 
 .event-pending {
   background-color: orange !important;
+  border: 2px solid orange !important;
   color: white !important;
 }
 
 .event-denied {
   background-color: red !important;
+  border: 2px solid red !important;
   color: white !important;
 }
 
 .event-accepted {
   background-color: green !important;
+  border: 2px solid green !important;
   color: white !important;
 }
 
 .event-finished {
   background-color: gray !important;
+  border: 2px solid gray !important;
   color: white !important;
 }
 

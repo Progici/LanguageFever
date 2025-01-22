@@ -154,6 +154,7 @@
     padding: 20px 20px;
     color: antiquewhite;
     text-align: center;
+    margin-bottom: 30px;
   }
   
   .testimonial {
@@ -165,12 +166,13 @@
   /* Footer */
   .footer {
     width: 100%; 
-    padding: 20px; 
+    /*padding: 20px; */
     background-color: #333;
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center; 
     border-radius: 8px;
   }
 

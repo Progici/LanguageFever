@@ -53,11 +53,26 @@ function AllRatings({ idKorisnika, post }) {
       }}
     >
       {ratings.map((rating, index) => (
-        <Card key={index}>
+        <Card
+          key={index}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <CardActionArea sx={{ height: "100%" }}>
-            <CardContent sx={{ height: "100%" }}>
+            <CardContent
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               {/* Student Name */}
-              <Typography variant="h5" component="div">
+              <Typography variant="h5" component="div" align="center">
                 {rating.ucenikName}
               </Typography>
 
@@ -66,14 +81,15 @@ function AllRatings({ idKorisnika, post }) {
                 variant="body2"
                 color="text.secondary"
                 component="div"
+                align="center"
               >
                 <HoverRating rating={rating.ocjena} readOnly={true} />{" "}
                 {/* Prikaz ocjene */}
               </Typography>
 
               {/* Comment */}
-              <Typography variant="body2" color="text.secondary">
-                {rating.komentar}
+              <Typography variant="body2" color="text.secondary" align="center">
+                Komentar: {rating.komentar}
               </Typography>
             </CardContent>
           </CardActionArea>

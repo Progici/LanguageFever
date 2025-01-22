@@ -47,7 +47,7 @@ function Home() {
                   <p>Dobrodošli u LanguageFever!</p>
                   <p>
                     Trenutno možete pregledavati učitelje, ali stvaranjem računa
-                    dobivate pristup punom iskustvu naše aplikacije:
+                    dobivate pristup punom iskustvu naše aplikacije.
                   </p>
                   <p>
                     Pretražujte učitelje, rezervirajte lekcije ili sami

@@ -204,9 +204,18 @@ const TeacherProfile = () => {
 
         <Container maxWidth="md" className="teacher.calendar">
           <div id="item" className="teacher-calendar">
-            <h2 style={{ textAlign: "center", paddingTop: "100px" }}>
+            <h2
+              style={{
+                textAlign: "center",
+                paddingTop: "100px",
+              }}
+            >
               Kalendar dostupnosti lekcija
             </h2>
+            <p style={{ textAlign: "center" }}>
+              Kao učenik, možete rezervirati samo plave lekcije, jer su one
+              jedine dostupne.
+            </p>
             <CalendarDynamicTeacher
               idKorisnika={idKorisnika}
               post={post}
@@ -214,6 +223,7 @@ const TeacherProfile = () => {
             />
           </div>
         </Container>
+
         <Container
           maxWidth="md"
           sx={{
