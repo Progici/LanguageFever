@@ -33,7 +33,7 @@ Baze napravljene u PostgreSQL-u.
 Puštanje u pogon putem Heroku.
 
 ### Pokretanje frontend-a
-Kako biste pokrenuli frontend, prvo morate imati instaliran Node.js i npm (https://nodejs.org/en).
+Kako biste pokrenuli frontend, prvo morate imati instaliran [Node.js](https://nodejs.org/en) i npm.
 Zatim je potrebno pozicionirati se u željeni frontend direktorij gdje izvršavate sljedeću naredbu:
 ```bash
    npm install
@@ -45,7 +45,12 @@ Kako biste pokrenuli frontend server, izvršite sljedeću naredbu:
    npm run dev
 ```
 ### Pokretanje backend-a
-Dario tenkju :)
+Kako biste pokrenuli backend potrebno je instalirati [JDK 17](https://www.oracle.com/java/) i [Apache Maven](https://maven.apache.org/). 
+Zatim se treba pozicionirati u backend direktorij i u terminalu pokrenuti sljedeću naredbu:
+
+```bash
+  $ mvn clean spring-boot:run
+```
 
 # Članovi tima 
 
