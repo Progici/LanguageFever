@@ -1,20 +1,10 @@
 package com.progici.languagefever.controller;
 
-import com.progici.languagefever.model.Korisnik;
-import com.progici.languagefever.model.Lekcija;
-import com.progici.languagefever.model.Ocjena;
-import com.progici.languagefever.model.Ucenik;
-import com.progici.languagefever.model.Ucitelj;
-import com.progici.languagefever.model.dto.UciteljDTO;
-import com.progici.languagefever.model.enums.Kvalifikacija;
-import com.progici.languagefever.model.enums.Stil;
-import com.progici.languagefever.service.LekcijaService;
-import com.progici.languagefever.service.OcjenaService;
-import com.progici.languagefever.service.UciteljJeziciService;
-import com.progici.languagefever.service.UciteljService;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +21,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.progici.languagefever.model.Korisnik;
+import com.progici.languagefever.model.Lekcija;
+import com.progici.languagefever.model.Ocjena;
+import com.progici.languagefever.model.Ucenik;
+import com.progici.languagefever.model.Ucitelj;
+import com.progici.languagefever.model.dto.UciteljDTO;
+import com.progici.languagefever.model.enums.Kvalifikacija;
+import com.progici.languagefever.model.enums.Stil;
+import com.progici.languagefever.service.KorisnikService;
+import com.progici.languagefever.service.LekcijaService;
+import com.progici.languagefever.service.OcjenaService;
+import com.progici.languagefever.service.UcenikJeziciService;
+import com.progici.languagefever.service.UcenikService;
+import com.progici.languagefever.service.UciteljJeziciService;
+import com.progici.languagefever.service.UciteljService;
 
 @RestController
 public class UciteljController {
@@ -51,9 +58,17 @@ public class UciteljController {
 
   @Autowired
   private UciteljJeziciService uciteljJeziciService;
-
   @Autowired
   private KorisnikController korisnikController;
+
+  @Autowired
+  private UcenikService ucenikService;
+
+  @Autowired
+  private KorisnikService korisnikService;
+
+  @Autowired
+  private UcenikJeziciService ucenikJeziciService;
 
   //
   //  USER ENDPOINTS
@@ -280,6 +295,7 @@ public class UciteljController {
 
   @GetMapping("/ucitelji/filter")
   public Page<UciteljDTO> filterAndSortUcitelji(
+    OAuth2AuthenticationToken authentication,
     @RequestParam(required = false) Float minPrice,
     @RequestParam(required = false) Float maxPrice,
     @RequestParam(required = false) Integer minExperience,
@@ -293,7 +309,34 @@ public class UciteljController {
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "12") int size
   ) {
+
     List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+    System.out.println("nitko nije tu ");
+    System.out.println(authentication);
+    if(authentication != null){
+      System.out.println("jA SAM OVDJE");
+    DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
+    Map<String, Object> attributes = principal.getAttributes();
+    String email = attributes.getOrDefault("email", "").toString();
+    Korisnik korisnik = korisnikService.getKorisnikByEmail(email);
+
+
+    if(korisnik != null){
+      System.out.println("kORISNIK je");
+      Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
+      if(ucenik != null){
+        System.out.println("Ucenik je");
+        List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
+
+        ucitelji.sort(Comparator.comparingInt(ucitelj -> {
+            List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(((Ucitelj) ucitelj).getId());
+            return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
+        }).reversed());
+        System.out.println(ucitelji);
+      }
+    }
+    }
+    
 
     // Filtering
     if (minPrice != null) {
@@ -335,11 +378,7 @@ public class UciteljController {
       ucitelji =
         ucitelji
           .stream()
-          .filter(ucitelj ->
-            uciteljJeziciService
-              .getJeziciStringByUciteljId(ucitelj.getId())
-              .contains(jezik)
-          )
+          .filter(ucitelj -> uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId()).contains(jezik))
           .collect(Collectors.toList());
     }
     if (minAverageOcjena != null) {
@@ -362,8 +401,8 @@ public class UciteljController {
           )
           .collect(Collectors.toList());
     }
-
-    // Sorting
+ 
+    // 
     if (sortBy != null) {
       Comparator<Ucitelj> comparator = null;
       if (sortBy.equals("experience")) {
@@ -421,6 +460,7 @@ public class UciteljController {
       ucitelji.size()
     );
   }
+
 
   // HELPER FUNCTIONS
 

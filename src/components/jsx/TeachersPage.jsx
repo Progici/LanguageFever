@@ -23,7 +23,7 @@ const TeachersPage = () => {
       try {
         const response = await fetch(
           `${ApiConfig.API_URL}/ucitelji/filter?${queryString}`,
-          { method: "GET" }
+          { method: "GET" , credentials: "include" }
         );
 
         if (!response.ok) {
