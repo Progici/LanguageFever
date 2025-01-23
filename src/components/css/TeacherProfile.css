@@ -8,6 +8,7 @@
   border-radius: 10px; /* Zaobljeni rubovi */
 }
 
+
 .teacher-container {
   padding: 0px;
   border-radius: 2rem;
@@ -34,7 +35,9 @@
   border-radius: 50%; /* Zaobljeni rubovi */
   object-fit: cover; /* Slika će se prilagoditi unutar kvadratnog okvira */
   margin-left: 50px; /* Pomak slike ulijevo */
+  
 }
+
 
 .teacher-calendar {
   background-color: #f8f9fa;
@@ -55,4 +58,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .teacher-box {
+    flex-direction: column; /* Prikazuje elemente jedan ispod drugog */
+    align-items: center; /* Poravnava elemente u sredini */
+  }
+  
+  .teacher-info {
+    flex-direction: column; /* Slika iznad teksta */
+    align-items: center; /* Centrirano poravnanje */
+    font-size: 0.8rem;
+  }
+
+  .teacher-info img {
+    width: 100px; /* Manja širina slike za mobilne uređaje */
+    height: 100px; /* Manja visina slike */
+    margin-right: 0; /* Uklanja desni razmak */
+    margin-bottom: 20px; /* Dodaje razmak ispod slike */
+  }
 }

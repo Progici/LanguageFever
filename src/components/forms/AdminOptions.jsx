@@ -216,11 +216,11 @@ export default function AdminOptions() {
               initialState={{
                 pagination: {
                   paginationModel: {
-                    pageSize: 10,
+                    pageSize: 7,
                   },
                 },
               }}
-              pageSizeOptions={[10]}
+              pageSizeOptions={[7]}
               sx={{ height: "100%" }}
             />
           </Box>
