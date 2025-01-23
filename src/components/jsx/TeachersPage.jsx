@@ -76,30 +76,40 @@ const TeachersPage = () => {
     }
   };
 
-  return (
+  if(totalPages > 0) {
+    return (
+      <div className="teachers-page">
+        <FilterBar />
+        <div className="teacher-cards">
+          {teachers.map((teacher) => (
+            <TeacherCard key={teacher.idKorisnika} teacher={teacher} />
+          ))}
+        </div>
+        <div className="pagination">
+          <button onClick={handlePreviousPage} disabled={currentPage === 0}>
+            Prethodna
+          </button>
+          <span>
+            Stranica {currentPage + 1} od {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages - 1}
+          >
+            Sljedeća
+          </button>
+        </div>
+      </div>
+    );
+  } else {
+    return (
     <div className="teachers-page">
       <FilterBar />
-      <div className="teacher-cards">
-        {teachers.map((teacher) => (
-          <TeacherCard key={teacher.idKorisnika} teacher={teacher} />
-        ))}
+      <div id="bezFiltera">
+        <h4>Nema učitelja prema zadanim filterima</h4>
       </div>
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 0}>
-          Prethodna
-        </button>
-        <span>
-          Stranica {currentPage + 1} od {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages - 1}
-        >
-          Sljedeća
-        </button>
-      </div>
-    </div>
-  );
+    </div>)
+  }
 };
 
 export default TeachersPage;

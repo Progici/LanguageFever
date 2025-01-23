@@ -91,3 +91,8 @@
   background-color: #ddd;
   cursor: not-allowed;
 }
+
+#bezFiltera {
+  position: absolute;
+  bottom: 50%;
+}

@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import Select from "react-select";
 import { useSearchParams } from "react-router-dom";
 import "../css/FilterBar.css";
 import { ApiConfig } from "../../config/api.config";
+import { AppContext } from "../../AppContext";
 
 const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,7 +11,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
-  // Filter states
+  const {active} = useContext(AppContext);
+
   const [selectedLanguage, setSelectedLanguage] = useState(searchParams.get("jezik") || null);
   const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
@@ -18,7 +20,19 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
   const [style, setStyle] = useState(searchParams.get("stil") || null);
   const [minRating, setMinRating] = useState(searchParams.get("minAverageOcjena") || "");
   const [minReviewCount, setMinReviewCount] = useState(searchParams.get("minCountOcjena") || "");
-  const [selectedSortOption, setSelectedSortOption] = useState(searchParams.get("sort") || null);
+
+  const [selectedSortOption, setSelectedSortOption] = useState(() => {
+    let sortFromQuery = searchParams.get("sortBy");
+    if(sortFromQuery=="price"){
+      sortFromQuery = sortFromQuery + searchParams.get("sortOrder").replace(/\b\w/g, char => char.toUpperCase())
+    }
+    if (active) {
+      return sortFromQuery || "preferences";
+    } else {
+      return sortFromQuery || null;
+    }
+  });
+
   const [languageOptions, setLanguageOptions] = useState([]);
   const [qualificationOptions, setQualificationOptions] = useState([]);
   const [styleOptions, setStyleOptions] = useState([]);
@@ -31,8 +45,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
       .then(response => response.json())
       .then(data => {
         const options = data.map((language) => ({
-          value: language,  // pretpostavljamo da je "naziv" naziv jezika
-          label: language,  // isto kao za label
+          value: language,
+          label: language, 
         }));
         setLanguageOptions(options);
       });
@@ -86,7 +100,7 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
   const sortButtonRef = useRef(null);
 
   const handleClickOutside = (event) => {
-    if (isSelectOpen) return; // Ako je React Select otvoren, ne zatvori filter/sortiranje
+    if (isSelectOpen) return;
   
     // Provjeri klikne li se izvan filtera
     if (!event.target.closest(".filter-options") && !event.target.closest(".filter-button") && isFilterOpen) {
@@ -127,7 +141,7 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
           sortBy = "price";
           sortOrder = "desc";
           break;
-        case "averageRating":
+        case "averageOcjena":
           sortBy = "averageOcjena";
           sortOrder = "desc";
           break;
@@ -213,8 +227,9 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
     { value: "experience", label: "Godine iskustva" },
     { value: "priceAsc", label: "Cijena uzlazno" },
     { value: "priceDesc", label: "Cijena silazno" },
-    { value: "averageRating", label: "Prosječna ocjena" },
+    { value: "averageOcjena", label: "Prosječna ocjena" },
     { value: "countOcjena", label: "Broj ocjena" },
+    ...(active ? [{ value: "preferences", label: "Po preferencijama" }] : [])
   ];
 
   return (
@@ -364,8 +379,8 @@ const FilterBar = ({ onFilterChange = () => {}, onSortChange = () => {} }) => {
                   filterStateRef.current.selectedSortOption = selectedOption ? selectedOption.value : null;
                   onSortChange(selectedOption ? selectedOption.value : null);
                 }}
-                placeholder="Odaberite kriterij"
-                isClearable
+                placeholder={active ? null : "Odaberite kriterij"}
+                isClearable={!active}
                 onMenuOpen={() => setIsSelectOpen(true)}
                 onMenuClose={() => setIsSelectOpen(false)}
               />
