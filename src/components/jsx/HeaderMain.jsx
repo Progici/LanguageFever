@@ -140,7 +140,7 @@ function HeaderMain() {
                 <div style={{ position: "relative", display: "inline-block" }}>
                   <Badge
                     badgeContent={newRequests}
-                    color="secondary"
+                    color="primary"
                     style={{
                       position: "absolute",
                       top: 0,
