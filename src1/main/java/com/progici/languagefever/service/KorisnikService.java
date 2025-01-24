@@ -57,4 +57,8 @@ public class KorisnikService {
   public void deleteKorisnikById(Long id) {
     korisniciRepository.deleteById(id);
   }
+
+  public Korisnik addKorisnik1(Korisnik korisnik) {
+    return korisniciRepository.save(korisnik);
+  }
 }
