@@ -311,6 +311,7 @@ public class UciteljController {
   ) {
 
     List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
+
     System.out.println("nitko nije tu ");
     System.out.println(authentication);
     if (authentication != null) {
@@ -326,15 +327,18 @@ public class UciteljController {
             if (ucenik != null) {
                 System.out.println("Ucenik je");
                 List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
+                Stil ucenikStil = ucenik.getStilUcenja(); // Assuming Ucenik has a getStilPoducavanja method
     
                 ucitelji.sort(Comparator.comparingInt((Ucitelj ucitelj) -> {
                     List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId());
                     return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
-                }).reversed().thenComparing(Ucitelj::getStilPoducavanja));
+                }).reversed().thenComparing(ucitelj -> {
+                    // Compare by Stil preference
+                    return ucitelj.getStilPoducavanja().equals(ucenikStil) ? 0 : 1;
+                }));
     
                 System.out.println(ucitelji);
             }
-            
         }
     }
     
