@@ -313,28 +313,28 @@ public class UciteljController {
     List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
     System.out.println("nitko nije tu ");
     System.out.println(authentication);
-    if(authentication != null){
-      System.out.println("jA SAM OVDJE");
-    DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
-    Map<String, Object> attributes = principal.getAttributes();
-    String email = attributes.getOrDefault("email", "").toString();
-    Korisnik korisnik = korisnikService.getKorisnikByEmail(email);
-
-
-    if(korisnik != null){
-      System.out.println("kORISNIK je");
-      Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
-      if(ucenik != null){
-        System.out.println("Ucenik je");
-        List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
-
-        ucitelji.sort(Comparator.comparingInt(ucitelj -> {
-            List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(((Ucitelj) ucitelj).getId());
-            return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
-        }).reversed());
-        System.out.println(ucitelji);
-      }
-    }
+    if (authentication != null) {
+        System.out.println("jA SAM OVDJE");
+        DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
+        Map<String, Object> attributes = principal.getAttributes();
+        String email = attributes.getOrDefault("email", "").toString();
+        Korisnik korisnik = korisnikService.getKorisnikByEmail(email);
+    
+        if (korisnik != null) {
+            System.out.println("kORISNIK je");
+            Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
+            if (ucenik != null) {
+                System.out.println("Ucenik je");
+                List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
+    
+                ucitelji.sort(Comparator.comparingInt((Ucitelj ucitelj) -> {
+                    List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId());
+                    return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
+                }).thenComparing(Ucitelj::getStilPoducavanja).reversed());
+    
+                System.out.println(ucitelji);
+            }
+        }
     }
     
 
