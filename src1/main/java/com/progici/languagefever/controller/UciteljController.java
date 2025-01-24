@@ -312,20 +312,20 @@ public class UciteljController {
 
     List<Ucitelj> ucitelji = uciteljService.getSviUcitelji();
 
-    System.out.println("nitko nije tu ");
-    System.out.println(authentication);
+    
+   
     if (authentication != null) {
-        System.out.println("jA SAM OVDJE");
+        
         DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = principal.getAttributes();
         String email = attributes.getOrDefault("email", "").toString();
         Korisnik korisnik = korisnikService.getKorisnikByEmail(email);
     
         if (korisnik != null) {
-            System.out.println("kORISNIK je");
+            
             Ucenik ucenik = ucenikService.getUcenikByKorisnikId(korisnik.getId());
             if (ucenik != null) {
-                System.out.println("Ucenik je");
+                
                 List<String> ucenikJezici = ucenikJeziciService.getJeziciStringByUcenikId(ucenik.getId());
                 Stil ucenikStil = ucenik.getStilUcenja(); // Assuming Ucenik has a getStilPoducavanja method
     
@@ -337,7 +337,7 @@ public class UciteljController {
                     return ucitelj.getStilPoducavanja().equals(ucenikStil) ? 0 : 1;
                 }));
     
-                System.out.println(ucitelji);
+                
             }
         }
     }
