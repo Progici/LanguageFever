@@ -330,10 +330,11 @@ public class UciteljController {
                 ucitelji.sort(Comparator.comparingInt((Ucitelj ucitelj) -> {
                     List<String> uciteljJezici = uciteljJeziciService.getJeziciStringByUciteljId(ucitelj.getId());
                     return (int) uciteljJezici.stream().filter(ucenikJezici::contains).count();
-                }).thenComparing(Ucitelj::getStilPoducavanja).reversed());
+                }).reversed().thenComparing(Ucitelj::getStilPoducavanja));
     
                 System.out.println(ucitelji);
             }
+            
         }
     }
     
